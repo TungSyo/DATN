@@ -1,0 +1,187 @@
+.border-manager {
+    // top: 20px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    padding: 20px;
+}
+
+.card-body {
+    padding: 10px 40px;
+}
+
+.processing {
+    display: flex;
+    padding: 10px 20px;
+}
+
+span {
+    font-weight: 600;
+}
+
+.card-body label {
+    font-weight: 500;
+    padding: 10px 0;
+    font-size: 1.1rem;
+}
+
+.image-product {
+    border: 1px solid #dfdfdf;
+    width: 105px;
+    height: 100px;
+    font-size: 22px;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+.image-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+    color: rgb(160, 151, 151);
+  }
+  
+  .img-ch {
+    width: 100px;
+  }
+  
+  .ct-ad {
+    margin: 0 0 10px 10px;
+  }
+  
+  
+  .preview {
+    border: 2px dashed #dfdfdf;
+    width: 100%;
+    height: 100px;
+    font-size: 22px;
+    position: relative;
+    border-radius: 6px;
+    margin-left: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  
+  .preview i {
+    font-size: 25px;
+    margin: 12px 0 0 0;
+  }
+  
+  .preview span {
+    font-size: 15px;
+    margin: 5px 13px;
+    text-align: center;
+  }
+
+  .flex-wrap {
+    margin: 20px;
+  }
+
+  .card-body-1 {
+    margin: 15px 20px;
+    padding: 30px 40px;
+    border-radius: 10px;
+    background-color:#f4f4f4;
+  }
+
+  .table-products p-table table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .table-products p-table th,
+  .table-products p-table td {
+    border: 1px solid #f2f2f2;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .table-products p-table th {
+    background-color: white;
+  }
+
+  .box-content {
+    background: #fff;
+    border-radius: 4px;
+    padding: 10px 0 !important;
+  }
+
+  /* Tăng kích thước của radio button */
+input[type="radio"] {
+  width: 20px;               /* Đặt chiều rộng */
+  height: 20px;              /* Đặt chiều cao */
+  border: 2px solid #007bff; /* Đặt màu viền */
+  border-radius: 50%;        /* Tạo hình tròn */       /* Loại bỏ viền khi được chọn */
+  cursor: pointer;           /* Đổi con trỏ khi di chuột */
+  position: relative;        /* Đặt vị trí tương đối cho pseudo-element */
+}
+
+input[type="radio"]:checked {
+  background-color: #007bff;
+}
+
+/* Tạo hiệu ứng hover */
+input[type="radio"]:hover {
+  border-color: #0056b3;
+}
+
+.text-danger {
+  font-size: 12px;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.news-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-image:hover {
+  transform: scale(1.05); /* Tăng kích thước ảnh khi hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Tăng độ bóng khi hover */
+}
+
+.trash-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: white;
+  background-color: rgba(255, 0, 0, 0.7);
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0; /* Ẩn icon ban đầu */
+}
+
+.image-container:hover .trash-icon {
+  opacity: 1; /* Hiển thị icon khi hover vào container ảnh */
+  transform: scale(1.1); /* Tăng kích thước icon khi hover */
+}
+
+.trash-icon:hover {
+  background-color: red; /* Thay đổi màu nền khi hover vào icon */
+  transform: scale(1.2); /* Tăng kích thước icon khi hover */
+}
+
+
+
+
+  

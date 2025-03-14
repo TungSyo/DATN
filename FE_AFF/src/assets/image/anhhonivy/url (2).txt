@@ -1,0 +1,86 @@
+using HRM_BE.Core.Data.Staff;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HRM_BE.Core.Data.ProfileEntity
+{
+    public class ContactInfo:EntityBase<int>
+    {
+        public int? EmployeeId { get; set; }
+        public Employee? Employee { get; set; }
+
+        // ==================================== THÔNG TIN LIÊN HỆ ====================================
+        //public string? PhoneNumber { get; set; }
+        public string? OrganizationPhone { get; set; }
+        public string? PhonePersonHome { get; set; } // điện thoại nhà riêng
+        public string? OrganizationEmail { get; set; }
+        public string? AnotherEmail { get; set; }
+        public string? Skype { get; set; }
+        public string? Facebook { get; set; }
+        public string? PersonEmail { get; set; }
+        public int? NationId { get; set; }
+        public string? Nation { get; set; } // quốc gia
+        public int? CityId { get; set; }
+        public string? City { get; set; }
+        public int? DistrictId { get; set; }
+        public string? District { get; set; }
+        public int? WardId { get; set; }
+        public string? Ward { get; set; }
+        public int? StreetId { get; set; }
+        public string? Street { get; set; }
+        public string? HomeNumber { get; set; } // số nhà 
+        public string? FamilyNumber { get; set; } // số gia đình
+        public string? HomeRegistrationNumber { get; set; } // số sổ hộ khẩu
+        public bool? IsMaster { get; set; } // là chủ hộ hay không 
+        public string? ResidenceAddress { get; set; } // địa chỉ hộ khẩu thường trú
+        public bool? IsAtResidenceAddress { get; set; } // có là nơi cư trú
+    // ======================================= CƯ TRÚ HIỆN TẠI ===========================================================
+        public int? CurrentNationId { get; set; }
+        public string? CurrentNation { get; set; } // quốc gia hiện tại
+        public int? CurrentCityId { get; set; }
+        public string? CurrentCity { get; set; } // thành phố hiện tại
+        public int? CurrentDistrictId { get; set; }
+        public string? CurrentDistrict { get; set; } // quận hiện tại
+        public int? CurrentWardId { get; set; }
+        public string? CurrentWard { get; set; } // phường hiện tại
+        public int? CurrentStreetId { get; set; }
+        public string? CurrentStreet { get; set; } // đường phố hiện tại
+        public int? CurrentHomeNumberId { get; set; }
+        public string? CurrentHomeNumber { get; set; } // số nhà 
+
+        //===================================== THÔNG TIN LIÊN HỆ  Khẩn Cấp ====================================================
+        public string? FullName { get; set; }
+        public int? RelationshipId { get; set; }
+        public string? RelationshipName { get; set; }
+        public string? PhoneNumberEmergency { get; set; } // điện thoại di động
+        public string? AddressEmergency { get; set; } // địa chỉ liên hệ khẩn cấp
+        public string? HomePhoneEmergency { get; set; } // số điện thoại nhà riêng
+        //================================== THÔNG TIN BẢO HIỂM CÔNG ĐOÀN ======================================================
+        public DateTime? InsuranceDate { get; set; } // ngày tham gia bảo hiểm
+        public decimal? InsuranceContributionRate { get; set; } // Tỷ lệ đóng bảo hiểm
+        public string? HealthInsuranceNumber { get; set; } // Số sổ bảo hiểm y tế
+        public string? SocialInsuranceNumber { get; set; } // Mã số bảo hiểm xã hội
+        public string? HealthInsuranceCardNumber { get; set; } // Số thẻ bảo hiểm y tế
+        public string? SocialSecurityNumber { get; set; } // Mã số bảo hiểm xã hội
+        public bool? IsSyndicate { get; set; } // trạng thái tham gia công đoàn
+        public IssuranceStatus IssuranceStatus { get; set; }
+        public string? CityProvide { get; set; }
+        public string? CityProvideCode { get; set; }
+        public string? HeathcareRegistractionLocation { get; set; }
+        public string? HeathcareRegistractionCode { get; set; }
+
+
+    }
+    public enum IssuranceStatus
+    {
+        Participated, // đã tham gia 
+        OnMaternityLeave,// đang nghỉ thai sản
+        OnSickLeave, // đang nghỉ ốm
+        OnLeaveNotSalary, //đang nghỉ không lương
+        LeavedJob, // đã nghỉ việc  
+        NoParticipated, // chưa tham gia
+    }
+}

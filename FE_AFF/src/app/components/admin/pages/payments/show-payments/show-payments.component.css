@@ -1,0 +1,94 @@
+@charset "UTF-8";
+::ng-deep .p-datatable table {
+  border: 1px solid #ccc;
+  /* Đặt màu và độ dày của viền */
+  border-radius: 8px;
+  /* Tùy chọn: thêm bo tròn cho viền */
+}
+
+::ng-deep .p-datatable table th,
+::ng-deep .p-datatable table td {
+  border: 1px solid #ddd;
+  /* Thêm viền cho các ô trong bảng */
+} 
+/* Đảm bảo modal có không gian đủ lớn và có thể cuộn khi nội dung dài */
+.dialog-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.dialog-container {
+  background-color: #fff;
+  max-width: 90%;
+  width: 1220px;
+  height: 600px;
+  overflow-y: auto;
+  padding: 5px;
+  border-radius: 0;
+  padding: 2px 0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  overflow-x: hidden;
+}
+
+.dialog-container {
+  flex-direction: row;
+  gap: 20px;
+}
+
+.col-12 {
+  flex: 1;
+}
+
+.col-md-5 {
+  flex: 0 0 40%;
+}
+
+.col-md-7 {
+  flex: 0 0 60%;
+}
+
+@media (max-width: 768px) {
+  .dialog-container {
+    flex-direction: column;
+  }
+  .col-md-5, .col-md-7 {
+    flex: 1 1 100%;
+  }
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .form-group label,
+  .form-group p {
+    width: 100%;
+  }
+}
+.col-12.col-md-5 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #f7f7f7;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-group label {
+  width: 40%;
+}
+
+.form-group p, .form-group p-dropdown {
+  width: 55%;
+}/*# sourceMappingURL=show-payments.component.css.map */

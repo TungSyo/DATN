@@ -1,0 +1,13 @@
+# Loại trừ file log
+BE_AFF/AFF_services/*.log
+
+# Loại trừ thư mục build
+BE_AFF/**/bin/
+BE_AFF/**/obj/
+
+# Loại trừ file nặng trong automation
+automation/Driver/
+
+# Loại trừ file IDE
+BE_AFF/**/.DotSettings.user
+FE_AFF/node_modules/

@@ -1,0 +1,22 @@
+
+* {
+ font-family: FontAwesome, serif !important;
+}
+
+fa {
+  font-family: "FontAwesome" !important;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+#search-tests {
+  margin-top: 6px;
+}
+
+.logo {
+  background: url("https://www.google.com/imgres?q=smo%20media&imgurl=https%3A%2F%2Fsmomedia.vn%2Fwp-content%2Fuploads%2F2024%2F03%2Flogo-png-new.png&imgrefurl=https%3A%2F%2Fsmomedia.vn%2F&docid=qWKasB6rdLlYwM&tbnid=NCP2W4vOHsNWdM&vet=12ahUKEwiKs9mG2NiLAxVwr1YBHZDCN4AQM3oECHAQAA..i&w=769&h=687&hcb=2&ved=2ahUKEwiKs9mG2NiLAxVwr1YBHZDCN4AQM3oECHAQAA") no-repeat center center;
+  background-size: contain;
+  width: 200px; /* Điều chỉnh kích thước */
+  height: 50px;
+}

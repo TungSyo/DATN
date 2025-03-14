@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\AFF_services",
+    "\\AFF_services\\AFF_BE.Api",
+    "\\AFF_services\\AFF_BE.Api\\Controllers",
+    "\\AFF_services\\AFF_BE.Api\\Controllers\\Identity",
+    "\\AFF_services\\AFF_BE.Core",
+    "\\AFF_services\\AFF_BE.Core\\Models",
+    "\\AFF_services\\AFF_BE.Core\\Models\\Auth"
+  ],
+  "SelectedNode": "\\AFF_services\\AFF_BE.sln",
+  "PreviewInSolutionExplorer": false
+}

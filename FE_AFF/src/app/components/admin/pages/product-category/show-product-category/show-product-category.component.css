@@ -1,0 +1,13 @@
+@charset "UTF-8";
+::ng-deep .p-datatable table {
+  border: 1px solid #ccc;
+  /* Đặt màu và độ dày của viền */
+  border-radius: 8px;
+  /* Tùy chọn: thêm bo tròn cho viền */
+}
+
+::ng-deep .p-datatable table th,
+::ng-deep .p-datatable table td {
+  border: 1px solid #ddd;
+  /* Thêm viền cho các ô trong bảng */
+}/*# sourceMappingURL=show-product-category.component.css.map */

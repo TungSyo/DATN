@@ -1,0 +1,42 @@
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.withdraw-inner{
+    width: 600px;
+}
+
+.field input {
+    height: 50px;
+    background-color: #fff;
+    border: 1px solid #ececec;
+    color: #5d5d60;
+    padding: 6px 12px;
+    line-height: normal;
+    font-size: 15px;
+    font-weight: 400;
+    height: 48px;
+    outline: none;
+    transition: 0.2s linear;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    color: #868282;
+}
+
+.field input{
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.field input:focus {
+    border-radius: 6px;
+    border: 1.5px solid #5c9930;
+}

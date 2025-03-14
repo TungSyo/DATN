@@ -1,0 +1,165 @@
+<p-toast />
+<main id="main" class="main">
+    <!-- <div class="pagetitle">
+        <div class="">
+            <h3>Danh sách mua hàng></h3>
+            <p-breadcrumb [model]="items"></p-breadcrumb>
+        </div>
+    </div> -->
+    <div class="toast-container">
+        <!-- <p-messages
+            [(value)]="messages"
+            [enableService]="false"
+            [closable]="false"
+        ></p-messages> -->
+    </div>
+    <div class="toast-container">
+        <p-messages
+            [(value)]="messages"
+            [enableService]="false"
+            [closable]="false"
+        ></p-messages>
+    </div>
+    <section class="section k-list-table">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 mt-3">
+                            <span class="p-input-icon-left" style="width: 100%">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    (input)="onInput($event)"
+                                    placeholder="Tìm kiếm theo mã đơn hàng"
+                                    style="padding-left: 30px; height: 38px"
+                                    [(ngModel)]="keyword"
+                                    #searchInput
+                                />
+                            </span>
+                        </div>
+                        <div class="col-lg-3 mt-3">
+                            <p-dropdown
+                                [options]="optionsStatusText"
+                                optionLabel="name"
+                                optionValue="value"
+                                [(ngModel)]="orderStatus"
+                                [showClear]="true"
+                                placeholder="Chọn trạng thái đơn hàng"
+                                (onChange)="onFromOrderStausChange()"
+                                [style]="{ width: '100%' }"
+                            >
+                            </p-dropdown>
+                        </div>
+                        <div class="col-lg-3 mt-3">
+                            <p-calendar
+                                placeholder="Ngày đặt: Từ ngày - Đến ngày"
+                                [(ngModel)]="deadlineRange"
+                                selectionMode="range"
+                                [showIcon]="true"
+                                [showClear]="true"
+                                (onBlur)="blurDateRange($event)"
+                                [dateFormat]="'dd/mm/yy'"
+                            ></p-calendar>
+                        </div>
+                        <div class="col-lg-3 mt-3">
+                            <button
+                                pButton
+                                pRipple
+                                label="Lọc"
+                                class="buttonfilter"
+                                (click)="clickButtonFilter()"
+                            ></button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px" class="card">
+                        <p-table
+                            [value]="ordersHistory"
+                            [rows]="this.PageSize"
+                            [totalRecords]="totalRecords"
+                            [paginator]="false"
+                            (onPage)="onPageChange($event)"
+                            [style]="{ width: '100%' }"
+                            styleClass="p-datatable-striped"
+                        >
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 1%; font-size: 14px">
+                                        STT
+                                    </th>
+                                    <th style="width: 10%; font-size: 14px">
+                                        Mã đơn hàng
+                                    </th>
+                                    <th style="width: 8%; font-size: 14px">
+                                        Trạng thái 
+                                    </th>
+                                  
+                                    <th style="width: 10%; font-size: 14px">
+                                        Ghi chú
+                                    </th>
+                                    <th style="width: 10%; font-size: 14px">
+                                        Ngày đặt hàng
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template
+                                pTemplate="body"
+                                let-ordersHistory
+                                let-i="rowIndex"
+                            >
+                                <tr class="custom-table">
+                                    <td style="font-size: 14px">
+                                        {{
+                                            (this.PageIndex - 1) *
+                                                this.PageSize +
+                                                (i + 1)
+                                        }}
+                                    </td>
+                                    <td style="font-size: 14px">
+                                        {{
+                                            ordersHistory.orderTrackingNumber
+                                                
+                                        }},
+                                    </td>
+                                    <td style="font-size: 14px">
+                                        {{
+                                            getStatusText(
+                                                ordersHistory.orderStatus
+                                            )
+                                        }}
+                                    </td>
+                                    
+
+                                    <td style="font-size: 14px">
+                                        {{ ordersHistory.note }},
+                                    </td>
+                                    <td style="font-size: 14px">
+                                        {{
+                                            ordersHistory.createdAt
+                                                | date : "yyyy-MM-dd HH:mm:ss"
+                                        }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="paging-bot dg-fix">
+                            <div class="paging-info">
+                                <div [innerHTML]="currentPageReport"></div>
+                            </div>
+                            <p-paginator
+                                [rows]="this.PageSize"
+                                (onPageChange)="onPageChange($event)"
+                                [totalRecords]="
+                                    totalRecords > 0 ? totalRecords : 1
+                                "
+                                [rowsPerPageOptions]="[10, 20, 30]"
+                                [first]="(this.PageIndex - 1) * this.PageSize"
+                            ></p-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

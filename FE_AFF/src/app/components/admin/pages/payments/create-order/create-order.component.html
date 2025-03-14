@@ -1,0 +1,267 @@
+<div class="dialog-background" *ngIf="showDialog">
+    <div class="dialog-container-customer">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5
+                    style="font-weight: 600; font-size: 17px"
+                    class="card-title"
+                >
+                    Thông tin thanh toán
+                </h5>
+                <p-button
+                    icon="pi pi-times"
+                    [rounded]="true"
+                    [text]="true"
+                    severity="danger"
+                    [style]="{ 'border-radius': '25%' }"
+                    (click)="closeDialog()"
+                ></p-button>
+            </div>
+            <!-- General Form Elements -->
+            <form [formGroup]="OrderGroupForm" (ngSubmit)="OrderSubmit()">
+              <div style="margin-bottom: 20px" class="col-lg-12">
+                                <label class="labelip"
+                                    >Gói combo sản phẩm<span class="red-asterisk"
+                                        >*</span
+                                    ></label
+                                >
+                                <p-multiSelect
+                                    [style]="{ height: '40px', width: '100%' }"
+                                    [options]="Products"
+                                    optionLabel="name"
+                                    [showClear]="true"
+                                    placeholder="Chọn combo sản phẩm"
+                                    [filter]="true"
+                                    formControlName="product"
+                                    (onBlur)="checkRolesSelection()"
+                                ></p-multiSelect>
+                                <div
+                                    *ngIf="
+                                        (rolesControl?.hasError('required') &&
+                                            rolesControl?.touched) ||
+                                        showNameError7
+                                    "
+                                    class="error-message"
+                                >
+                                    Vui lòng chọn ít nhất một combo sản phẩm.
+                                </div>
+                            </div>
+                <div class="col-lg-12 mb-4">
+                    <label class="labelip"
+                        >Tên người nhận<span class="red-asterisk">*</span></label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        pInputText
+                        [style]="{ height: '40px', width: '100%' }"
+                        formControlName="name"
+                        placeholder="Nhập tên người nhận"
+                        (input)="onInputChange($event)"
+                    />
+                    <div
+                        *ngIf="
+                            (OrderGroupForm.get('name')?.invalid &&
+                                (OrderGroupForm.get('name')?.dirty ||
+                                    OrderGroupForm.get('name')?.touched)) ||
+                            showNameError
+                        "
+                    >
+                        <div
+                            class="error-message"
+                            *ngIf="
+                                OrderGroupForm.controls['name'].hasError(
+                                    'whitespace'
+                                )
+                            "
+                        >
+                            {{ getErrorMessage() }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-4">
+                    <label class="labelip"
+                        >Tài khoản nhận<span class="red-asterisk">*</span></label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        pInputText
+                        [style]="{ height: '40px', width: '100%' }"
+                        formControlName="userId"
+                        placeholder="Nhập tài khoản nhận"
+                        (input)="onInputChange($event)"
+                    />
+                    <div
+                        *ngIf="
+                            (OrderGroupForm.get('name')?.invalid &&
+                                (OrderGroupForm.get('name')?.dirty ||
+                                    OrderGroupForm.get('name')?.touched)) ||
+                            showNameError
+                        "
+                    >
+                        <div
+                            class="error-message"
+                            *ngIf="
+                                OrderGroupForm.controls['name'].hasError(
+                                    'whitespace'
+                                )
+                            "
+                        >
+                            {{ getErrorMessage() }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-4">
+                    <label class="labelip"
+                        >Ghi chú</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        pInputText
+                        [style]="{ height: '40px', width: '100%' }"
+                        formControlName="note"
+                        placeholder="Nhập ghi chú"
+                        (input)="onInputChange($event)"
+                    />
+                   
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="labelip"
+                                >Số điện thoại<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                pInputText
+                                [style]="{
+                                    height: '40px',
+                                    width: '100%'
+                                }"
+                                (keypress)="onKeyPress($event)"
+                                formControlName="phoneNumber"
+                                placeholder="Nhập số điện thoại"
+                            />
+                            <div
+                                *ngIf="
+                                    (OrderGroupForm.get('phoneNumber')
+                                        ?.invalid &&
+                                        (OrderGroupForm.get('phoneNumber')
+                                            ?.dirty ||
+                                            OrderGroupForm.get('phoneNumber')
+                                                ?.touched)) ||
+                                    showNameError5
+                                "
+                            >
+                                <!-- fdgdgfdKC -->
+                                <div
+                                    class="error-message"
+                                    *ngIf="
+                                        OrderGroupForm.controls[
+                                            'phoneNumber'
+                                        ].hasError('whitespace')
+                                    "
+                                >
+                                    {{ getErrorMessage5() }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="labelip">Tỉnh/Thành</label>
+                            <p-dropdown
+                                [options]="cities"
+                                [style]="{
+                                    height: '40px',
+                                    width: '100%'
+                                }"
+                                optionLabel="name"
+                                [showClear]="true"
+                                placeholder="Chọn Tỉnh/Thành"
+                                optionValue="id"
+                                formControlName="cityId"
+                                (onChange)="onCityChange($event.value)"
+                                (onClear)="onClearCity()"
+                            ></p-dropdown>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 mt-3">
+                                        <label class="labelip"
+                                            >Quận/Huyện</label
+                                        >
+                                        <p-dropdown
+                                            [options]="districts"
+                                            [style]="{
+                                                height: '40px',
+                                                width: '100%'
+                                            }"
+                                            optionLabel="name"
+                                            [showClear]="true"
+                                            placeholder="Chọn Quận/Huyện"
+                                            optionValue="id"
+                                            (onChange)="
+                                                onDistrictChange($event.value)
+                                            "
+                                            (onClear)="onClearDistrict()"
+                                            [emptyMessage]="
+                                                'Vui lòng chọn tỉnh trước!'
+                                            "
+                                            formControlName="districtId"
+                                        ></p-dropdown>
+                                    </div>
+                                    <div class="col-lg-6 mt-3">
+                                        <label class="labelip">Xã/Phường</label>
+                                        <p-dropdown
+                                            [options]="wards"
+                                            [style]="{
+                                                height: '40px',
+                                                width: '100%'
+                                            }"
+                                            optionLabel="name"
+                                            [showClear]="true"
+                                            placeholder="Chọn Xã/Phường"
+                                            optionValue="id"
+                                            (onChange)="
+                                                onWardChange($event.value)
+                                            "
+                                            (onClear)="onClearWard()"
+                                            formControlName="wardId"
+                                            [emptyMessage]="
+                                                'Vui lòng chọn tỉnh/huyện trước!'
+                                            "
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                <div class="row mb-12 mt-5">
+                    <div class="col-sm-12 buttonsl">
+                        <button
+                            pButton
+                            pRipple
+                            label="Hủy"
+                            class="p-button-success buttoncloses"
+                            type="button"
+                            (click)="closeDialog()"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            label="Thêm"
+                            class="p-button-success butttonsave"
+                            type="submit"
+                        ></button>
+                    </div>
+                </div>
+            </form>
+            <!-- End General Form Elements -->
+        </div>
+    </div>
+</div>

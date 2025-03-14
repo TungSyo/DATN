@@ -1,0 +1,141 @@
+<div class="news-container">
+
+    <!-- <div class="introduction-container">
+        <h1 class="section-title">Giới thiệu</h1>
+    </div> -->
+
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li
+                class="menu-item active"
+                [class.active]="selectedSection === 'Về Honivy'"
+                (click)="selectSection('Về Honivy')"
+            >
+                Về Honivy
+            </li>
+            <li
+                class="menu-item"
+                [class.active]="selectedSection === 'Thư ngỏ'"
+                (click)="selectSection('Thư ngỏ')"
+            >
+                Thư ngỏ
+            </li>
+            <li
+                class="menu-item"
+                [class.active]="selectedSection === 'Tầm nhìn & sứ mệnh'"
+                (click)="selectSection('Tầm nhìn & sứ mệnh')"
+            >
+                Tầm nhìn & sứ mệnh
+            </li>
+            <li
+                class="menu-item"
+                [class.active]="selectedSection === 'Giá trị khác biệt'"
+                (click)="selectSection('Giá trị khác biệt')"
+            >
+                Giá trị khác biệt
+            </li>
+        </ul>
+    </aside>
+
+    <section class="content">
+        <!-- Nội dung cho mục "Về Honivy" -->
+        <div *ngIf="selectedSection === 'Về Honivy'" class="content-section">
+            <h2 class="section-title">— Về Honivy —</h2>
+            <div class="content-section">
+                <p class="content-text">
+                    Làm việc đam mê, tận tâm, tận lực nhằm mang đến những sản phẩm dinh dưỡng tốt ưu ưu việt từ thực vật, tốt cho sức khỏe, hoàn hảo trong dịch vụ khách hàng và bền vững cho môi trường. Luôn nuôi dưỡng khát vọng tiên phong, tinh thần khai khác học hỏi, sáng tạo linh hoạt, đồng thời chọn lọc vào thực tiễn nhằm tạo ra sự khác biệt và lợi thế cạnh tranh bền vững.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3 class="content-title">Sáng tạo</h3>
+                <p class="content-text">
+                    Luôn nuôi dưỡng khát vọng tiên phong, tinh thần khai khác học hỏi, sáng tạo linh hoạt, đồng thời chọn lọc vào thực tiễn nhằm tạo ra sự khác biệt và lợi thế cạnh tranh bền vững.
+                </p>
+                <img
+                    src="assets/image/anhhonivy/image1.jpg"
+                    class="content-image"
+                />
+            </div>
+
+            <div class="content-section">
+                <p class="content-text">Trân trọng,</p>
+            </div>
+        </div>
+
+        <!-- Nội dung cho mục "Thư ngỏ" -->
+        <div *ngIf="selectedSection === 'Thư ngỏ'" class="content-section">
+            <h2 class="section-title">— Thư ngỏ —</h2>
+            <div class="content-section">
+                <p class="content-text">
+                    Chúng tôi cam kết không ngừng sáng tạo và đổi mới để mang đến những giá trị tốt nhất cho khách hàng. Hành trình của chúng tôi bắt đầu từ lòng đam mê và sự tận tâm để cung cấp những sản phẩm và dịch vụ chất lượng nhất.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3 class="content-title">Tận tâm</h3>
+                <p class="content-text">
+                    Với tâm huyết của đội ngũ nhân viên, chúng tôi luôn đặt khách hàng lên hàng đầu và không ngừng nỗ lực vì sự hài lòng của họ.
+                </p>
+                <img
+                    src="assets/image/anhhonivy/image2.jpg"
+                    class="content-image"
+                />
+            </div>
+
+            <div class="content-section">
+                <p class="content-text">Chân thành,</p>
+            </div>
+        </div>
+
+        <!-- Nội dung cho mục "Tầm nhìn & sứ mệnh" -->
+        <div *ngIf="selectedSection === 'Tầm nhìn & sứ mệnh'" class="content-section">
+            <h2 class="section-title">— Tầm nhìn & sứ mệnh —</h2>
+            <div class="content-section">
+                <p class="content-text">
+                    Chúng tôi hướng tới mục tiêu trở thành công ty hàng đầu trong lĩnh vực dinh dưỡng tự nhiên, tạo ra những giá trị bền vững cho xã hội và môi trường.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3 class="content-title">Bền vững</h3>
+                <p class="content-text">
+                    Bằng việc sử dụng nguyên liệu thân thiện với môi trường và quy trình sản xuất tiên tiến, chúng tôi cam kết giảm thiểu tác động đến thiên nhiên.
+                </p>
+                <img
+                    src="assets/image/anhhonivy/image3.jpg"
+                    class="content-image"
+                />
+            </div>
+
+            <div class="content-section">
+                <p class="content-text">Tận tâm,</p>
+            </div>
+        </div>
+
+        <!-- Nội dung cho mục "Giá trị khác biệt" -->
+        <div *ngIf="selectedSection === 'Giá trị khác biệt'" class="content-section">
+            <h2 class="section-title">— Giá trị khác biệt —</h2>
+            <div class="content-section">
+                <p class="content-text">
+                    Chúng tôi tự hào về những giá trị cốt lõi mà mình mang lại, với sự khác biệt về chất lượng sản phẩm và dịch vụ, luôn đáp ứng nhu cầu của khách hàng.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3 class="content-title">Chất lượng</h3>
+                <p class="content-text">
+                    Mỗi sản phẩm của chúng tôi đều được kiểm tra kỹ lưỡng để đảm bảo tiêu chuẩn chất lượng cao nhất, mang lại sự hài lòng tuyệt đối cho khách hàng.
+                </p>
+                <img
+                    src="assets/image/anhhonivy/image1.jpg"
+                    class="content-image"
+                />
+            </div>
+
+            <div class="content-section">
+                <p class="content-text">Trân trọng,</p>
+            </div>
+        </div>
+    </section>
+</div>

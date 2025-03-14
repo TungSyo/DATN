@@ -1,0 +1,267 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+.reward-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #4d8526;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.dropdown {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.search-input {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.search-button{
+    background-color: #4d8526;
+        color: #fff;
+}
+
+.search-input{
+    outline: none;
+}
+
+.search-input:focus {
+    border: 1px solid #4d8526;
+}
+
+.form-control:focus{
+    border: 1px solid #4d8526;
+    box-shadow: none;
+}
+
+.summary {
+    margin-top: 20px;
+}
+
+.summary h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.summary p {
+    margin: 5px 0;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #4d8526;
+}
+
+.chart-placeholder {
+    height: 100px;
+    background: #eaeaea;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.transaction-table th {
+    background: #f1f1f1;
+    font-weight: bold;
+}
+
+.status.success {
+    color: green;
+}
+
+.status.pending {
+    color: orange;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.page-btn {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-btn.active {
+    background-color: #4d8526;
+    color: #fff;
+    font-weight: bold;
+}
+
+.page-btn.disabled {
+    background-color: #f4f4f4;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.page-btn:hover:not(.active):not(.disabled) {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+    }
+
+    .dropdown,
+    .search-input {
+        flex: unset;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .header-title {
+        font-size: 20px;
+        padding: 8px;
+    }
+
+    .summary h3 {
+        font-size: 16px;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .chart-placeholder {
+        height: 80px;
+    }
+
+    .exchange-section h3 {
+        font-size: 16px;
+    }
+
+    .exchange-button {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+    .transaction-table th, .transaction-table td {
+        font-size: 12px;
+        padding: 8px;
+      }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .header-title {
+        font-size: 18px;
+        padding: 8px;
+    }
+
+    .filter-container {
+        gap: 5px;
+    }
+
+    .dropdown,
+    .search-input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .summary h3 {
+        font-size: 14px;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        font-size: 10px;
+    }
+
+    .chart-placeholder {
+        height: 60px;
+    }
+
+    .exchange-section h3 {
+        font-size: 14px;
+    }
+
+    .exchange-button {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+}
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Hỗ trợ cuộn mượt trên iOS */
+    margin: 0 auto; /* Căn giữa */
+  }
+  
+  .transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Đảm bảo bảng không bị hẹp quá */
+  }
+  
+  .transaction-table th,
+  .transaction-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .transaction-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .transaction-table td {
+    font-size: 14px;
+  }

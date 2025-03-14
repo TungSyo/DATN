@@ -1,0 +1,21 @@
+# Sử dụng image Node.js làm base
+FROM node:18
+
+# Tạo thư mục làm việc trong container
+WORKDIR /app
+
+# Copy package.json và install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy phần còn lại của ứng dụng vào container
+COPY . .
+
+# Build ứng dụng Angular trong chế độ development
+RUN npm run build --configuration=development
+
+# Chạy ứng dụng Angular trong chế độ phát triển
+CMD ["npm", "start"]
+
+# Mở cổng 4200 để phục vụ ứng dụng
+EXPOSE 4200

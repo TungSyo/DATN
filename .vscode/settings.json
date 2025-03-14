@@ -1,0 +1,82 @@
+{
+  // Setting file
+  "files.encoding": "utf8",
+  "files.autoSave": "onWindowChange",
+  "terminal.integrated.defaultEncoding": "utf-8",
+  "terminal.integrated.shellArgs.windows": ["-NoExit", "/c", "chcp.com 65001"],
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.fontSize": 17,
+  "terminal.integrated.fontWeight": "bold",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  
+  "editor.fontSize": 11.5,
+  
+  // Icon
+  "workbench.colorCustomizations": {
+    // "terminal.foreground": "#00FF00",
+  },
+  "material-icon-theme.hidesExplorerArrows": true,
+  "workbench.tree.renderIndentGuides": "none",
+  "workbench.statusBar.visible": true,
+  "workbench.editor.showTabs": "multiple",
+  "workbench.startupEditor": "none",
+  
+  // View
+  "editor.scrollbar.vertical": "hidden",
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.scrollbar.verticalScrollbarSize": 0,
+  "editor.minimap.maxColumn": 15,
+  "editor.minimap.enabled": true,
+  
+  // Font Family
+  "editor.fontFamily": "'','Fira Code', 'JetBrains Mono'",
+  "editor.fontLigatures": true,
+  "editor.lineHeight": 20,
+  "editor.letterSpacing": 0.5,
+  
+  // Format Code
+  "java.format.settings.url": ".vscode/java-formatter.xml",
+  "java.autocomplete.enabled": true,
+  "java.errors.incompleteClasspath.severity": "warning",
+  "java.project.recommendedSettings": {
+    "java.import.gradle.enabled": true,
+    "java.import.maven.enabled": true
+  },
+  "java.format.settings.profile": "GoogleStyle",
+  "java.showBuildStatus": true,
+  "java.format.onType": true,
+  "java.maven.downloadSources": true,
+  "java.debug.settings.console": "integratedTerminal",
+  
+  "[java]": {
+    "editor.insertSpaces": true
+  },
+  
+  "cSpell.words": [
+    "verifytitle"
+  ],
+  
+  "git.ignoreLimitWarning": true,
+  
+  "background.enabled": true,
+  
+  // File and Search Exclusions
+  "files.exclude": {
+    "**/automation/Driver": true, // Exclude Driver folder containing .zip and .exe
+    "**/*.zip": true,            // Exclude .zip files
+    "**/*.exe": true             // Exclude .exe files
+  },
+  "search.exclude": {
+    "**/automation/Driver": true, // Don't search in Driver folder
+    "**/node_modules": true,      // Exclude node_modules (frontend)
+    "**/bin": true,               // Exclude build folder (backend)
+    "**/obj": true                // Exclude build folder (backend .NET)
+  },
+  "files.watcherExclude": {
+    "**/automation/Driver/**": true, // Don't watch changes in Driver folder
+    "**/node_modules/**": true,
+    "**/bin/**": true,
+    "**/obj/**": true
+  }
+}

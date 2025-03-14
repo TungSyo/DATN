@@ -1,0 +1,165 @@
+.container{
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+.manual-payment-inner{
+    display: flex;
+} 
+
+.manual-payment-logo {
+    margin-bottom: 15px;
+}
+
+.manual-payment-customer-info{
+    margin-bottom:15px;
+}
+
+
+.manual-payment-left,
+.manual-payment-center,
+.manual-payment-right{
+    flex: 1;
+    padding: 15px;
+}
+
+.manual-payment-left h4,
+.manual-payment-center h4,
+.manual-payment-right h4 {
+    margin-bottom:15px;
+    color:#4d8526;
+}
+
+.manual-payment-left h6,
+.manual-payment-center h6,
+.manual-payment-right h6 {
+    margin-bottom: 10px;
+    color: #4d8526;
+}
+
+.beneficiary{
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+
+.transfer-content{
+    padding-left: 10px;
+}
+
+.manual-payment-left{
+
+} 
+
+
+
+.manual-payment-center{
+
+} 
+
+.manual-payment-right{
+
+}
+
+
+.payment__sidebar {
+    flex: 1;
+}
+
+.note-textarea {
+    width: 100%;
+    outline: none;
+    border: 1px solid #efefef;
+    padding: 15px;
+    min-height: 100px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.note-textarea:focus {
+    border: 1px solid #4D8526;
+}
+
+.payment__sidebar {
+    padding: 0 30px;
+    padding-bottom: 20px;
+}
+
+.checkout-review-order-table {
+    width: 100%;
+}
+
+.checkout-review-order-table th {
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.checkout-review-order-table tr {
+    height: 43px;
+    border-bottom: 1px solid #e5e2e2;
+}
+
+.price-amount bdi {
+    font-weight: bold;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.payment__sidebar-desc {
+    margin: 15px 0 !important;
+    font-size: 15px;
+}
+
+.btn-order-create {
+    background-color: #61a63c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-weight: bold;
+    color: #fff;
+    transition: all 0.2s;
+}
+
+.btn-order-create:hover {
+    background-color: #4D8526;
+}
+
+.payment__sidebar-policy {
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.payment__sidebar-policy a {
+    color: #62a73c;
+}
+
+.error-message {
+    position: absolute;
+    margin-left: 50px;
+}
+
+@media screen and (max-width: 770px) {
+    .manual-payment-inner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .manual-payment-left{
+        flex: 1;
+        order: 3;
+    }
+
+    .manual-payment-center{
+        flex: 1;
+        order: 1;
+    }
+
+    .manual-payment-right {
+        flex: 1;
+        order: 2;
+    }
+    .payment__sidebar{
+        padding: 0;
+    }
+}

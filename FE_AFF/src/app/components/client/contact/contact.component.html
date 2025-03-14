@@ -1,0 +1,125 @@
+<div class="container product-detail-page">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="product-title">
+                CÔNG TY TRÁCH NHIỆM HỮU HẠN THƯƠNG MẠI DỊCH VỤ VÀ SẢN XUẤT ĐỨC
+                MINH HOÀNG
+            </h1>
+            <p class="text-description">
+                Để liên hệ với HONIVY, bạn có thể liên hệ theo thông tin bên
+                dưới hoặc điền vào form sau đó nhân viên của chúng tôi sẽ liên
+                lạc với bạn trong thời gian sớm nhất.
+            </p>
+        </div>
+    </div>
+
+    <!-- Phần các sản phẩm liên quan -->
+
+    <div class="related-products mt-5">
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="related-product-card position-relative">
+                    <div class="center-svg">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-geo-alt-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"
+                            />
+                        </svg>
+                        <p class="text-icon">Địa chỉ</p>
+                    </div>
+                    <div class="text-contact">
+                        300 Phố Cuối, Phương Hung, Gia Lộc, Hải Dương
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="related-product-card position-relative">
+                    <div class="center-svg">
+                        <svg
+                            stroke="currentColor"
+                            fill="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 24 24"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z"
+                            ></path>
+                            <path
+                                d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a1 1 0 0 0-.086-1.391l-4.064-3.696z"
+                            ></path>
+                        </svg>
+                        <p class="text-icon">Hotline</p>
+                    </div>
+                    <div class="text-contact">
+                        Chăm sóc khách hàng - Tư vấn sản phẩm
+                        <p>0220. 03711333</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="related-product-card position-relative">
+                    <div class="center-svg">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-envelope-fill"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"
+                            />
+                        </svg>
+                        <p class="text-icon">Email</p>
+                    </div>
+                    <div class="text-contact">
+                        Hòm thư góp ý
+                        <p>honivystore&#64;gmail.com</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-description mt-2">
+        <div class="image-gallery" style="position: relative">
+            <div
+                (click)="openGoogleMaps()"
+                style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10;
+                    cursor: pointer;
+                    background: transparent;
+                "
+            ></div>
+
+            <iframe
+                class="gallery-image"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3728.027611687132!2d106.30342127456694!3d20.87093729318193!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31359078a7eb630f%3A0x94553d4d06d3e09c!2zMzAwIFBo4buRIEN14buRaSwgUGjGsMahbmcgSHVuZywgR2lhIEzhu5ljLCBI4bqjaSBExrDGoW5nIDE3MDAwMCwgVmlldG5hbQ!5e0!3m2!1sen!2s!4v1731170063323!5m2!1sen!2s"
+                width="600"
+                height="450"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+        </div>
+    </div>
+</div>

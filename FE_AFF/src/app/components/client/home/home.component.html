@@ -1,0 +1,447 @@
+<!-- <app-header></app-header>
+<app-footer></app-footer> -->
+<div class="page-overlay">
+    <div class="loading-dots">
+        <div class="dot-ok"></div>
+        <div class="dot-ok"></div>
+        <div class="dot-ok"></div>
+    </div>
+</div>
+<p-toast />
+<div>
+    <section class="banner">
+        <div class="banner-content">
+            <div class="image-overlay"></div>
+            <img
+                [src]="imageUrl + bannerImages[currentImageIndex]"
+                alt="Banner Image"
+            />
+            <div class="dashed-line">
+                <span
+                    *ngFor="let image of bannerImages; let i = index"
+                    class="line-segment"
+                    [ngClass]="{
+                        'orange-segment': i === currentImageIndex
+                    }"
+                    (click)="setImage(i)"
+                >
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-us">
+        <div class="container">
+            <div class="aubout-us-inner">
+                <div class="aubout-us-item">
+                    <div class="about-image">
+                        <img
+                            src="assets/image/anhhonivy/image13.jpg"
+                            alt="About Image"
+                        />
+                        <button class="play-button" (click)="showVideo()">
+                            <span>
+                                <svg
+                                    class="small-svg"
+                                    stroke="currentColor"
+                                    fill="currentColor"
+                                    stroke-width="0"
+                                    viewBox="0 0 512 512"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M106.854 106.002a26.003 26.003 0 0 0-25.64 29.326c16 124 16 117.344 0 241.344a26.003 26.003 0 0 0 35.776 27.332l298-124a26.003 26.003 0 0 0 0-48.008l-298-124a26.003 26.003 0 0 0-10.136-1.994z"
+                                    ></path>
+                                </svg>
+                            </span>
+
+                            <span class="ripple"></span>
+                            <span class="ripple"></span>
+                            <span class="ripple"></span>
+                        </button>
+                        <div
+                            *ngIf="isVideoVisible"
+                            class="video-overlay"
+                            (click)="hideVideo()"
+                        >
+                            <iframe
+                                width="80%"
+                                height="80%"
+                                src="https://www.youtube.com/embed/_J3NnWVH4do"
+                                title="Về chúng tôi"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            >
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="aubout-us-item">
+                    <div class="about-text">
+                        <div class="about-text-title fade-in">
+                            <h4 class="intro-title">Về chúng tôi</h4>
+                            <h2 class="main-title">Sữa Hạt Honivy</h2>
+                        </div>
+                        <div class="about-text-content">
+                            <p>
+                                Công ty TNHH TM DV Honivy hiện là nhà máy sản
+                                xuất các sản phẩm dinh dưỡng thuần chay, trực
+                                tiếp từ nông sản của Việt Nam. Chúng tôi mong
+                                muốn sẽ lan tỏa tới tất cả mọi người ý thức được
+                                việc chăm sóc sức khỏe từ những sản phẩm tự
+                                nhiên.
+                            </p>
+                            <p>
+                                Với sứ mệnh lan tỏa lối sống lành mạnh và ý thức
+                                chăm sóc sức khỏe từ những giá trị thiên nhiên,
+                                chúng tôi hy vọng mang đến cho mọi người những
+                                sản phẩm không chỉ an toàn mà còn tràn đầy dinh
+                                dưỡng, góp phần xây dựng một cộng đồng khỏe mạnh
+                                và bền vững.
+                            </p>
+                        </div>
+                        <button
+                            class="intro-btn fade-in"
+                            [routerLink]="['/news']"
+                        >
+                            <span>
+                                <svg
+                                    class="small-sv"
+                                    stroke="currentColor"
+                                    fill="currentColor"
+                                    stroke-width="0"
+                                    viewBox="0 0 512 512"
+                                    height="200px"
+                                    width="200px"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M106.854 106.002a26.003 26.003 0 0 0-25.64 29.326c16 124 16 117.344 0 241.344a26.003 26.003 0 0 0 35.776 27.332l298-124a26.003 26.003 0 0 0 0-48.008l-298-124a26.003 26.003 0 0 0-10.136-1.994z"
+                                    ></path>
+                                </svg>
+                            </span>
+                            <span> Giới thiệu chung </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="statistics">
+        <div class="container">
+            <div class="container">
+                <div class="statistics-container">
+                    <div class="stat-item">
+                        <div class="icon">⭐️</div>
+                        <div class="stat-number" data-target="1288">0</div>
+                        <div class="stat-description">
+                            Điểm bán trên toàn quốc
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="stat-item">
+                        <div class="icon">🏆</div>
+                        <div class="stat-number" data-target="269800">0</div>
+                        <div class="stat-description">Khách hàng tin dùng</div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="stat-item">
+                        <div class="icon">🎁</div>
+                        <div class="stat-number" data-target="200">0</div>
+                        <div class="stat-description">
+                            Chương trình thiện nguyện
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-slider">
+                <button class="slider-btn prev" (click)="prevSlide()">❮</button>
+                <div
+                    class="image-track"
+                    [style.transform]="
+                        'translateX(-' + currentSliderIndex * 210 + 'px)'
+                    "
+                >
+                    <img
+                        *ngFor="let image of sliderImages"
+                        [src]="image"
+                        alt="Slider Image"
+                        class="slider-image"
+                    />
+                </div>
+                <button class="slider-btn next" (click)="nextSlide()">❯</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="best-selling-products" id="featured-products">
+        <div class="container">
+            <div class="best-selling-products-inner">
+                <!-- Các nút điều hướng danh mục -->
+                <div class="category-nav">
+                    <div class="category-btn-child">
+                        <p class="title-category">Danh mục sản phẩm</p>
+                        <!-- Nút "ALL" để lấy tất cả sản phẩm -->
+                        <button
+                            class="category-btn"
+                            [ngClass]="{ active: selectedCategory === 'All' }"
+                            (click)="filterProductsByCategory('All')"
+                        >
+                            Tất cả sản phẩm
+                        </button>
+                        <div class="cate-button">
+                            <button
+                                *ngFor="let category of categories"
+                                class="category-btn"
+                                [ngClass]="{
+                                    active: selectedCategory === category.name
+                                }"
+                                (click)="
+                                    filterProductsByCategory(category.name)
+                                "
+                            >
+                                {{ category.name }}
+                            </button>
+                            <button
+                                class="category-btn"
+                                [routerLink]="['/products']"
+                            >
+                                Khám phá thêm sản phẩm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danh sách sản phẩm hoặc hiển thị sản phẩm mặc định -->
+                <div class="product-grid">
+                    <div
+                        class="product-item"
+                        *ngFor="let product of defaultProducts.slice(0, 8)"
+                    >
+                        <div class="product-img">
+                            <img
+                                [routerLink]="['/productdetail', product.id]"
+                                [src]="
+                                    product?.productImages?.length > 0
+                                        ? imageUrl +
+                                          '/api/file/images/' +
+                                          product.productImages[0].link
+                                        : 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'
+                                "
+                                [alt]="product.name || 'Image Not Available'"
+                            />
+                        </div>
+                        <p class="product-name">{{ product.name }}</p>
+                        <p class="price">
+                            <span class="sale-price"
+                                >{{
+                                    product.sellingPrice | number : "1.0-0"
+                                }}đ</span
+                            >
+                        </p>
+                        <div class="order-btn-container">
+                            <button
+                                class="plus-btn"
+                                (click)="handleAddToCart(product)"
+                            >
+                                +
+                            </button>
+                            <span class="order-text">Đặt hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="customer-feedback">
+        <div class="container">
+            <div class="customer-feedback-inner">
+                <div class="customer-feedback-title">
+                    <h2 class="feedback-title fade-in">
+                        Khách hàng nói về Honivy
+                    </h2>
+                    <p class="feedback-subtitle fade-in">
+                        Hơn 25.000 khách hàng đã và đang sử dụng sản phẩm của
+                        Honivy
+                    </p>
+                </div>
+
+                <div class="feedback-grid">
+                    <div class="row gap-4">
+                        <div class="col col-md-4">
+                            <div class="testimonial">
+                                <p class="testimonial-desc fade-in">
+                                    Dùng sản phẩm sữa hạt dinh dưỡng 38 vị của
+                                    Honivy vừa tiết kiệm, vừa bổ mà ngon bất
+                                    ngờ! Với người bạn nào như mình thì sữa hạt
+                                    Honivy thay thế được các bữa ăn, giữ dáng ổn
+                                    áp hơn nhiều so với các loại sữa khác trên
+                                    thị trường .
+                                </p>
+                                <div class="customer-info">
+                                    <img
+                                        src="assets/image/anhhonivy/image10.jpg"
+                                        alt="Customer Image"
+                                    />
+                                    <p>Bà Yến</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-md-4">
+                            <div class="testimonial">
+                                <p class="testimonial-desc fade-in">
+                                    Dùng với 1 chút sữa, thêm 1 gói sữa hạt 38
+                                    vị từ nhà Honivy chính là chân ái của cả nhà
+                                    mình. Sản phẩm mà cả gia đình mình đều dùng
+                                    được.
+                                </p>
+                                <div class="customer-info">
+                                    <img
+                                        src="assets/image/anhhonivy/image11.jpg"
+                                        alt="Customer Image"
+                                    />
+                                    <p>Vợ Chồng Chị Hạnh</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-md-4">
+                            <div class="testimonial">
+                                <p class="testimonial-desc fade-in">
+                                    Tới độ tuổi cần tĩnh dưỡng này chúng tôi
+                                    chọn dùng Honviy để đảm bảo dinh dưỡng và
+                                    sức khỏe nên chúng tôi đã dùng và uống nó
+                                    được rất nhiều
+                                </p>
+                                <div class="customer-info">
+                                    <img
+                                        src="assets/image/anhhonivy/image12.jpg"
+                                        alt="Customer Image"
+                                    />
+                                    <p>Ông Bà Xuân</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feedback-images fade-in">
+                    <img
+                        src="assets/image/anhhonivy/image4.jpg"
+                        alt="Feedback Image 1"
+                    />
+                    <img
+                        src="assets/image/anhhonivy/image11.jpg"
+                        alt="Feedback Image 2"
+                    />
+                    <img
+                        src="assets/image/anhhonivy/image6.jpg"
+                        alt="Feedback Image 3"
+                    />
+                    <img
+                        src="assets/image/anhhonivy/image9.jpg"
+                        alt="Feedback Image 4"
+                    />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-events">
+        <div class="container">
+            <div class="news-inner">
+                <div class="news-titles">
+                    <h2 class="news-title fade-in">Tin tức & sự kiện</h2>
+                    <p class="news-subtitle fade-in">Thông tin về Honivy</p>
+                </div>
+
+                <div class="news-grid">
+                    <div class="row">
+                        <!-- Lặp qua danh sách tin tức đã lọc -->
+                        <div
+                            class="col-md-4"
+                            *ngFor="
+                                let newsItem of filteredNews
+                                    | slice
+                                        : currentNewsIndex * newsPerPage
+                                        : currentNewsIndex * newsPerPage +
+                                              newsPerPage
+                            "
+                        >
+                            <div class="news-item">
+                                <div class="news-date">
+                                    <span class="day">{{
+                                        newsItem.createdAt | date : "dd/MM/yyyy"
+                                    }}</span>
+                                </div>
+                                <div class="news-img">
+                                    <img
+                                        [src]="
+                                            newsItem?.image
+                                                ? imageUrl + newsItem.image
+                                                : 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'
+                                        "
+                                        alt="News Image"
+                                        class="news-image"
+                                    />
+                                </div>
+                                <div class="news-content">
+                                    <p class="news-category">
+                                        {{ newsItem.title }}
+                                    </p>
+                                    <p
+                                        class="news-description"
+                                        [innerHTML]="newsItem.safeContent"
+                                    ></p>
+                                    <button
+                                        class="news-btn"
+                                        [routerLink]="[
+                                            '/detail-news',
+                                            newsItem.id
+                                        ]"
+                                    >
+                                        Xem thêm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dot-navigation">
+                    <span
+                        *ngFor="
+                            let dot of [].constructor(totalDots);
+                            let i = index
+                        "
+                        class="dot"
+                        [class.active]="i === currentNewsIndex"
+                        (click)="changeNews(i)"
+                    ></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="phone-button">
+        <a href="tel:0220.03711333" class="phone-icon">
+            <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M6.62 10.79a15.091 15.091 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27 11.72 11.72 0 003.68.59 1 1 0 011 1v3.4a1 1 0 01-1 1 19.96 19.96 0 01-8.99-2.57 20.1 20.1 0 01-6.74-6.74A19.96 19.96 0 012 5a1 1 0 011-1h3.39a1 1 0 011 1c0 1.26.21 2.53.59 3.68a1 1 0 01-.27 1.11l-2.2 2.2z"
+                    fill="currentColor"
+                />
+            </svg>
+            <span class="ripple"></span>
+            <span class="ripple"></span>
+        </a>
+        <a href="tel:0372552468" class="phone-number">0372.55.2468</a>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+.container {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    margin-bottom: 40px;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+input {
+outline: 2px solid #437420;
+}
+
+.header h1 {
+    color: #437420;
+    margin: 10px 0;
+}
+
+.header h2 {
+    color: #000;
+    margin: 10px 0;
+}
+
+.otp-section {
+    padding: 30px;
+    border-radius: 10px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.otp-section h3 {
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.otp-section p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.email {
+    font-weight: bold;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.otp-input {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.verify-button {
+    background-color: #589e26;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.verify-button:hover {
+    background-color: #437420;
+}
+
+.resend {
+    margin-top: 20px;
+    color: #666;
+}
+
+.resend-link {
+    color: #437420;
+    cursor: pointer;
+}
+
+.footer {
+    margin-top: 40px;
+    color: #666;
+}

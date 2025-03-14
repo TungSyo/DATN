@@ -1,0 +1,167 @@
+<body>
+    <div class="order-container" >
+        <h1>Lịch sử mua hàng</h1>
+        <div class="search-bar">
+            <input type="text" [(ngModel)]="searchText" *ngIf="filteredOrders().length > 0"
+                placeholder="Bạn có thể tìm kiếm theo ID đơn hàng hoặc Mã Đơn Hàng" />
+        </div>
+
+        <div class="order-card" *ngFor="let order of filteredOrders()">
+            <div class="order-header">
+                <div class="shop-info">
+                    <span class="mall-badge">Đơn hàng:  {{ order.productId || 'Loại sản phẩm chưa có'}}</span>
+                </div>
+            </div>
+
+            <div class="order-body">
+                <div class="product-info">
+                    <img src="https://cdn-fdand.nitrocdn.com/LzThsRtLOYCFCRTbQQNWwEiASRwfPIwB/assets/images/optimized/rev-efe0219/5spc.com/wp-content/uploads/2022/06/box-delivery-5295390-4438909.webp"
+                        alt="Product Image">
+                    <div class="product-details">
+                        <p>Mã đơn hàng: {{ order.codeProduct || 'Mã đơn hàng chưa có' }}</p>
+                        <p>Số lượng sản phẩm: {{ order.totalquantity || 'Số lượng đơn hàng chưa có'}}</p>
+                        <p>Địa chỉ: {{ order.shippingAddress || 'Địa chỉ đơn hàng chưa có'}}</p>
+                    </div>
+                </div>
+                <div class="price-info">
+                    <div class="delivery-status">
+                        <span>Trạng thái đơn hàng: </span>
+                        <span class="completed-status" style="color: #17a2b8;">{{ getStatusText(order.orderStatus).text || "N/A" }}</span>
+                    </div>
+                    <button class="btn btn-primary" style="background-color: #17a2b8;" (click)="showVoucherDetails(order)">Voucher</button>
+                    <div class="order-summary">
+                        <span>Tổng tiền: </span>
+                        <span class="total-price">{{ order.totalAmount > 0 ? (order.totalAmount | number : "1.0-0") : '0' }} vnđ</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-footer">
+                <div class="review-info">
+                    <p>Ngày - tháng: <b>{{ order.createAt | date : "dd/MM/yyyy" }}</b></p>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" (click)="showOrderDetails(order)">Mở Chi Tiết Đơn Hàng</button>
+                    <button class="contact-seller-btn" [routerLink]="['/contact']">
+                        Liên Hệ Người Bán
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="pagination" *ngIf="filteredOrders().length > 0">
+            <button class="page-btn" (click)="prevPage()" [disabled]="pageIndex === 1">
+                &lt;
+            </button>
+            <button *ngFor="let page of [].constructor(totalPages); let i = index" 
+                    class="page-btn"
+                    [ngClass]="{'active': pageIndex === i + 1}" 
+                    (click)="changePage(i + 1)">
+                {{ i + 1 }}
+            </button>
+            <button class="page-btn" (click)="nextPage()" [disabled]="pageIndex === totalPages">
+                &gt;
+            </button>
+        </div>
+        
+    </div>
+    
+
+    <!-- Modal Popup -->
+    <div class="overlay" *ngIf="isModalVisible"></div> <!-- Overlay -->
+<div class="modal" tabindex="-1" role="dialog" [ngClass]="{'show': isModalVisible}" [ngStyle]="{'display': isModalVisible ? 'block' : 'none'}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết đơn hàng</h5>
+                <button type="button" class="close-btn" (click)="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Thông tin sản phẩm -->
+                    <div class="col-8">
+                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th>Tổng tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="selectedOrder?.orderDetails?.length > 0">
+                                    <tr *ngFor="let item of selectedOrder.orderDetails; let i = index">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>
+                                            <img
+                                                style="width: 80px; height: 80px;"
+                                                [src]="
+                                                    item?.product?.productImages?.length > 0
+                                                    ? imageUrl + '/api/file/images/' + item.product.productImages[0].link
+                                                    : 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'
+                                                "
+                                                alt="News Image"
+                                                class="news-image"
+                                            />
+                                        </td>
+                                        <td>{{ item.product?.name || 'Tên sản phẩm không có' }}</td>
+                                        <td>{{ item.quantity || 0 }}</td>
+                                        <td>{{ item.product?.sellingPrice | number : "1.0-0" }} vnđ</td>
+                                        <td>{{ (item.quantity * item.product?.sellingPrice) | number : "1.0-0" }} vnđ</td>
+                                    </tr>
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Thông tin giao dịch -->
+                    <div class="col-4" *ngIf="selectedOrder">
+                        <p><strong>Mã đơn hàng:</strong> {{ selectedOrder.codeProduct || 'Không có mã' }}</p>
+                        <p><strong>Ngày mua:</strong> {{ selectedOrder.createAt | date : "dd/MM/yyyy" }}</p>
+                        <p><strong>Voucher:</strong> {{ selectedOrder.voucher || 'Không áp dụng' }}</p>
+                        
+                        <p><strong>Tổng tiền:</strong> {{ selectedOrder.totalAmount > 0 ? (selectedOrder.totalAmount | number : "1.0-0") : '0' }} vnđ</p>
+                        <p><strong>Trạng thái:</strong> {{ getStatusText(selectedOrder.orderStatus).text || 'Không xác định' }}</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> {{ selectedOrder.shippingAddress || 'Không có địa chỉ' }}</p>
+                        <p><strong>Người nhận:</strong> {{ selectedOrder.userName || 'Không có tên người nhận' }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ selectedOrder.phoneNumber || 'Không có số điện thoại' }}</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" *ngIf="isVoucherModalVisible"></div>
+<div class="modal" style="width: 400px; top: 60%; left: 50%; transform: translate(-50%, -50%);" tabindex="-1" role="dialog" [ngClass]="{'show': isVoucherModalVisible}" [ngStyle]="{'display': isVoucherModalVisible ? 'block' : 'none'}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông tin Voucher</h5>
+            </div>
+            <div class="modal-body">
+                <p><strong>Trạng thái Voucher:</strong> {{ voucherStatusText }}</p>
+                <div *ngIf="selectedVoucher?.voucherStatus === 1">
+                    <p><strong>Mã Voucher:</strong> {{ selectedVoucher?.code }}</p>
+                    <p><strong>Tên người sử dụng:</strong> {{ selectedVoucher?.userName }}</p>
+                    <p><strong>Ngày áp dụng:</strong> {{ selectedVoucher?.updatedAt | date : "dd/MM/yyyy" }}</p>
+                    <p><strong>Số tiền giảm:</strong> {{ selectedVoucher?.voucherAmount | number : "1.0-0" }} vnđ</p>
+                    <p><strong>Tổng tiền sau giảm:</strong> {{ totalAfterDiscount | number : "1.0-0" }} vnđ</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="closeVoucherModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+
+</body>

@@ -1,0 +1,214 @@
+<div class="reward-container">
+    <h2 class="header-title">Hoa hồng và Điểm thưởng</h2>
+    <div class="filter-container">
+        <select class="dropdown" [(ngModel)]="selectedStatus">
+            <option [value]="null" selected>Chọn phương thức</option>
+            <option
+                *ngFor="let status of ListStatusPayments"
+                [value]="status.transactionType"
+            >
+                {{ status.name }}
+            </option>
+        </select>
+
+        <input
+            type="date"
+            id="fromDate"
+            class="form-control"
+            placeholder="Từ ngày"
+            [(ngModel)]="FromDate"
+            #fromDate
+        />
+        <input
+            type="text"
+            id="dateInput"
+            class="form-control"
+            placeholder="Đến ngày"
+            [(ngModel)]="ToDate"
+            type="date"
+            #toDate
+        />
+
+        <input
+            type="text"
+            class="search-input"
+            placeholder="Tìm kiếm mã giao dịch..."
+            [(ngModel)]="searchQuery"
+        />
+        <button
+            class="search-button btn"
+            style="background-color: #4d8526; color: #fff"
+            (click)="searchTransactions()"
+        >
+            Tìm kiếm
+        </button>
+    </div>
+
+    <div class="summary">
+        <h3>Tổng quan</h3>
+        <p class="user-commission">
+            <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71 66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104zm320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64zM368 320a32 32 0 1 1 32-32 32 32 0 0 1-32 32z"
+                ></path>
+                <path
+                    d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16-18.5 24.5 0 24.5 0 23.5 0 23.5L85.5 236z"
+                ></path>
+            </svg>
+            Tổng ví trực tiếp: {{ directAmount | number : "1.0-2" }} Điểm
+        </p>
+        <p class="user-reward">
+            <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71 66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104zm320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64zM368 320a32 32 0 1 1 32-32 32 32 0 0 1-32 32z"
+                ></path>
+                <path
+                    d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16-18.5 24.5 0 24.5 0 23.5 0 23.5L85.5 236z"
+                ></path>
+            </svg>
+            Tổng ví gián tiếp: {{ indirectAmount | number : "1.0-2" }} Điểm
+        </p>
+    </div>
+
+    <!-- <table class="transaction-table" >
+      <thead>
+        <tr>
+          <th style="text-align: center;">Mã Giao dịch</th>
+          <th style="text-align: center;">Ngày giao dịch</th>
+          <th style="text-align: center;">Loại giao dịch</th>
+          <th style="text-align: center;">Số tiền/Điểm</th>
+          <th style="text-align: center;">Nguồn gốc</th>
+          <th style="text-align: center;">Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="listBonusPoint.length>0 ; else noLisst">
+        <tr *ngFor="let bp of listBonusPoint">
+          <td style="text-align: center;">{{ bp?.code || '' }}</td>
+          <td style="text-align: center;">{{ bp?.transactionDate | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td style="text-align: center;">{{getTransactionType(bp?.transactionType).text  }}</td>
+         
+          <td style="text-align: center;" [style.color]="getFormattedAmount(bp?.amount, bp?.source).color">
+            {{ getFormattedAmount(bp?.amount, bp?.source).text }}
+          </td>
+          
+          <td style="text-align: center;">{{ getListOrign( bp?.source).text }}</td>
+          <td style="text-align: center;">{{ getStatusName(bp?.status).text }}</td>
+        
+        </tr>
+       
+      </tbody>
+    </table> -->
+
+    <div class="table-container">
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th style="text-align: center">Mã Giao dịch</th>
+                    <th style="text-align: center">Ngày giao dịch</th>
+                    <th style="text-align: center">Loại giao dịch</th>
+                    <th style="text-align: center">Số tiền/Điểm</th>
+                    <th style="text-align: center">Nguồn gốc</th>
+                    <th style="text-align: center">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="listBonusPoint.length > 0; else noLisst">
+                <tr *ngFor="let bp of listBonusPoint">
+                    <td style="text-align: center">{{ bp?.code || "" }}</td>
+                    <td style="text-align: center">
+                        {{ bp?.transactionDate | date : "dd/MM/yyyy HH:mm:ss" }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ getTransactionType(bp?.transactionType).text }}
+                    </td>
+                    <td
+                        style="text-align: center"
+                        [style.color]="
+                            getFormattedAmount(bp?.amount, bp?.source).color
+                        "
+                    >
+                        {{ bp?.transactionType != "Indirect" ? "" : ""
+                        }}{{ getFormattedAmount(bp?.amount, bp?.source).text }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ getListOrign(bp?.source).text }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ getStatusName(bp?.status).text }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #noLisst>
+        <div style="text-align: center">Không có dữ liệu hợp lệ</div>
+    </ng-template>
+    <div
+        class="exchange-section"
+        *ngIf="ListStatusPayments || ListStatusPayments.length > 0"
+    >
+        <div class="pagination">
+            <button
+                class="page-btn"
+                [class.disable]="pageIndex === 1"
+                (click)="changePage(1)"
+            >
+                <<
+            </button>
+
+            <button
+                class="page-btn"
+                [class.disable]="pageIndex === 1"
+                (click)="changePage(pageIndex - 1)"
+            >
+                <
+            </button>
+            <button
+                class="page-btn"
+                *ngIf="pageIndex > 1"
+                (click)="changePage(pageIndex - 1)"
+            >
+                {{ pageIndex - 1 }}
+            </button>
+            <button class="page-btn active">{{ pageIndex }}</button>
+            <button
+                class="page-btn"
+                *ngIf="pageIndex < totalPage"
+                (click)="changePage(pageIndex + 1)"
+            >
+                {{ pageIndex + 1 }}
+            </button>
+            <button
+                class="page-btn"
+                [class.disable]="pageIndex === totalPage"
+                (click)="changePage(pageIndex + 1)"
+            >
+                >
+            </button>
+
+            <button
+                class="page-btn"
+                [class.disable]="pageIndex === totalPage"
+                (click)="changePage(totalPage)"
+            >
+                >>
+            </button>
+        </div>
+    </div>
+</div>

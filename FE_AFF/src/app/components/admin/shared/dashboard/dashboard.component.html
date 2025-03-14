@@ -1,0 +1,192 @@
+<div>
+    <div class="card">
+        <div class="flex align-items-center justify-content-between">
+            <!-- <h3>Tổng quan</h3> -->
+            <div class="flex justify-content-end align-items-center">
+                <label style="font-weight: 500; margin-right: 20px"
+                    >Thời gian</label
+                >
+                <div class="flex align-items-center gap-4">
+                    <p-calendar
+                        [(ngModel)]="request.startDate"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        placeholder="dd/mm/yyyy"
+                        inputId="icondisplay"
+                        [dateFormat]="'dd/mm/yy'"
+                    />
+
+                    <span> - </span>
+
+                    <p-calendar
+                        [(ngModel)]="request.endDate"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        placeholder="dd/mm/yyyy"
+                        inputId="icondisplay"
+                        [dateFormat]="'dd/mm/yy'"
+                    />
+                    <p-button
+                        label="Lọc"
+                        (click)="loadInital()"
+                        class="p-button-rounded p-button-success"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Doanh thu</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{ revenue?.totalRevenue | number : "1.0-0" }}đ
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-wallet text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Đơn hàng</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{ revenue?.totalOrderSuccess }}
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-box text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Người dùng mới</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{ users?.totalNewUser }}
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-users text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Tổng số người dùng</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{ users?.totalUser }}
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-users text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid">
+        <!-- Công thương -->
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Hoa hồng gián tiếp</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{
+                                commission?.totalDirectComission
+                                    | number : "1.0-0"
+                            }}đ
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-star text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Rút tiền</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{
+                                commission?.totalWithdrawComission
+                                    | number : "1.0-0"
+                            }}đ
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-wallet text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-4 xl:col-3">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3"
+                            >Hoa hồng trực tiếp</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            {{
+                                commission?.totalDirectComission
+                                    | number : "1.0-0"
+                            }}đ
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-star text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

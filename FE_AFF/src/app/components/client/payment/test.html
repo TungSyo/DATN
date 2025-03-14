@@ -1,0 +1,645 @@
+<div class="payment__info">
+    <form (ngSubmit)="onSubmit()">
+        <div>
+            <div class="register-header">
+                <h1 class="register-title">Đăng ký</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Tên người dùng"
+                            formControlName="name"
+                        />
+                        <div
+                            *ngIf="
+                                                    registerForm.get('name')
+                                                        ?.invalid &&
+                                                    (registerForm.get('name')
+                                                        ?.dirty ||
+                                                        registerForm.get('name')
+                                                            ?.touched)
+                                                "
+                        >
+                            <div
+                                *ngIf="registerForm.get('name')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập tên
+                            </div>
+                            <div
+                                *ngIf="!registerForm.get('name')?.errors?.['required'] &&
+                registerForm.get('name')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                Tên không được chứa khoảng trắng
+                            </div>
+                        </div>
+
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 512 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M256 256a112 112 0 1 0-112-112 112 112 0 0 0 112 112zm0 32c-69.42 0-208 42.88-208 128v64h416v-64c0-85.12-138.58-128-208-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Số điện thoại"
+                            formControlName="phoneNumber"
+                        />
+                        <div
+                            *ngIf="
+                                                    registerForm.get(
+                                                        'phoneNumber'
+                                                    )?.invalid &&
+                                                    (registerForm.get(
+                                                        'phoneNumber'
+                                                    )?.dirty ||
+                                                        registerForm.get(
+                                                            'phoneNumber'
+                                                        )?.touched)
+                                                "
+                        >
+                            <div
+                                *ngIf="registerForm.get('phoneNumber')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập số điện thoại
+                            </div>
+                            <div
+                                *ngIf="!registerForm.get('phoneNumber')?.errors?.['required'] &&
+                                    registerForm.get('phoneNumber')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                SĐT không được chứa khoảng trắng
+                            </div>
+                        </div>
+
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 512 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Email"
+                            formControlName="email"
+                        />
+                        <div
+                            *ngIf="
+                                                    registerForm.get('email')
+                                                        ?.invalid &&
+                                                    (registerForm.get('email')
+                                                        ?.dirty ||
+                                                        registerForm.get(
+                                                            'email'
+                                                        )?.touched)
+                                                "
+                        >
+                            <div
+                                *ngIf="registerForm.get('email')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập email
+                            </div>
+                            <div
+                                *ngIf="!registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                Email không được chứa khoảng trắng
+                            </div>
+                            <div
+                                *ngIf="
+                                        !registerForm.get('email')?.errors?.['required'] &&
+                                        !registerForm.get('email')?.errors?.['whitespace'] &&
+                                        registerForm.get('email')?.errors?.['email']
+                                    "
+                                class="error-message"
+                            >
+                                Định dạng email không hợp lệ
+                            </div>
+                        </div>
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="CCCD/CMND"
+                            formControlName="citizenIdentification"
+                        />
+                        <div
+                            *ngIf="
+                                                    registerForm.get(
+                                                        'citizenIdentification'
+                                                    )?.invalid &&
+                                                    (registerForm.get(
+                                                        'citizenIdentification'
+                                                    )?.dirty ||
+                                                        registerForm.get(
+                                                            'citizenIdentification'
+                                                        )?.touched)
+                                                "
+                        >
+                            <div
+                                *ngIf="registerForm.get('citizenIdentification')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập CMND/CCCD
+                            </div>
+                            <div
+                                *ngIf="!registerForm.get('citizenIdentification')?.errors?.['required'] &&
+                        registerForm.get('citizenIdentification')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                CCCD không được chứa khoảng trắng
+                            </div>
+                        </div>
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M1 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V6Zm4 1.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2 3a4 4 0 0 0-3.665 2.395.75.75 0 0 0 .416 1A8.98 8.98 0 0 0 7 14.5a8.98 8.98 0 0 0 3.249-.604.75.75 0 0 0 .416-1.001A4.001 4.001 0 0 0 7 10.5Zm5-3.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 6.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm.75-4a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Z"
+                                    clip-rule="evenodd"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Mật khẩu"
+                            formControlName="password"
+                        />
+                        <div
+                            *ngIf="
+                                                    registerForm.get('password')
+                                                        ?.invalid &&
+                                                    (registerForm.get(
+                                                        'password'
+                                                    )?.dirty ||
+                                                        registerForm.get(
+                                                            'password'
+                                                        )?.touched)
+                                                "
+                        >
+                            <div
+                                *ngIf="registerForm.get('password')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập mật khẩu
+                            </div>
+                            <div
+                                *ngIf="!registerForm.get('password')?.errors?.['required'] &&
+                registerForm.get('password')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                Mật khẩu không được chứa khoảng trắng
+                            </div>
+                        </div>
+
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M18 8H20C20.5523 8 21 8.44772 21 9V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V9C3 8.44772 3.44772 8 4 8H6V7C6 3.68629 8.68629 1 12 1C15.3137 1 18 3.68629 18 7V8ZM16 8V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V8H16ZM11 14V16H13V14H11ZM7 14V16H9V14H7ZM15 14V16H17V14H15Z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Mã giới thiệu"
+                            formControlName="referralCode"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M384 121.941V128H256V0h6.059c6.365 0 12.47 2.529 16.971 7.029l97.941 97.941A24.005 24.005 0 0 1 384 121.941zM248 160c-13.2 0-24-10.8-24-24V0H24C10.745 0 0 10.745 0 24v464c0 13.255 10.745 24 24 24h336c13.255 0 24-10.745 24-24V160H248zM123.206 400.505a5.4 5.4 0 0 1-7.633.246l-64.866-60.812a5.4 5.4 0 0 1 0-7.879l64.866-60.812a5.4 5.4 0 0 1 7.633.246l19.579 20.885a5.4 5.4 0 0 1-.372 7.747L101.65 336l40.763 35.874a5.4 5.4 0 0 1 .372 7.747l-19.579 20.884zm51.295 50.479l-27.453-7.97a5.402 5.402 0 0 1-3.681-6.692l61.44-211.626a5.402 5.402 0 0 1 6.692-3.681l27.452 7.97a5.4 5.4 0 0 1 3.68 6.692l-61.44 211.626a5.397 5.397 0 0 1-6.69 3.681zm160.792-111.045l-64.866 60.812a5.4 5.4 0 0 1-7.633-.246l-19.58-20.885a5.4 5.4 0 0 1 .372-7.747L284.35 336l-40.763-35.874a5.4 5.4 0 0 1-.372-7.747l19.58-20.885a5.4 5.4 0 0 1 7.633-.246l64.866 60.812a5.4 5.4 0 0 1-.001 7.879z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group city-address">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input city"
+                            placeholder="Chọn tỉnh"
+                            formControlName="cityName"
+                            (click)="isDropdownCity = true"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                        <ul class="dropdown-list" *ngIf="isDropdownCity">
+                            <li
+                                *ngFor="let city of cities"
+                                class="dropdown-item"
+                                (click)="
+                                                        handleSelectCity(
+                                                            city,
+                                                            $event
+                                                        )
+                                                    "
+                            >
+                                {{ city.name }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group district-address">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input district"
+                            placeholder="Chọn huyện"
+                            formControlName="districtName"
+                            (click)="
+                                                    isDropdownDistrict = true
+                                                "
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                        <ul class="dropdown-list" *ngIf="isDropdownDistrict">
+                            <li
+                                *ngIf="
+                                                        districts.length === 0
+                                                    "
+                                class="dropdown-item"
+                            >
+                                Vui lòng chọn tỉnh
+                            </li>
+                            <ng-container *ngIf="districts.length > 0">
+                                <li
+                                    *ngFor="
+                                                            let city of districts
+                                                        "
+                                    class="dropdown-item"
+                                    (click)="
+                                                            handleSelectDistrict(
+                                                                city,
+                                                                $event
+                                                            )
+                                                        "
+                                >
+                                    {{ city.name }}
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group ward-address">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input ward"
+                            placeholder="Chọn xã"
+                            formControlName="wardName"
+                            (click)="isDropdownWard = true"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+
+                        <ul class="dropdown-list" *ngIf="isDropdownWard">
+                            <li
+                                *ngIf="wards.length === 0"
+                                class="dropdown-item"
+                            >
+                                Vui lòng chọn tỉnh, huyện
+                            </li>
+                            <ng-container *ngIf="wards.length > 0">
+                                <li
+                                    *ngFor="
+                                                            let city of wards
+                                                        "
+                                    class="dropdown-item"
+                                    (click)="
+                                                            handleSelectWard(
+                                                                city,
+                                                                $event
+                                                            )
+                                                        "
+                                >
+                                    {{ city.name }}
+                                </li>
+                            </ng-container>
+                        </ul>
+
+                        <!-- <ul class="dropdown-list" *ngIf="isDropdownWard">
+                                <li
+                                    *ngFor="let city of wards"
+                                    class="dropdown-item"
+                                    (click)="handleSelectWard(city, $event)"
+                                >
+                                    {{ city.name }}
+                                </li>
+                            </ul> -->
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Địa chỉ chi tiết"
+                            formControlName="address"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Mã số thuế cá nhân"
+                            formControlName="personalTaxCode"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 640 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M608 32H32C14.33 32 0 46.33 0 64v384c0 17.67 14.33 32 32 32h576c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zM176 327.88V344c0 4.42-3.58 8-8 8h-16c-4.42 0-8-3.58-8-8v-16.29c-11.29-.58-22.27-4.52-31.37-11.35-3.9-2.93-4.1-8.77-.57-12.14l11.75-11.21c2.77-2.64 6.89-2.76 10.13-.73 3.87 2.42 8.26 3.72 12.82 3.72h28.11c6.5 0 11.8-5.92 11.8-13.19 0-5.95-3.61-11.19-8.77-12.73l-45-13.5c-18.59-5.58-31.58-23.42-31.58-43.39 0-24.52 19.05-44.44 42.67-45.07V152c0-4.42 3.58-8 8-8h16c4.42 0 8 3.58 8 8v16.29c11.29.58 22.27 4.51 31.37 11.35 3.9 2.93 4.1 8.77.57 12.14l-11.75 11.21c-2.77 2.64-6.89 2.76-10.13.73-3.87-2.43-8.26-3.72-12.82-3.72h-28.11c-6.5 0-11.8 5.92-11.8 13.19 0 5.95 3.61 11.19 8.77 12.73l45 13.5c18.59 5.58 31.58 23.42 31.58 43.39 0 24.53-19.05 44.44-42.67 45.07zM416 312c0 4.42-3.58 8-8 8H296c-4.42 0-8-3.58-8-8v-16c0-4.42 3.58-8 8-8h112c4.42 0 8 3.58 8 8v16zm160 0c0 4.42-3.58 8-8 8h-80c-4.42 0-8-3.58-8-8v-16c0-4.42 3.58-8 8-8h80c4.42 0 8 3.58 8 8v16zm0-96c0 4.42-3.58 8-8 8H296c-4.42 0-8-3.58-8-8v-16c0-4.42 3.58-8 8-8h272c4.42 0 8 3.58 8 8v16z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="date"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Ngày sinh"
+                            formControlName="dateOfBirth"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 448 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M448 384c-28.02 0-31.26-32-74.5-32-43.43 0-46.825 32-74.75 32-27.695 0-31.454-32-74.75-32-42.842 0-47.218 32-74.5 32-28.148 0-31.202-32-74.75-32-43.547 0-46.653 32-74.75 32v-80c0-26.5 21.5-48 48-48h16V112h64v144h64V112h64v144h64V112h64v144h16c26.5 0 48 21.5 48 48v80zm0 128H0v-96c43.356 0 46.767-32 74.75-32 27.951 0 31.253 32 74.75 32 42.843 0 47.217-32 74.5-32 28.148 0 31.201 32 74.75 32 43.357 0 46.767-32 74.75-32 27.488 0 31.252 32 74.5 32v96zM96 96c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Tên ngân hàng"
+                            formControlName="bankName"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M2 8v4.001h1V18H2v3h16l3 .001V21h1v-3h-1v-5.999h1V8L12 2 2 8zm4 10v-5.999h2V18H6zm5 0v-5.999h2V18h-2zm7 0h-2v-5.999h2V18zM14 8a2 2 0 1 1-4.001-.001A2 2 0 0 1 14 8z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Số tài khoản"
+                            formControlName="bankAccountNumber"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                    d="M21 18v1c0 1.1-.9 2-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14c1.1 0 2 .9 2 2v1h-9a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row px-3">
+                <button
+                    [disabled]="isSubmitting"
+                    class="button-submit"
+                    type="submit"
+                >
+                    {{ isSubmittingText }}
+                </button>
+                <div class="login-bottom">
+                    <span
+                        (click)="
+                                                handleRedirectRegisterToLogin()
+                                            "
+                        >Đăng nhập</span
+                    >
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

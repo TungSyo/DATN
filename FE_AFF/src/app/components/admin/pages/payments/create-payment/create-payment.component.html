@@ -1,0 +1,1116 @@
+<p-toast />
+<div class="grid">
+    <div class="col-12">
+        <p-toolbar styleClass="mb-2">
+            <div class="">
+                <h3>Tạo phiếu đơn hàng</h3>
+                <p-breadcrumb
+                    [model]="items"
+                    [home]="{ icon: 'pi pi-home' }"
+                ></p-breadcrumb>
+            </div>
+            <ng-template pTemplate="right">
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-plus"
+                    label="Tạo tài khoản"
+                    (click)="displayRegisterModal = true"
+                ></button>
+            </ng-template>
+        </p-toolbar>
+        <div class="grid">
+            <div class="col-7">
+                <div class="card" style="min-height: 525px">
+                    <p-table
+                        #dt
+                        [value]="stockInReceipt.inventoryStockInDetails"
+                        responsiveLayout="scroll"
+                        [rowHover]="true"
+                        dataKey="id"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div
+                                class="flex flex-column gap-3 align-items-end md:flex-row md:"
+                            >
+                                <div class="grid p-fluid" style="width: 100%">
+                                    <div class="col-12 md:col-12">
+                                        <span
+                                            class="col-md-11 block mt-2 md:mt-0 p-input-icon-left box-search"
+                                        >
+                                            <i class="pi pi-search"></i>
+                                            <input
+                                                pInputText
+                                                type="text"
+                                                placeholder="Tìm kiếm sản phẩm theo tên,mã"
+                                                style="width: 100%"
+                                                (input)="
+                                                    onProductSearch($event)
+                                                "
+                                                (focus)="loadProducts()"
+                                                #searchInput
+                                            />
+                                            <div
+                                                class="product__list"
+                                                *ngIf="showProducts"
+                                            >
+                                                <div
+                                                    *ngFor="
+                                                        let item of products
+                                                    "
+                                                    class="product__item"
+                                                    (click)="
+                                                        addToCart(item, $event)
+                                                    "
+                                                >
+                                                    <div
+                                                        class="product__item-left"
+                                                    >
+                                                        <img
+                                                            *ngIf="
+                                                                item
+                                                                    .productImages
+                                                                    .length > 0
+                                                            "
+                                                            [src]="
+                                                                imageUrl +
+                                                                '/api/file/images/' +
+                                                                item.productImages?.[0]?.link
+                                                            "
+                                                            alt="Product Image"
+                                                        />
+                                                        <svg
+                                                            *ngIf="
+                                                                item
+                                                                    .productImages
+                                                                    .length == 0
+                                                            "
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="jss3869 ng-star-inserted"
+                                                            style="
+                                                                color: rgb(
+                                                                    232,
+                                                                    234,
+                                                                    235
+                                                                );
+                                                                height: 50px;
+                                                            "
+                                                        >
+                                                            <path
+                                                                _ngcontent-ng-c1628733639=""
+                                                                d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2ZM5 19V5h14l.002 14H5Z"
+                                                                fill="currentColor"
+                                                            ></path>
+                                                            <path
+                                                                _ngcontent-ng-c1628733639=""
+                                                                d="m10 14-1-1-3 4h12l-5-7-3 4ZM8.5 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                                                                fill="currentColor"
+                                                            ></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div
+                                                        class="product__item-center"
+                                                    >
+                                                        <h1
+                                                            class="product-name"
+                                                        >
+                                                            {{ item.name }}
+                                                        </h1>
+                                                    </div>
+                                                    <div
+                                                        class="product__item-right"
+                                                    >
+                                                        <span
+                                                            class="product-price"
+                                                        >
+                                                            {{
+                                                                item.sellingPrice
+                                                                    | currency
+                                                                        : "VND"
+                                                                        : "symbol"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- [(ngModel)]="this.optionsFillerProduct.KeyWord" -->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th style="text-align: center">Giá nhập</th>
+                                <th style="text-align: center">ĐVT</th>
+                                <th style="text-align: center">Số lượng</th>
+                                <th style="text-align: center">Thành tiền</th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr style="height: 105px">
+                                <td style="width: 3%">
+                                    {{ i + 1 }}
+                                </td>
+                                <td style="width: 8%">
+                                    <img
+                                        *ngIf="data.productImage"
+                                        [src]="
+                                            imageUrl +
+                                            '/api/file/images/' +
+                                            data.productImage
+                                        "
+                                        alt="Product Image"
+                                        style="
+                                            width: 50px;
+                                            height: 50px;
+                                            border-radius: 4px;
+                                        "
+                                    />
+
+                                    <svg
+                                        *ngIf="!data.productImage"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="jss3869 ng-star-inserted"
+                                        style="
+                                            color: rgb(232, 234, 235);
+                                            height: 50px;
+                                        "
+                                    >
+                                        <path
+                                            _ngcontent-ng-c1628733639=""
+                                            d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2ZM5 19V5h14l.002 14H5Z"
+                                            fill="currentColor"
+                                        ></path>
+                                        <path
+                                            _ngcontent-ng-c1628733639=""
+                                            d="m10 14-1-1-3 4h12l-5-7-3 4ZM8.5 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                                            fill="currentColor"
+                                        ></path>
+                                    </svg>
+                                </td>
+                                <td style="width: 15.5%">
+                                    {{ data.productName }}
+                                </td>
+                                <td style="width: 12.5%; text-align: center">
+                                    {{ data.price | number : "1.0-0" }}đ
+                                </td>
+                                <td style="width: 9%; text-align: center">
+                                    {{ data.unit }}
+                                </td>
+                                <td style="width: 13.5%; text-align: center">
+                                    <div
+                                        class="flex flex-column align-items-center justify-content-center"
+                                        style="position: relative"
+                                    >
+                                        <p-inputNumber
+                                            *ngIf="data.productType === 0"
+                                            [(ngModel)]="data.quantity"
+                                            (onFocus)="
+                                                functionService.handleFocusPrice(
+                                                    $event
+                                                )
+                                            "
+                                            (ngModelChange)="
+                                                updateTotal(data);
+                                                validateQuantity(data)
+                                            "
+                                            buttonLayout="horizontal"
+                                            (onFocus)="
+                                                functionService.handleFocusPrice(
+                                                    $event
+                                                )
+                                            "
+                                            inputId="horizontal"
+                                            spinnerMode="horizontal"
+                                            [min]="1"
+                                            [max]="100"
+                                            [step]="1"
+                                        />
+                                        <div
+                                            *ngIf="quantityError"
+                                            style="color: red; margin-top: 5px"
+                                        >
+                                            <p style="color: red">
+                                                Số lượng không được lớn hơn 100
+                                            </p>
+                                        </div>
+                                        <span
+                                            *ngIf="data.productType === 1"
+                                            style="
+                                                text-align: right;
+                                                padding-right: 10px;
+                                                width: 100%;
+                                            "
+                                            >{{ data.quantity }}</span
+                                        >
+                                        <span
+                                            style="
+                                                position: absolute;
+                                                top: 35px;
+                                            "
+                                            *ngIf="
+                                                data.isValid &&
+                                                data.productType === 1
+                                            "
+                                            class="error-message"
+                                            >{{ data.isValidMessage }}</span
+                                        >
+
+                                        <span
+                                            style="
+                                                position: absolute;
+                                                top: 44px;
+                                            "
+                                            *ngIf="
+                                                data.isValid &&
+                                                data.productType != 1
+                                            "
+                                            class="error-message"
+                                            >{{ data.isValidMessage }}</span
+                                        >
+                                    </div>
+                                </td>
+                                <td style="width: 12.5%; text-align: center">
+                                    {{ data.total | number : "1.0-0" }}đ
+                                </td>
+                                <td style="width: 7%; text-align: center">
+                                    <i
+                                        class="pi pi-trash"
+                                        (click)="removeProduct(i)"
+                                    ></i>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="col-5">
+                <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+                    <div
+                        class="card"
+                        style="position: sticky; top: 97px; min-height: 525px"
+                    >
+                        <div class="grid p-fluid p-3">
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="name1"
+                                        >Tên người nhận<span
+                                            class="red-asterisk"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        id="name1"
+                                        type="text"
+                                        spellcheck="false"
+                                        placeholder="Nhập tên người nhận"
+                                        formControlName="name"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            orderForm.get('name')?.invalid &&
+                                            (orderForm.get('name')?.dirty ||
+                                                orderForm.get('name')?.touched)
+                                        "
+                                    >
+                                        <div
+                                            *ngIf="orderForm.get('name')?.errors?.['required']"
+                                            class="error-message"
+                                        >
+                                            Vui lòng nhập tên
+                                        </div>
+                                        <div
+                                            *ngIf="!orderForm.get('name')?.errors?.['required'] &&
+                      orderForm.get('name')?.errors?.['whitespace']"
+                                            class="error-message"
+                                        >
+                                            Tên không được chứa khoảng trắng
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="phoneNumber"
+                                        >Số điện thoại<span class="red-asterisk"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        id="phoneNumber"
+                                        type="text"
+                                        spellcheck="false"
+                                        placeholder="Nhập số điện thoại"
+                                        formControlName="phoneNumber"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            orderForm.get('phoneNumber')
+                                                ?.invalid &&
+                                            (orderForm.get('phoneNumber')
+                                                ?.dirty ||
+                                                orderForm.get('phoneNumber')
+                                                    ?.touched)
+                                        "
+                                    >
+                                        <div
+                                            *ngIf="orderForm.get('phoneNumber')?.errors?.['required']"
+                                            class="error-message"
+                                        >
+                                            Vui lòng nhập số điện thoại
+                                        </div>
+                                        <div
+                                            *ngIf="!orderForm.get('phoneNumber')?.errors?.['required'] &&
+                                          orderForm.get('phoneNumber')?.errors?.['whitespace']"
+                                            class="error-message"
+                                        >
+                                            SĐT không được chứa khoảng trắng
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="address"
+                                        >Tỉnh</label
+                                    >
+                                    <p-dropdown
+                                        [options]="cities"
+                                        optionLabel="name"
+                                        [showClear]="true"
+                                        placeholder="Chọn Tỉnh"
+                                        formControlName="cityId"
+                                        (onChange)="onCityChange($event)"
+                                        (onClear)="onClearCity()"
+                                    ></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="address"
+                                        >Huyện</label
+                                    >
+                                    <p-dropdown
+                                        [options]="districts"
+                                        optionLabel="name"
+                                        [showClear]="true"
+                                        placeholder="Chọn Quận/Huyện"
+                                        (onChange)="onDistrictChange($event)"
+                                        (onClear)="onClearDistrict()"
+                                        [emptyMessage]="
+                                            'Vui lòng chọn tỉnh trước!'
+                                        "
+                                        formControlName="districtId"
+                                    ></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="address"
+                                        >Xã</label
+                                    >
+                                    <p-dropdown
+                                        [options]="wards"
+                                        optionLabel="name"
+                                        [showClear]="true"
+                                        placeholder="Chọn Xã/Phường"
+                                        (onClear)="onClearWard()"
+                                        formControlName="wardId"
+                                        [emptyMessage]="
+                                            'Vui lòng chọn tỉnh/huyện trước!'
+                                        "
+                                    ></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="address"
+                                        >Địa chỉ</label
+                                    >
+                                    <input
+                                        pInputText
+                                        id="address"
+                                        type="text"
+                                        spellcheck="false"
+                                        placeholder="Nhập địa chỉ"
+                                        formControlName="address"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="address"
+                                        >Tài khoản<span class="red-asterisk"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <!-- <p-dropdown
+                                        [options]="users"
+                                        optionLabel="name"
+                                        [showClear]="true"
+                                        placeholder="Chọn khách hàng"
+                                        optionValue="id"
+                                        (onClear)="onClearWard()"
+                                        formControlName="userId"
+                                    >
+                                        <ng-template let-user pTemplate="item">
+                                            <div>
+                                                <span
+                                                    >{{ user.name }} -
+                                                    {{ user.phoneNumber }}</span
+                                                >
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown> -->
+                                    <p-autoComplete
+                                        [suggestions]="users"
+                                        (completeMethod)="
+                                            filterUserSuggestions($event)
+                                        "
+                                        field="name"
+                                        formControlName="userId"
+                                        [style]="{
+                                            width: '20%',
+                                            height: '44px'
+                                        }"
+                                        placeholder="Chọn người dùng"
+                                    >
+                                        <ng-template let-user pTemplate="item">
+                                            <div>
+                                                <span>{{ user.name }}</span>
+                                                <span
+                                                    style="
+                                                        color: rgb(64, 0, 255);
+                                                        font-weight: 600;
+                                                    "
+                                                >
+                                                    -
+                                                    {{ user.phoneNumber }}</span
+                                                >
+                                            </div>
+                                        </ng-template>
+                                    </p-autoComplete>
+                                    <div
+                                        *ngIf="
+                                            orderForm.get('userId')?.invalid &&
+                                            (orderForm.get('userId')?.dirty ||
+                                                orderForm.get('userId')
+                                                    ?.touched)
+                                        "
+                                    >
+                                        <div
+                                            *ngIf="orderForm.get('userId')?.errors?.['required']"
+                                            class="error-message"
+                                        >
+                                            Vui lòng chọn tài khoản
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 p-2">
+                                <div class="field mb-0">
+                                    <label
+                                        style="font-weight: 600; color: #000"
+                                        htmlFor="address"
+                                        >Ngân hàng<span class="red-asterisk"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <p-dropdown
+                                        [options]="banks"
+                                        optionLabel="bankName"
+                                        [showClear]="true"
+                                        optionValue="id"
+                                        placeholder="Chọn ngân hàng"
+                                        (onClear)="onClearWard()"
+                                        formControlName="paymentAccountReceiptId"
+                                    >
+                                        <ng-template let-bank pTemplate="item">
+                                            <div class="custom-item">
+                                                <span class="bank-code">{{
+                                                    bank.bankCode
+                                                }}</span>
+                                                <span class="bank-name"
+                                                    >-{{
+                                                        bank.accountNumber
+                                                    }}</span
+                                                >
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                    <div
+                                        *ngIf="
+                                            orderForm.get(
+                                                'paymentAccountReceiptId'
+                                            )?.invalid &&
+                                            (orderForm.get(
+                                                'paymentAccountReceiptId'
+                                            )?.dirty ||
+                                                orderForm.get(
+                                                    'paymentAccountReceiptId'
+                                                )?.touched)
+                                        "
+                                    >
+                                        <div
+                                            *ngIf="orderForm.get('paymentAccountReceiptId')?.errors?.['required']"
+                                            class="error-message"
+                                        >
+                                            Vui lòng chọn tài khoản
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6 p-2">
+                            <div class="field mb-0">
+                                <label
+                                    style="font-weight: 600; color: #000"
+                                    htmlFor="address"
+                                    class="mb-2"
+                                    >Phương thức thanh toán<span
+                                        class="red-asterisk"
+                                        >*</span
+                                    ></label
+                                >
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div
+                                class="col-md-4 mb-4 px-3 flex align-items-center"
+                            >
+                                <div
+                                    class="field-group-radio user_name flex align-items-center gap-2"
+                                >
+                                    <input
+                                        type="radio"
+                                        formControlName="paymentMethod"
+                                        [value]="0"
+                                    />
+                                    <label>Ngân hàng</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4 px-3">
+                                <!-- <div
+                                    class="field-group-radio user_name flex align-items-center gap-2"
+                                >
+                                    <input
+                                        type="radio"
+                                        formControlName="paymentMethod"
+                                        [value]="1"
+                                    />
+                                    <label>Điểm trực tiếp</label>
+                                </div> -->
+                            </div>
+                            <div class="col-md-4 mb-4 px-3">
+                                <!-- <div
+                                    class="field-group-radio user_name flex align-items-center gap-2"
+                                >
+                                    <input
+                                        type="radio"
+                                        formControlName="paymentMethod"
+                                        [value]="2"
+                                    />
+                                    <label>Điểm gián tiếp</label>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-12 p-2">
+                            <div class="field mb-0 flex flex-column">
+                                <label
+                                    style="font-weight: 600; color: #000"
+                                    htmlFor="address"
+                                    class="mb-2"
+                                    >Ghi chú</label
+                                >
+                                <textarea
+                                    [(ngModel)]="stockInReceipt.note"
+                                    pInputTextarea
+                                    formControlName="note"
+                                    spellcheck="false"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-12 p-2">
+                            <div class="field mb-0 flex flex-column">
+                                <button
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-plus"
+                                    label="Lưu"
+                                    type="submit"
+                                ></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+    [(visible)]="displayRegisterModal"
+    modal="true"
+    [closable]="false"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '50vw' }"
+>
+    <ng-template pTemplate="header">
+        <h4>Đăng ký tài khoản</h4>
+    </ng-template>
+
+    <ng-template pTemplate="content">
+        <form [formGroup]="registerForm" (ngSubmit)="handleRegister()">
+            <div class="form-register">
+                <div class="grid p-fluid p-3">
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="name1"
+                                >Tên người dùng<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <input
+                                pInputText
+                                id="name1"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập tên người nhận"
+                                formControlName="name"
+                            />
+                            <div
+                                *ngIf="
+                                    registerForm.get('name')?.invalid &&
+                                    (registerForm.get('name')?.dirty ||
+                                        registerForm.get('name')?.touched)
+                                "
+                            >
+                                <div
+                                    *ngIf="registerForm.get('name')?.errors?.['required']"
+                                    class="error-message"
+                                >
+                                    Vui lòng nhập tên người dùng
+                                </div>
+                                <div
+                                    *ngIf="!registerForm.get('name')?.errors?.['required'] &&
+                               registerForm.get('name')?.errors?.['whitespace']"
+                                    class="error-message"
+                                >
+                                    Tên không được chứa khoảng trắng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="phoneNumber"
+                                >Số điện thoại<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <input
+                                pInputText
+                                id="phoneNumber"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập số điện thoại"
+                                formControlName="phoneNumber"
+                            />
+                            <div
+                                *ngIf="
+                                    registerForm.get('phoneNumber')?.invalid &&
+                                    (registerForm.get('phoneNumber')?.dirty ||
+                                        registerForm.get('phoneNumber')
+                                            ?.touched)
+                                "
+                            >
+                                <div
+                                    *ngIf="registerForm.get('phoneNumber')?.errors?.['required']"
+                                    class="error-message"
+                                >
+                                    Vui lòng nhập số điện thoại
+                                </div>
+                                <div
+                                    *ngIf="!registerForm.get('phoneNumber')?.errors?.['required'] &&
+                                                   registerForm.get('phoneNumber')?.errors?.['whitespace']"
+                                    class="error-message"
+                                >
+                                    SĐT không được chứa khoảng trắng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="email"
+                                >Email<span class="red-asterisk">*</span></label
+                            >
+                            <input
+                                pInputText
+                                id="email"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập email"
+                                formControlName="email"
+                            />
+                            <div
+                                *ngIf="
+                                    registerForm.get('email')?.invalid &&
+                                    (registerForm.get('email')?.dirty ||
+                                        registerForm.get('email')?.touched)
+                                "
+                            >
+                                <div
+                                    *ngIf="registerForm.get('email')?.errors?.['required']"
+                                    class="error-message"
+                                >
+                                    Vui lòng nhập email
+                                </div>
+                                <div
+                                    *ngIf="!registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.errors?.['whitespace']"
+                                    class="error-message"
+                                >
+                                    Email không được chứa khoảng trắng
+                                </div>
+                                <div
+                                    *ngIf="
+                                            !registerForm.get('email')?.errors?.['required'] &&
+                                            !registerForm.get('email')?.errors?.['whitespace'] &&
+                                            registerForm.get('email')?.errors?.['email']
+                                        "
+                                    class="error-message"
+                                >
+                                    Định dạng email không hợp lệ
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="citizenIdentification"
+                                >CCCD/CMND<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <input
+                                pInputText
+                                id="citizenIdentification"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập số CCCD/CMND"
+                                formControlName="citizenIdentification"
+                            />
+                            <div
+                                *ngIf="
+                                    registerForm.get('citizenIdentification')
+                                        ?.invalid &&
+                                    (registerForm.get('citizenIdentification')
+                                        ?.dirty ||
+                                        registerForm.get(
+                                            'citizenIdentification'
+                                        )?.touched)
+                                "
+                            >
+                                <div
+                                    *ngIf="registerForm.get('citizenIdentification')?.errors?.['required']"
+                                    class="error-message"
+                                >
+                                    Vui lòng nhập CCCD/CMND
+                                </div>
+                                <div
+                                    *ngIf="!registerForm.get('citizenIdentification')?.errors?.['required'] &&
+                                                   registerForm.get('citizenIdentification')?.errors?.['whitespace']"
+                                    class="error-message"
+                                >
+                                    CCCD/CMND không được chứa khoảng trắng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="password"
+                                >Mật khẩu<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <input
+                                pInputText
+                                id="password"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập mật khẩu"
+                                formControlName="password"
+                            />
+                            <div
+                                *ngIf="
+                                    registerForm.get('password')?.invalid &&
+                                    (registerForm.get('password')?.dirty ||
+                                        registerForm.get('password')?.touched)
+                                "
+                            >
+                                <div
+                                    *ngIf="registerForm.get('password')?.errors?.['required']"
+                                    class="error-message"
+                                >
+                                    Vui lòng nhập mật khẩu
+                                </div>
+                                <div
+                                    *ngIf="!registerForm.get('password')?.errors?.['required'] &&
+                                                   registerForm.get('password')?.errors?.['whitespace']"
+                                    class="error-message"
+                                >
+                                    Mật khẩu không được chứa khoảng trắng
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="referralCode"
+                                >Mã giới thiệu</label
+                            >
+                            <input
+                                pInputText
+                                id="referralCode"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập mã giới thiệu"
+                                formControlName="referralCode"
+                            />
+                            <div
+                                *ngIf="
+                                    registerForm
+                                        .get('referralCode')
+                                        ?.hasError(
+                                            'referralCodeMatchesPhoneNumber'
+                                        ) &&
+                                    (registerForm.get('referralCode')?.dirty ||
+                                        registerForm.get('referralCode')
+                                            ?.touched)
+                                "
+                                class="error-message"
+                            >
+                                Mã giới thiệu không được trùng với sđt
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="address"
+                                >Tỉnh</label
+                            >
+                            <p-dropdown
+                                [options]="citiesRegister"
+                                optionLabel="name"
+                                [showClear]="true"
+                                placeholder="Chọn Tỉnh"
+                                formControlName="cityId"
+                                (onChange)="onCityChangeRegister($event)"
+                                (onClear)="onClearCityRegister()"
+                            ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="address"
+                                >Huyện</label
+                            >
+                            <p-dropdown
+                                [options]="districtsRegister"
+                                optionLabel="name"
+                                [showClear]="true"
+                                placeholder="Chọn Quận/Huyện"
+                                (onChange)="onDistrictChangeRegister($event)"
+                                (onClear)="onClearDistrictRegister()"
+                                [emptyMessage]="'Vui lòng chọn tỉnh trước!'"
+                                formControlName="districtId"
+                            ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="address"
+                                >Xã</label
+                            >
+                            <p-dropdown
+                                [options]="wardsRegister"
+                                optionLabel="name"
+                                [showClear]="true"
+                                placeholder="Chọn Xã/Phường"
+                                (onClear)="onClearWardRegister()"
+                                formControlName="wardId"
+                                [emptyMessage]="
+                                    'Vui lòng chọn tỉnh/huyện trước!'
+                                "
+                            ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="address"
+                                >Địa chỉ</label
+                            >
+                            <input
+                                pInputText
+                                id="address"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập địa chỉ"
+                                formControlName="address"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="personalTaxCode"
+                                >Mã số thuế cá nhân</label
+                            >
+                            <input
+                                pInputText
+                                id="personalTaxCode"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập mã thuế cá nhân"
+                                formControlName="personalTaxCode"
+                            />
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="dateOfBirth"
+                                >Ngày sinh</label
+                            >
+                            <!-- <input
+                                pInputText
+                                id="dateOfBirth"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập ngày sinh"
+                                formControlName="dateOfBirth"
+                            /> -->
+                            <p-calendar
+                                formControlName="dateOfBirth"
+                                dateFormat="dd/mm/yy"
+                                [showIcon]="true"
+                                placeholder="Chọn ngày sinh"
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                [yearRange]="'1900:2100'"
+                            >
+                            </p-calendar>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="address"
+                                >Tên ngân hàng</label
+                            >
+                            <p-autoComplete
+                                [suggestions]="filteredBankes"
+                                (completeMethod)="searchBank($event)"
+                                field="shortName"
+                                formControlName="bankName"
+                                [style]="{
+                                    width: '20%',
+                                    height: '44px'
+                                }"
+                                placeholder="Nhập ngân hàng"
+                            >
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 p-2">
+                        <div class="field mb-0">
+                            <label
+                                style="font-weight: 600; color: #000"
+                                htmlFor="address"
+                                >Số tài khoản</label
+                            >
+                            <input
+                                pInputText
+                                id="bankAccountNumber"
+                                type="text"
+                                spellcheck="false"
+                                placeholder="Nhập số tài khoản"
+                                formControlName="bankAccountNumber"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-2 justify-content-end py-2">
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Thoát"
+                    (click)="displayRegisterModal = false; registerForm.reset()"
+                    icon="pi pi-times"
+                    class="p-button-danger"
+                ></button>
+                <button
+                    type="submit"
+                    pButton
+                    label="Đăng ký"
+                    (click)="handleRegister()"
+                    icon="pi pi-check"
+                    class="p-button-primary"
+                ></button>
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>

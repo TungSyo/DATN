@@ -1,0 +1,230 @@
+.box-search {
+    width: 100%;
+}
+
+.product__list {
+    position: absolute;
+    border-radius: 4px;
+    top: 50px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 #ccc;
+    width: 100%;
+    padding: 7px;
+    max-height: 400px;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+/* Thanh cuộn */
+.product__list::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track của thanh cuộn */
+.product__list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+/* Thanh cuộn */
+.product__list::-webkit-scrollbar-thumb {
+    background: #cecdcd;
+    border-radius: 4px;
+}
+
+/* Thanh cuộn khi hover */
+.product__list::-webkit-scrollbar-thumb:hover {
+    background: #adacac;
+}
+
+.product__item {
+    display: flex;
+    padding: 7px 14px;
+    border-radius: 4px;
+    transition: 0.25s linear;
+}
+
+.product__item:hover {
+    background-color: rgb(42, 41, 134, 0.1);
+}
+
+.product__item svg {
+    transition: 0.5s linear;
+}
+
+.product__item:hover svg {
+    color: #fff !important;
+}
+
+.product__item-left {
+    flex: 1;
+}
+
+.product__item-left img {
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+}
+
+.product__item-center {
+    flex: 8;
+    display: flex;
+    align-items: center;
+}
+
+.product__item-right {
+    flex: 3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.product__item-right span {
+    text-align: right;
+}
+
+.form-register {
+    height: 520px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+}
+
+.form-register::-webkit-scrollbar {
+    width: 8px;
+    /* Độ rộng thanh cuộn */
+}
+
+.form-register::-webkit-scrollbar-thumb {
+    background: #b6b4b4;
+    /* Màu thanh cuộn */
+    border-radius: 4px;
+    /* Bo góc thanh cuộn */
+}
+
+.form-register::-webkit-scrollbar-thumb:hover {
+    background: #939292;
+    /* Màu thanh cuộn khi hover */
+}
+
+.form-register::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Màu nền phía sau thanh cuộn */
+}
+.product-name {
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 4px;
+}
+
+.product-code {
+    font-size: 12px;
+    font-weight: 400;
+    color: #a09f9f;
+}
+
+.product-price {
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+
+.product-inventory {
+    font-size: 13px;
+    color: #a09f9f;
+    font-weight: 400;
+}
+
+.product-inventory strong {
+    color: red;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pi-trash {
+    display: block;
+    padding: 11px;
+    border-radius: 40px;
+    transition: all 0.25s;
+}
+
+.pi-trash:hover {
+    background-color: #e6e6e6;
+}
+
+.discount-options {
+    display: flex;
+    margin-left: 10px
+}
+
+.discount-options span {
+    cursor: pointer;
+    display: flex;
+    padding: 10px;
+    width: 60px;
+    height: 41px;
+    justify-content: center;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    ;
+}
+
+.discount-options .active {
+    display: flex;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.discount-options span:first-child {
+    border-right: none;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.discount-options span:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.total_amount_paid {
+    font-size: 21px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.variant-item-label {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #2a2a82;
+    color: #fff;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.variant-item {
+    display: flex;
+    gap: 10px;
+    padding: 3px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.variant-item-close {
+    padding: 0 5px;
+    border-radius: 50px;
+    height: fit-content;
+    transition: 0.15S linear;
+    cursor: pointer;
+}
+
+.variant-item-close:hover {
+    background-color: #3e219c;
+}
+
+.product__item-left {
+    margin-right: 10px;
+}

@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="products elementor-grid pt-10">
+                <div class="row product-list">
+                    <!-- Sử dụng filteredNews để đảm bảo tin tức liền mạch -->
+                    <div *ngFor="let item of filteredNews" class="col-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="product-card shadow-sm">
+                            <!-- Phần 1: Hình ảnh -->
+                            <div class="product-image-wrapper">
+                                <img [routerLink]="['/detail-news', item.id]" [src]="
+                      item?.image
+                        ? imageUrl + item.image
+                        : 'http://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'
+                    " alt="News Image" class="news-image" />
+                            </div>
+
+                            <!-- Phần 2: Tiêu đề và Mô tả -->
+                            <div class="product-info text-center p-2">
+                                <h5 class="product-title mt-2"
+                                    style="text-align: left; font-size: 16px; font-weight: 700;">
+                                    {{ item.title }}
+                                </h5>
+                                <h6 class="text-success fw-bold text-title2 mt-2"
+                                    style="text-align: left; font-size: 14px;" [innerHTML]="item.content">
+                                </h6>
+                            </div>
+
+                            <!-- Phần 3: Ngày đăng -->
+                            <div class="product-action d-flex justify-content-left align-items-center">
+                                <p
+                                    style="text-align: left; line-height: 1.3em; font-size: 12px; color: #adadad; padding: 10px; font-weight: 500;">
+                                    {{ item.createdAt | date: 'dd/MM/yyyy' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh mục tin tức -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="category-list">
+                <h4><i class="bi bi-list"></i> Mục tin mới</h4>
+                <ul>
+                    <li class="item-category" *ngFor="let item of latestNews">
+                        <a [routerLink]="['/detail-news', item.id]" class="item-category-text">
+                            {{ item.title }}
+                        </a>
+                        <p class="news-date">
+                            {{ item.createdAt | date: 'dd/MM/yyyy' }}
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

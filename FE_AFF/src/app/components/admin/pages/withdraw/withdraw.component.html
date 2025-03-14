@@ -1,0 +1,270 @@
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->
+<p-toast />
+<div class="grid">
+    <div class="col-12">
+        <p-toolbar styleClass="mb-2">
+            <div class="">
+                <h3>Danh sách rút điểm thưởng</h3>
+                <p-breadcrumb
+                    [model]="items"
+                    [home]="{
+                        icon: 'pi pi-home',
+                        routeLink: '/admin/dashboard'
+                    }"
+                ></p-breadcrumb>
+            </div>
+            <ng-template pTemplate="right">
+                <!-- <button
+                    pButton
+                    pRipple
+                    icon="pi pi-plus"
+                    label="Thêm mới"
+                    [routerLink]="['admin/pages/banner/create']"
+                ></button> -->
+            </ng-template>
+        </p-toolbar>
+        <div class="card">
+            <p-table
+                #dt
+                [value]="withdraws"
+                responsiveLayout="scroll"
+                styleClass="p-datatable-striped"
+                [rows]="paging.pageSize"
+                [first]="paging.pageIndex * paging.pageSize"
+                [paginator]="false"
+                [rowHover]="true"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex flex-column gap-3 align-items-end md:flex-row md:"
+                    >
+                        <div class="flex flex-column">
+                            <label
+                                for="email1"
+                                class="block text-900 text-large font-weight mb-2"
+                                >Tìm kiếm theo mã giao dịch:</label
+                            >
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    [(ngModel)]="queryParameters.code"
+                                    placeholder="Tìm theo mã giao dịch"
+                                    style="width: 250px"
+                                    class="sm:"
+                                />
+                            </span>
+                        </div>
+                        <div class="flex flex-column">
+                            <label
+                                for="email1"
+                                class="block text-900 text-large font-weight mb-2"
+                                >Tài khoản:</label
+                            >
+                            <p-autoComplete
+                                [suggestions]="users"
+                                (completeMethod)="filterUserSuggestions($event)"
+                                field="name"
+                                [(ngModel)]="queryParameters.userBuyId"
+                                (ngModelChange)="onUserSelected($event)"
+                                [style]="{
+                                    width: '20%',
+                                    height: '44px'
+                                }"
+                                placeholder="Chọn người dùng"
+                            >
+                                <ng-template let-user pTemplate="item">
+                                    <div>
+                                        <span>{{ user.name }}</span>
+                                        <span
+                                            style="
+                                                color: rgb(64, 0, 255);
+                                                font-weight: 600;
+                                            "
+                                        >
+                                            -
+                                            {{ user.phoneNumber }}</span
+                                        >
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                        <div class="flex flex-column">
+                            <label
+                                for="email1"
+                                class="block text-900 text-large font-weight mb-2"
+                                >Trạng thái:</label
+                            >
+                            <p-dropdown
+                                [options]="optionsStatus"
+                                optionLabel="name"
+                                optionValue="value"
+                                [(ngModel)]="queryParameters.status"
+                                [showClear]="true"
+                                placeholder="Chọn trạng thái"
+                            >
+                            </p-dropdown>
+                        </div>
+                        <button
+                            pButton
+                            pRipple
+                            label="Lọc"
+                            (click)="handleSearchWithdraws()"
+                        ></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Mã giao dịch</th>
+                        <th>Tên người rút</th>
+                        <th>Số điện thoại</th>
+                        <th>Tài khoản ngân hàng</th>
+                        <th>Tên ngân hàng</th>
+                        <th>Số điểm rút</th>
+                        <th>Nguồn gốc</th>
+                        <!-- Thêm cột -->
+                        <th>Thuế</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-withdraw>
+                    <tr>
+                        <td class="table-cell">
+                            {{ withdraw?.code || "N/A" }}
+                        </td>
+                        <td class="table-cell">
+                            {{ withdraw?.name || "N/A" }}
+                        </td>
+                        <td class="table-cell">
+                            {{ withdraw?.phoneNumber || "N/A" }}
+                        </td>
+                        <td class="table-cell">
+                            {{ withdraw?.bankAccountNumber || "N/A" }}
+                        </td>
+                        <td class="table-cell">
+                            {{ withdraw?.bankName || "N/A" }}
+                        </td>
+                        <td class="table-cell">
+                            <span
+                                [style.color]="
+                                    getFormattedAmount(
+                                        withdraw?.commission,
+                                        withdraw?.type
+                                    ).color
+                                "
+                            >
+                                {{
+                                    getFormattedAmount(
+                                        withdraw?.commission,
+                                        withdraw?.type
+                                    ).text
+                                }}
+                            </span>
+                        </td>
+                        <td class="table-cell">
+                            {{ getSourceName(withdraw?.type) || "N/A" }}
+                        </td>
+                        <!-- Hiển thị nguồn gốc -->
+                        <td class="table-cell">
+                            {{ withdraw?.vat | number : "0.0-0" || "N/A" }}
+                        </td>
+                        <td class="table-cell">
+                            {{ getStatusText(withdraw?.status) || "" }}
+                        </td>
+                        <!-- *ngIf="
+                            withdraw?.status === 0 ||
+                            withdraw?.status === 1 ||
+                            withdraw?.status === 2
+                        " -->
+                        <td style="text-align: center">
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-success mr-2"
+                                (click)="getWithDrawById(withdraw)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <div
+                class="flex align-items-center"
+                style="justify-content: space-between"
+            >
+                <p>
+                    <span style="font-weight: 500">{{
+                        1 + (paging.pageIndex - 1) * paging.pageSize
+                    }}</span>
+                    -
+                    <span style="font-weight: 500">{{
+                        1 +
+                            (paging.pageIndex - 1) * paging.pageSize +
+                            (paging.pageSize - 1)
+                    }}</span>
+                    trong
+                    <span style="font-weight: 500">{{
+                        paging.totalRecords
+                    }}</span>
+                    bản ghi
+                </p>
+                <div *ngIf="withdraws?.length > 0">
+                    <p-paginator
+                        class="custum-paging"
+                        (onPageChange)="onPageChange($event)"
+                        [first]="(paging.pageIndex - 1) * paging.pageSize"
+                        [rows]="paging.pageSize"
+                        [totalRecords]="paging.totalRecords"
+                        [rowsPerPageOptions]="config.pageSizeOptions"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+    header="Cập nhật trạng thái giao dịch"
+    [modal]="true"
+    [(visible)]="updateStatusModalVisible"
+    [style]="{ width: '25rem' }"
+>
+    <div style="padding-bottom: 20px" class="flex gap-1">
+        <!-- <p-dropdown
+            [options]="optionsStatus"
+            optionLabel="name"
+            optionValue="value"
+            [(ngModel)]="selectedStatusId"
+            placeholder="Chọn giao dịch"
+            class="input-field"
+            [disabled]="selectedStatusId === 3 || selectedStatusId === 4"
+            [style]="{
+                width: '200px'
+            }"
+        ></p-dropdown> -->
+        <p-dropdown
+            [options]="optionsStatus"
+            optionLabel="name"
+            optionValue="value"
+            [(ngModel)]="selectedStatusId"
+            placeholder="Chọn giao dịch"
+            class="input-field"
+            [disabled]="isDisabled"
+            [style]="{
+                width: '200px'
+            }"
+        ></p-dropdown>
+        <p-button label="Duyệt" (click)="approveNextStatus()" />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button
+            label="Hủy"
+            severity="secondary"
+            (click)="updateStatusModalVisible = false"
+        />
+        <p-button label="Cập nhật" (click)="updateStatus()" />
+    </div>
+</p-dialog>

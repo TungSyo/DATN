@@ -1,0 +1,115 @@
+.news-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.news-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #24863b;
+  margin-bottom: 30px;
+}
+
+.news-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.news-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1 1 calc(25% - 20px); /* Default: 4 items per row */
+  max-width: calc(25% - 20px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.news-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.news-content {
+  padding: 15px;
+}
+
+.news-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.news-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.news-date {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.news-link {
+  font-size: 14px;
+  color: #e74c3c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.news-date .star {
+  font-size: 16px; /* Kích thước ngôi sao */
+  color: #f1c40f; /* Màu vàng */
+  margin-right: 4px; /* Khoảng cách giữa các ngôi sao */
+}
+
+.news-date .star:last-child {
+  margin-right: 0; /* Xóa khoảng cách cuối cùng */
+}
+
+/* Responsive design for tablets */
+@media (max-width: 992px) {
+  .news-card {
+    flex: 1 1 calc(50% - 20px); /* 2 items per row */
+    max-width: calc(50% - 20px);
+  }
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 576px) {
+  .news-card {
+    flex: 1 1 100%; /* 1 item per row */
+    max-width: 100%;
+  }
+
+  .news-title {
+    font-size: 22px; /* Smaller title font size */
+  }
+
+  .news-heading {
+    font-size: 16px; /* Adjust heading size */
+  }
+
+  .news-description {
+    font-size: 13px; /* Adjust description size */
+  }
+
+  .news-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

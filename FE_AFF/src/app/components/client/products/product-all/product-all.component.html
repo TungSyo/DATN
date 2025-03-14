@@ -1,0 +1,329 @@
+
+
+<div class="container">
+    <div class="checklist px-2" *ngIf="product; else loading">
+        <!-- <h1 class="title-text">Sản phẩm{{ selectedCategoryName }}</h1> -->
+        <h1 class="title-text">Sản phẩm</h1>
+        <div class="mt-4 title-list">
+            <p
+                *ngIf="product.length > 0; else noProductsNumber"
+                class="text-number"
+            >
+                Hiển thị: {{ getRecordRangeStart() }}–{{
+                    getRecordRangeEnd()
+                }}
+                của {{ totalproduct }} kết quả
+            </p>
+            <ng-template #noProductsNumber>
+                <p class="text-number">Hiển thị : 0 kết quả</p>
+            </ng-template>
+            <div
+                class="custom-select filter-select"
+                (mouseleave)="onMouseLeave1()"
+            >
+                <button class="select-button" (click)="toggleDropdown()">
+                    {{ selectedOption }}
+                    <span class="icon">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-chevron-down"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                            />
+                        </svg>
+                    </span>
+                </button>
+                <ul class="options" [class.show]="isDropdownOpen">
+                    <li
+                        (click)="selectOption('Sắp xếp theo')"
+                        class="option-item"
+                        [class.selected]="selectedOption === 'Sắp xếp theo'"
+                    >
+                        Sắp xếp theo
+                    </li>
+                    <li
+                        (click)="selectOption('Mới nhất')"
+                        class="option-item"
+                        [class.selected]="selectedOption === 'Mới nhất'"
+                    >
+                        Mới nhất
+                    </li>
+                    <li
+                        (click)="selectOption('Giá: Thấp đến Cao')"
+                        class="option-item"
+                        [class.selected]="
+                            selectedOption === 'Giá: Thấp đến Cao'
+                        "
+                    >
+                        Giá: Thấp đến Cao
+                    </li>
+                    <li
+                        (click)="selectOption('Giá: Cao đến Thấp')"
+                        class="option-item"
+                        [class.selected]="
+                            selectedOption === 'Giá: Cao đến Thấp'
+                        "
+                    >
+                        Giá: Cao đến Thấp
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 d-none d-lg-block">
+       
+        <div class="category-list">
+    <div class="d-lg-none">
+        <button class="btn btn-outline-secondary" aria-label="Toggle Categories">
+            <i class="bi bi-list"></i> Danh mục sản phẩm
+        </button>
+    </div>
+    <h4><i class="bi bi-list"></i> Danh mục sản phẩm</h4>
+    <ul>
+        <li class="item-category">
+            <a
+                class="item-category"
+                [routerLink]="['/products']"
+               
+                style="color: black;"
+            >Tất cả sản phẩm</a>
+        </li>
+
+        <ng-container *ngFor="let category of categories">
+            <li class="item-category " [class.has-children]="category.children && category.children.length > 0"  (mouseleave)="onMouseLeave(category.id)">
+                
+                <!-- Kiểm tra nếu có phần tử con thì hiển thị icon -->
+               
+        
+                <div class=" d-flex justify-content-between item-category-icon">
+
+                    <span  (click)=" filterByCategory(category.id, category.name)" class="item-category" [class.selected]="selectedCategoryId === category.id"   [routerLink]="['/productcategory', category.id]">
+                        {{ category.name }}
+                    </span>
+                    <span [ngClass]="{'rotate': isSubCategoryVisible(category.id)}" (click)="toggleSubCategory(category.id)" *ngIf="category.children && category.children.length > 0" class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </span>
+                </div>
+                <!-- Tên danh mục cha -->
+        
+                <!-- Danh mục con -->
+                 
+                <ul class="subcategory-list" *ngIf="isSubCategoryVisible(category.id)" >
+                    <ng-container *ngFor="let subCategory of category.children">
+                        <li class="item-subcategory"
+                        [routerLink]="['/productcategory', subCategory.id]"
+                            (click)="toggleSubCategory(subCategory.id); " 
+                            class="item-category1" 
+                            [class.selected]="selectedCategoryId === subCategory.id">
+                            
+                            <div class="item-category1">
+                                 {{ subCategory.name }}
+                            </div>
+        
+                            <!-- Danh mục cháu -->
+                            <!-- <ul *ngIf="subCategory.children?.length > 0" class="subcategory-list1">
+                                <li *ngFor="let grandChild of subCategory.children" class="item-subcategory2" style="cursor: pointer;">
+                                    {{ grandChild.name }}
+                                </li>
+                            </ul> -->
+                        </li>
+                    </ng-container>
+                </ul>
+            </li>
+        </ng-container>
+        
+    </ul>
+</div>
+        
+</div>
+
+      
+
+        <div class="col-lg-9">
+            <div class="products elementor-grid pt-10">
+                <div *ngIf="product.length > 0; else noProducts">
+                    <div class="row product-list">
+                        <div
+                            *ngFor="let ps of product"
+                            class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4"
+                        >
+                            <div class="card product-card shadow-sm">
+                                <a
+                                    [routerLink]="['/productdetail', ps.id]"
+                                    class="product-link text-decoration-none"
+                                >
+                                    <div class="position-relative">
+                                        <!-- Hiển thị hình ảnh nếu có -->
+                                        <div
+                                            class="text-center"
+                                            *ngIf="
+                                                ps?.productImages?.length > 0 &&
+                                                ps.productImages[0]?.link
+                                            "
+                                        >
+                                            <img
+                                                class="product-image"
+                                                [src]="
+                                                    imageUrl +
+                                                    '/api/file/images/' +
+                                                    ps.productImages[0].link
+                                                "
+                                                [alt]="ps.name"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                        <!-- Hiển thị ảnh mặc định nếu không có hình ảnh -->
+                                        <div
+                                            class="text-center"
+                                            *ngIf="
+                                                !ps?.productImages ||
+                                                !ps.productImages[0]?.link
+                                            "
+                                        >
+                                            <img
+                                                class="product-image"
+                                                src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png"
+                                                alt="Image Not Found"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                        <h5 class="product-title mt-3">
+                                            {{ ps.name }}
+                                        </h5>
+                                        <div class="price mt-2 text-center">
+                                            <span class="text-success fw-bold">
+                                                {{
+                                                    ps.sellingPrice
+                                                        | number : "1.0-0"
+                                                }}đ
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div
+                                    class="mt-3 d-flex justify-content-center align-items-center"
+                                >
+                                    <button
+                                        class="btn btn-success btn-sm add-cart"
+                                        (click)="handleAddToCart(ps)"
+                                    >
+                                        Thêm vào giỏ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        *ngIf="product.length > 0"
+                        class="pagination d-flex justify-content-center mt-2"
+                    >
+                        <nav>
+                            <ul class="pagination">
+                                <li
+                                    class="page-item"
+                                    [class.disabled]="currentPage === 1"
+                                >
+                                    <a
+                                        class="page-link"
+                                        style="
+                                            border-top-left-radius: 0px;
+                                            border-bottom-left-radius: 0px;
+                                        "
+                                        (click)="changePage(currentPage - 1)"
+                                        [attr.aria-disabled]="currentPage === 1"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            height="16"
+                                            fill="currentColor"
+                                            class="bi bi-chevron-left"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"
+                                            />
+                                        </svg>
+                                    </a>
+                                </li>
+
+                                <li *ngIf="currentPage > 1" class="page-item">
+                                    <a
+                                        class="page-link"
+                                        (click)="changePage(currentPage - 1)"
+                                        >{{ currentPage - 1 }}</a
+                                    >
+                                </li>
+
+                                <li class="page-item active">
+                                    <a class="page-link">{{ currentPage }}</a>
+                                </li>
+
+                                <li
+                                    *ngIf="currentPage < totalPage"
+                                    class="page-item"
+                                >
+                                    <a
+                                        class="page-link"
+                                        (click)="changePage(currentPage + 1)"
+                                        >{{ currentPage + 1 }}</a
+                                    >
+                                </li>
+
+                                <li
+                                    class="page-item"
+                                    [class.disabled]="currentPage === totalPage"
+                                >
+                                    <a
+                                        class="page-link"
+                                        style="
+                                            border-top-right-radius: 0px;
+                                            border-bottom-right-radius: 0px;
+                                        "
+                                        (click)="changePage(currentPage + 1)"
+                                        [attr.aria-disabled]="
+                                            currentPage === totalPage
+                                        "
+                                        ><svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            height="16"
+                                            fill="currentColor"
+                                            class="bi bi-chevron-right"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+                                            />
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <ng-template #noProducts>
+                    <div class="col-12 text-center">
+                        <h3>Không có sản phẩm</h3>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #loading>
+    <div>Đang tải...</div>
+</ng-template>

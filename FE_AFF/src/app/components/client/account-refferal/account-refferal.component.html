@@ -1,0 +1,177 @@
+<p-toast />
+<div class="reward-container">
+    <h2 class="header-title">Danh sách tài khoản trực tiếp</h2>
+    <!-- <div class="filter-container">
+        <input
+            type="date"
+            id="dateInput"
+            class="form-control"
+            placeholder="Từ ngày"
+            [(ngModel)]="startDate"
+        />
+        <input
+            type="date"
+            id="dateInput"
+            class="form-control"
+            [(ngModel)]="endDate"
+            placeholder="Đến ngày"
+        />
+        <input
+            type="text"
+            class="search-input"
+            placeholder="Tìm kiếm giao dịch..."
+            [(ngModel)]="code"
+        />
+        <button class="search-button btn" (click)="loadAccountRefferal()">
+            Tìm kiếm
+        </button>
+    </div> -->
+
+    <div class="summary">
+        <!-- <h3>Tổng quan</h3> -->
+        <!-- <p class="user-commission">
+            <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71 66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104zm320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64zM368 320a32 32 0 1 1 32-32 32 32 0 0 1-32 32z"
+                ></path>
+                <path
+                    d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16-18.5 24.5 0 24.5 0 23.5 0 23.5L85.5 236z"
+                ></path>
+            </svg>
+            Tổng ví trực tiếp: {{ directAmount | number : "1.0-2" }} Điểm
+        </p>
+        <p class="user-reward">
+            <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71 66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104zm320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64zM368 320a32 32 0 1 1 32-32 32 32 0 0 1-32 32z"
+                ></path>
+                <path
+                    d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16-18.5 24.5 0 24.5 0 23.5 0 23.5L85.5 236z"
+                ></path>
+            </svg>
+            Tổng ví gián tiếp: {{ indirectAmount | number : "1.0-2" }} Điểm
+        </p>
+
+        <p class="user-reward">
+            <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                height="20px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71 66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104zm320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64zM368 320a32 32 0 1 1 32-32 32 32 0 0 1-32 32z"
+                ></path>
+                <path
+                    d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16-18.5 24.5 0 24.5 0 23.5 0 23.5L85.5 236z"
+                ></path>
+            </svg>
+            Số tiền có thể rút: {{ withdrawableAmount | number : "1.0-2" }} Điểm
+        </p> -->
+    </div>
+
+    <div class="table-container">
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên khách hàng</th>
+                    <th>Số điện thoại</th>
+                    <th>Số combo đã mua</th>
+                    <th>Mã giới thiệu</th>
+                    <th>Tên ngân hàng</th>
+                    <th>Số tài khoản</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of withdrawHistories; let i = index">
+                    <td style="width: 20px">{{ i + 1 }}</td>
+                    <td class="table-cell">
+                        {{ item?.name || "" }}
+                    </td>
+                    <td class="table-cell">
+                        {{ item?.phoneNumber || "" }}
+                    </td>
+                    <td class="table-cell">
+                        {{ item?.totalOrder || 0 }}
+                    </td>
+                    <td class="table-cell">
+                        {{ item?.phoneNumber || "" }}
+                    </td>
+                    <!-- Hiển thị nguồn gốc -->
+                    <td class="table-cell">
+                        {{ item?.bankName || "" }}
+                    </td>
+                    <td class="table-cell">
+                        {{ item?.bankAccountNumber || "" }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="exchange-section">
+        <div class="pagination">
+            <!-- Nút đầu tiên -->
+            <button
+                class="page-btn"
+                [disabled]="pageIndex === 1"
+                (click)="changePage(1)"
+            >
+                &lt;&lt;
+            </button>
+            <!-- Nút trước -->
+            <button
+                class="page-btn"
+                [disabled]="pageIndex === 1"
+                (click)="changePage(pageIndex - 1)"
+            >
+                &lt;
+            </button>
+            <!-- Số trang -->
+            <button
+                class="page-btn"
+                *ngFor="let page of [].constructor(totalPage); let i = index"
+                [class.active]="pageIndex === i + 1"
+                (click)="changePage(i + 1)"
+            >
+                {{ i + 1 }}
+            </button>
+            <!-- Nút kế tiếp -->
+            <button
+                class="page-btn"
+                [disabled]="pageIndex === totalPage"
+                (click)="changePage(pageIndex + 1)"
+            >
+                &gt;
+            </button>
+            <!-- Nút cuối cùng -->
+            <button
+                class="page-btn"
+                [disabled]="pageIndex === totalPage"
+                (click)="changePage(totalPage)"
+            >
+                &gt;&gt;
+            </button>
+        </div>
+    </div>
+</div>

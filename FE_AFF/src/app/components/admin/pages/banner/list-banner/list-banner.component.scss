@@ -1,0 +1,24 @@
+.badge-success{
+    background-color: green;
+    font-size: 13px;
+}
+
+.badge-danger{
+    background-color: red;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 7px  10px;
+}
+
+.img-preview-small{
+    height: 50px;
+    width: 50px;
+}
+
+.custom-file-input {
+    display: none;
+}
+
+.custom-file-label {
+    cursor: pointer;
+}

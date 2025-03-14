@@ -1,0 +1,361 @@
+.container{
+    max-width: 1200px;
+    margin:  0 auto;
+}
+
+.payment-title{
+    margin-bottom: 20px;
+}
+
+.payment__coupon-search{
+    display: flex;
+    flex-direction: column;
+}
+
+.payment__coupon-message{
+    padding: 10px;
+}
+
+.payment__coupon-search label{
+    margin-bottom:10px;
+}
+
+.payment__coupon-search span {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border-right: 1px solid #efefef;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 32px;
+}
+
+.payment__coupon-search span svg{
+    font-size: 20px;
+    color: #4d8526;
+}
+
+.payment__coupon-message svg{
+    display:block;
+}
+
+.payment__coupon-message{
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+    gap: 10px;
+    color: #4D8526;
+}
+
+.payment__coupon{
+    display: flex;
+    flex-direction: column;
+}   
+
+.payment__coupon-desc{
+    margin-bottom: 10px;
+} 
+
+.payment__coupon-desc p{
+    font-size: 15px;
+}
+
+.payment__coupon-search-box{
+    position: relative;
+}
+
+.payment__coupon-search{
+    padding: 25px 30px;
+    border: 2px dashed #61a63c;
+} 
+
+.payment__coupon-search-btn{
+    position: absolute;
+    right: 0;
+    border: none;
+    height: 100%;
+    background-color: #71bb49;
+    font-size: 14px;
+    padding: 0 10px;
+    transition: all 0.1s;
+    font-weight: 500;
+    color: #fff;
+}
+
+.payment__coupon-search-btn:hover {
+        background-color: #61a63c;
+}
+
+.payment__coupon-search-input{
+    background-color: #fff;
+    border: 1px solid #ececec;
+    color: #5d5d60;
+    padding: 6px 22px;
+    line-height: normal;
+    font-size: 15px;
+    font-weight: 400;
+    height: 48px;
+    width: 100%;
+    outline: none;
+    padding-left: 75px;
+    transition: 0.2s linear;
+} 
+
+
+
+.payment__coupon-search-btn{
+
+}
+
+
+.input {
+    background-color: #fff;
+    border: 1px solid #ececec;
+    color: #5d5d60;
+    padding: 6px 22px;
+    line-height: normal;
+    font-size: 15px;
+    font-weight: 400;
+    height: 45px;
+    outline: none;
+    padding-left: 75px;
+    transition: 0.2s linear;
+}
+
+.field-group {
+    position: relative;
+}
+
+.field-group span {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border-right: 1px solid #efefef;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 32px;
+}
+
+.field-group input {
+    min-width: 200px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.field-group svg {
+    font-size: 20px;
+    color: #4d8526;
+}
+
+.register-title {
+    padding-top: 15px;
+    padding-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.button-submit {
+    background-color: #4d8526;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    padding: 0 28px;
+    line-height: 51px;
+    transition: all 240ms linear 0s;
+    border-radius: 51px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.input:focus {
+    border: 1.5px solid #4D8526;
+    ;
+}
+
+.input span {
+    position: absolute;
+}
+
+.input svg {
+    font-size: 14px;
+}
+
+
+.dropdown-list {
+    display: block;
+    position: absolute;
+    z-index: 88;
+    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    top: 50px;
+    border-radius: 5px;
+    height: 150px;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(77, 133, 38, 0.2), 0 6px 20px 0 rgba(77, 133, 38, 0.19);
+}
+
+.dropdown-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.dropdown-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb {
+    background: #f0f5e5;
+    border-radius: 10px;
+    transition: all 0.2s; 
+}
+
+.dropdown-list::-webkit-scrollbar-thumb:hover {
+    background: #a0cf7f;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    border-bottom: 1px solid #efefef;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f5e5;
+    color: #76a713;
+}
+
+.payment__content{
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.payment__info{
+    flex: 2;
+}
+
+.product-name{
+    padding-right: 20px;
+}
+
+.payment__sidebar{
+    flex: 1;
+}
+
+.note-textarea{
+    width: 100%;
+    outline: none;
+    border: 1px solid #efefef;
+    padding: 15px;
+    min-height:100px;
+    border-radius: 5px;
+    transition: all 0.2s ;
+}
+
+.note-textarea:focus {
+    border: 1px solid #4D8526;
+}
+
+.payment__sidebar{
+    padding: 0 30px;
+    padding-bottom: 20px;
+    border: 2px solid #66a837;
+ }
+
+ .checkout-review-order-table{
+    width: 100%;
+ }
+
+  .checkout-review-order-table th {
+      font-size:15px;
+    font-family: sans-serif;
+  }
+
+ .checkout-review-order-table tr{
+    height:43px;
+    border-bottom: 1px solid #e5e2e2;
+ }
+
+ .price-amount bdi{
+    font-weight: bold;
+    font-size: 15px;
+    font-family: sans-serif;
+ }
+
+.payment__sidebar-desc{
+    margin:15px 0 !important;
+    font-size: 15px;
+}
+
+.btn-order-create{
+    background-color: #61a63c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-weight: bold;
+    color: #fff;
+    transition:  all 0.2s ;
+}
+
+.btn-order-create:hover {
+    background-color: #4D8526;
+}
+
+.payment__sidebar-policy{
+    font-size:14px;
+    margin-top:15px;
+}
+
+.payment__sidebar-policy a{
+    color:#62a73c;
+}
+
+.error-message {
+    position: absolute;
+    margin-left: 50px;
+}
+
+@media screen and (max-width:1200px) {
+        .container{
+            padding: 0 30px;
+        }
+}
+
+@media screen and (max-width:650px) {
+    .payment__content{
+        flex-direction: column !important;
+        gap: 10px;
+    }
+         .container {
+             padding: 0 20px;
+         }
+
+         .payment__sidebar{
+            padding: 0 15px;
+         }
+
+         .payment__sidebar-policy{
+            margin-bottom: 15px;
+         }
+}
+
+.field-group-radio{
+    display: flex;
+    align-items:center;
+    gap: 5px;
+}
+
+.field-group-radio input{
+}
+
+

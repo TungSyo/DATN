@@ -1,0 +1,14 @@
+<div class="container-update-role">
+	<div>
+		<ul class="permission-tree">
+			<ng-container *ngFor="let permission of permissions">
+				<app-permission-item [permission]="permission" [permissionsTree]="permissionsTree"
+					[(selectedPermissions)]="selectedPermissions">
+				</app-permission-item>
+			</ng-container>
+		</ul>
+	</div>
+
+	<p>Bạn đã chọn các quyền sau:</p>
+	<pre>{{ selectedPermissions | json }}</pre>
+</div>

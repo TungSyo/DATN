@@ -1,0 +1,21 @@
+.dialog-content {
+  max-height: 550px;
+  /* Đặt chiều cao tối đa của nội dung */
+  overflow-y: auto;
+  /* Cho phép cuộn theo chiều dọc */
+}
+
+.dialog-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.dialog-content img[style*="float: right"] {
+  float: right;
+  margin-left: 10px;
+}
+
+.dialog-content img[style*="float: left"] {
+  float: left;
+  margin-right: 10px;
+}

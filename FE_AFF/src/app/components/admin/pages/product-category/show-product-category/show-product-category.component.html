@@ -1,0 +1,495 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <div>
+            <h3>Quản lý danh mục</h3>
+            <p-breadcrumb [model]="items"> </p-breadcrumb>
+        </div>
+
+        <div class="btn-add-wrapper">
+            <button
+                pButton
+                pRipple
+                label="Thêm mới"
+                style="height: 40px; width: 130px; border-radius: 10px"
+                (click)="openDialog()"
+            ></button>
+        </div>
+    </div>
+    <div class="toast-container">
+        <p-messages
+            [(value)]="messages"
+            [enableService]="false"
+            [closable]="false"
+        ></p-messages>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section k-list-table">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-5 mt-3">
+                            <span class="p-input-icon-left" style="width: 100%">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="name"
+                                    placeholder="Tìm kiếm theo tên danh mục"
+                                    style="padding-left: 30px; height: 37px"
+                                    #searchInput
+                                />
+                            </span>
+                        </div>
+                        <div class="col-lg-7 mt-3">
+                            <button
+                                pButton
+                                pRipple
+                                label="Lọc"
+                                class="buttonfilter"
+                                (click)="getCategories()"
+                            ></button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px" class="card">
+                        <p-table
+                            [value]="filteredCategories"
+                            [paginator]="true"
+                            [rows]="pageSize"
+                            [totalRecords]="
+                                totalRecordsCount > 0 ? totalRecordsCount : 1
+                            "
+                            [paginator]="false"
+                            (onPage)="onPageChange($event)"
+                            styleClass="p-datatable-striped"
+                        >
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <!-- <th style="width: 10%">
+                    <p-checkbox [binary]="true" inputId="binary"></p-checkbox>
+                  </th> -->
+                                    <th style="width: 5%">Mã</th>
+                                    <th style="width: 15%">Tên danh mục</th>
+                                    <th style="width: 10%">Trực thuộc</th>
+                                    <th style="width: 5%">Cấp</th>
+                                    <th style="width: 10%">Người tạo</th>
+                                    <th style="width: 20%">Mô tả</th>
+                                    <th style="width: 6%">Trạng thái</th>
+                                    <th style="width: 5%">Ẩn/Hiện</th>
+                                    <th style="width: 6%">Thao tác</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-category>
+                                <tr>
+                                    <!-- <td>
+                    <p-checkbox [binary]="true" inputId="binary"></p-checkbox>
+                  </td> -->
+                  <td>{{ category.id }}</td>
+                  <td>{{ category.name }}</td>
+                  <td>{{ category.parentName }}</td>
+                  <td>{{ category.level }}</td>
+                  <td>{{ category.createdName }}</td>
+                  <td>{{ category.description }}</td>
+                  <td [style.color]="category.status === 1 ? 'green' : 'red'">
+                    {{ category.status === 1 ? "Hoạt động" : "Ẩn" }}
+                  </td>
+                  <td>
+                    <p-inputSwitch
+                      name="switchControl"
+                      [ngModel]="category.status === 1 ? true : false"
+                      (ngModelChange)="
+                        updateStatus(category.id, $event ? 1 : 0)
+                      "
+                      [disabled]="true"
+                    ></p-inputSwitch>
+                  </td>
+                  <!-- <td class="text-center">
+                    <a (click)="editCategory(category.id)">
+                      <i
+                        class="pi pi-pencil"
+                        style="font-size: 1.2rem; text-align: center"
+                      ></i>
+                    </a>
+                  </td> -->
+                                    <td>
+                                        <div class="flex">
+                                            <button
+                                                pButton
+                                                pRipple
+                                                icon="pi pi-pencil"
+                                                class="p-button-rounded p-button-success mr-2"
+                                                (click)="
+                                                    editCategory(category.id)
+                                                "
+                                            ></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div
+                            *ngIf="totalRecordsCount === 0"
+                            style="text-align: center"
+                        >
+                            <strong style="text-align: center; width: 100%"
+                                >Không tìm thấy kết quả phù hợp</strong
+                            >
+                        </div>
+                        <div class="paging-bot dg-fix">
+                            <div class="paging-info">
+                                <div [innerHTML]="currentPageReport"></div>
+                            </div>
+                            <p-paginator
+                                [rows]="this.pageSize"
+                                (onPageChange)="onPageChange($event)"
+                                [totalRecords]="
+                                    totalRecordsCount > 0
+                                        ? totalRecordsCount
+                                        : 1
+                                "
+                                [rowsPerPageOptions]="[10, 20, 30]"
+                            ></p-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!---->
+        <div class="dialog-background" *ngIf="showDialog">
+            <div class="dialog-container">
+                <div class="card-body">
+                    <div
+                        class="d-flex justify-content-between align-items-center"
+                    >
+                        <h5 class="card-title">Thêm danh mục</h5>
+                        <p-button
+                            icon="pi pi-times"
+                            [rounded]="true"
+                            [text]="true"
+                            severity="danger"
+                            [style]="{ 'border-radius': '25%' }"
+                            (click)="closeDialog(categoryForm)"
+                        ></p-button>
+                    </div>
+
+                    <form
+                        #categoryForm="ngForm"
+                        (ngSubmit)="onSubmitAdd(categoryForm)"
+                    >
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                for="inputText"
+                                class="col-sm-12 col-form-label"
+                                >Tên danh mục<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <div class="col-sm-12">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    [(ngModel)]="categoriess.name"
+                                    [style]="{ height: '40px' }"
+                                    class="form-control"
+                                    (input)="checkNameLength()"
+                                    required
+                                />
+                                <div
+                                    *ngIf="showNameError"
+                                    class="error-message"
+                                >
+                                    Tên danh mục không được bỏ trống
+                                </div>
+                                <div
+                                    *ngIf="showNameError2"
+                                    class="error-message"
+                                >
+                                    Tên danh mục không được trùng nhau
+                                </div>
+                                <div *ngIf="showNameError4" class="text-danger">
+                                    Tên phải lớn hơn 3 ký tự && nhỏ hơn 100 ký
+                                    tự
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                class="col-sm-12 col-form-label"
+                                >Danh mục cha</label
+                            >
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <p-treeSelect
+                                        containerStyleClass="w-full"
+                                        [options]="categorieandchild"
+                                        [(ngModel)]="selectedCategory"
+                                        optionLabel="label"
+                                        placeholder="Chọn danh mục"
+                                        [showClear]="true"
+                                        [style]="{ width: '100%' }"
+                                        (onNodeSelect)="onNodeSelect($event)"
+                                        (onNodeUnselect)="
+                                            onNodeUnselect($event)
+                                        "
+                                        (onFocus)="onTreeSelectFocus()"
+                                    >
+                                        <ng-template
+                                            let-node
+                                            pTemplate="default"
+                                        >
+                                            <span>{{ node.label }}</span>
+                                        </ng-template>
+                                    </p-treeSelect>
+                                    <div
+                                        *ngIf="showNameError5"
+                                        class="text-danger"
+                                    >
+                                        Danh mục đã vượt quá cấp 5.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                for="inputDes"
+                                class="col-sm-12 col-form-label"
+                                >Mô tả</label
+                            >
+                            <div class="col-sm-12">
+                                <textarea
+                                    class="form-control"
+                                    style="height: 100px"
+                                    id="description"
+                                    name="description"
+                                    [(ngModel)]="categoriess.description"
+                                    (input)="checkDescriptionLength()"
+                                    required
+                                ></textarea>
+                                <div
+                                    *ngIf="showNameError3"
+                                    class="error-message"
+                                >
+                                    Mô tả không được nhập quá 500 ký tự.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                for="inputHide"
+                                class="col-sm-12 col-form-label"
+                                >Hiển thị</label
+                            >
+                            <div class="col-sm-12">
+                                <!-- Trong template của bạn -->
+                                <p-inputSwitch
+                                    [style]="{ height: '25px' }"
+                                    [(ngModel)]="checked"
+                                    (onChange)="onchangeforswitch()"
+                                    name="switchControl"
+                                ></p-inputSwitch>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <div class="col-sm-12 buttonsl">
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Đóng"
+                                    class="p-button-success buttoncloses"
+                                    type="button"
+                                    (click)="closeDialog(categoryForm)"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Lưu"
+                                    class="p-button-success butttonsave"
+                                    type="submit"
+                                ></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div
+            *ngIf="showDialogs && selectedCategoryId"
+            class="dialog-background"
+        >
+            <div class="dialog-container">
+                <div class="card-body">
+                    <div
+                        class="d-flex justify-content-between align-items-center"
+                    >
+                        <h5 class="card-title">Cập nhật danh mục</h5>
+                        <p-button
+                            icon="pi pi-times"
+                            [rounded]="true"
+                            [text]="true"
+                            severity="danger"
+                            [style]="{ 'border-radius': '25%' }"
+                            (click)="closeDialog2(categoryForm2)"
+                        ></p-button>
+                    </div>
+                    <form
+                        #categoryForm2="ngForm"
+                        (ngSubmit)="onSubmitUpdate(categoryForm2)"
+                    >
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                for="name"
+                                class="col-sm-12 col-form-label"
+                                >Tên danh mục<span class="red-asterisk"
+                                    >*</span
+                                ></label
+                            >
+                            <div class="col-sm-12">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    [(ngModel)]="selectCategory.name"
+                                    class="form-control"
+                                    (input)="checkNameLength2()"
+                                    required
+                                />
+                                <div
+                                    *ngIf="showNameError"
+                                    class="error-message"
+                                >
+                                    Tên danh mục không được bỏ trống
+                                </div>
+                                <div
+                                    *ngIf="showNameError2"
+                                    class="error-message"
+                                >
+                                    Tên danh mục không được trùng nhau
+                                </div>
+                                <div *ngIf="showNameError4" class="text-danger">
+                                    Tên phải lớn hơn 3 ký tự && nhỏ hơn 100 ký
+                                    tự
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                class="col-sm-12 col-form-label"
+                                >Danh mục cha</label
+                            >
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <p-treeSelect
+                                        containerStyleClass="w-full"
+                                        [options]="treeOptions"
+                                        [(ngModel)]="selectCategory.parentId"
+                                        [showClear]="isCategorySelected"
+                                        placeholder="Chọn danh mục"
+                                        name="parent"
+                                        (onNodeSelect)="
+                                            onCategorySelect($event)
+                                        "
+                                        [style]="{ width: '100%' }"
+                                    >
+                                        <ng-template
+                                            let-node
+                                            pTemplate="default"
+                                        >
+                                            <span>{{ node.label }}</span>
+                                        </ng-template>
+                                    </p-treeSelect>
+                                    <div
+                                        *ngIf="showNameError5"
+                                        class="text-danger"
+                                    >
+                                        Danh mục đã vượt quá cấp 5.
+                                    </div>
+                                    <div
+                                        *ngIf="errorMessageTree"
+                                        class="error-message"
+                                    >
+                                        {{ errorMessageTree }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                for="inputDes"
+                                class="col-sm-12 col-form-label"
+                                >Mô tả</label
+                            >
+                            <div class="col-sm-12">
+                                <textarea
+                                    class="form-control"
+                                    style="height: 100px"
+                                    id="description"
+                                    name="description"
+                                    [(ngModel)]="selectCategory.description"
+                                    required
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <label
+                                style="font-weight: 600"
+                                for="inputHide"
+                                class="col-sm-12 col-form-label"
+                                >Hiển thị</label
+                            >
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <p-inputSwitch
+                                        name="switchControl"
+                                        [style]="{ height: '20px' }"
+                                        [ngModel]="
+                                            selectCategory.status === 1
+                                                ? true
+                                                : false
+                                        "
+                                        (ngModelChange)="
+                                            selectCategory.status = $event
+                                                ? 1
+                                                : 0
+                                        "
+                                    ></p-inputSwitch>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-12">
+                            <div class="col-sm-12 buttonsl">
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Đóng"
+                                    class="p-button-success buttoncloses"
+                                    type="button"
+                                    (click)="closeDialog2(categoryForm2)"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Lưu"
+                                    class="p-button-success butttonsave"
+                                    type="submit"
+                                ></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!---->
+    </section>
+</main>
+<!-- End #main -->

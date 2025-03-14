@@ -1,0 +1,853 @@
+<p-toast />
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <div>
+            <h3>Danh sách đơn hàng</h3>
+            <p-breadcrumb
+                [model]="items"
+                [home]="{ icon: 'pi pi-home' }"
+            ></p-breadcrumb>
+            <!-- <p-breadcrumb
+      [model]="items">
+      </p-breadcrumb> -->
+        </div>
+
+        <!-- (click)="openDialog()" -->
+        <div class="btn-add-wrapper">
+            <button
+                [routerLink]="['/admin/pages/payments/create-payment']"
+                pButton
+                pRipple
+                label="Thêm mới"
+                style="height: 40px; width: 130px; border-radius: 10px"
+            ></button>
+        </div>
+    </div>
+    <div class="toast-container">
+        <!-- <p-messages
+      [(value)]="messages"
+      [enableService]="false"
+      [closable]="false"
+    ></p-messages> -->
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section k-list-table">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="card">
+                    <div class="">
+                        <p-table [value]="orderList">
+                            <ng-template pTemplate="caption">
+                                <div
+                                    class="flex flex-column gap-3 align-items-end md:flex-row md:"
+                                    style="padding-top: 10px"
+                                >
+                                    <div class="flex flex-column">
+                                        <span
+                                            class="block mt-2 md:mt-0 p-input-icon-left"
+                                        >
+                                            <i class="pi pi-search"></i>
+
+                                            <input
+                                                pInputText
+                                                [(ngModel)]="
+                                                    optionFilterOrder.keyWord
+                                                "
+                                                type="text"
+                                                placeholder="Tìm theo tên người nhận,  mã giao dịch, số điện thoại"
+                                                style="width: 350px"
+                                                class="sm:"
+                                                [showClear]="true"
+                                            />
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-column">
+                                        <label
+                                            for="email1"
+                                            class="block text-900 text-large font-weight mb-2"
+                                            >Từ ngày
+                                        </label>
+
+                                        <p-calendar
+                                            [(ngModel)]="date"
+                                            placeholder="Ngày bắt đầu "
+                                            [showClear]="true"
+                                            inputId="buttondisplay"
+                                            dateFormat="dd/mm/yy"
+                                        />
+                                    </div>
+
+                                    <div class="flex flex-column">
+                                        <label
+                                            for="email1"
+                                            class="block text-900 text-large font-weight mb-2"
+                                            >Đến ngày
+                                        </label>
+
+                                        <p-calendar
+                                            [(ngModel)]="date1"
+                                            placeholder="Ngày kết thúc"
+                                            [showClear]="true"
+                                            inputId="buttondisplay"
+                                            dateFormat="dd/mm/yy"
+                                        />
+                                    </div>
+                                    <div class="flex flex-column">
+                                        <label
+                                            for="email1"
+                                            class="block text-900 text-large font-weight mb-2"
+                                            >Giao dịch</label
+                                        >
+
+                                        <p-dropdown
+                                            [options]="optionsStatus"
+                                            optionLabel="name"
+                                            [(ngModel)]="selectedBranchId"
+                                            placeholder="Chọn giao dịch"
+                                            class="input-field"
+                                            [showClear]="true"
+                                            [style]="{
+                                                height: '43px',
+                                                width: '180px'
+                                            }"
+                                        ></p-dropdown>
+                                    </div>
+                                    <div class="flex flex-column">
+                                        <label
+                                            for="email1"
+                                            class="block text-900 text-large font-weight mb-2"
+                                            >Trạng thái</label
+                                        >
+                                        <p-dropdown
+                                            [options]="optionsStatusText"
+                                            optionLabel="name"
+                                            [(ngModel)]="selectedStatusId"
+                                            placeholder="Chọn trạng thái"
+                                            class="input-field"
+                                            [showClear]="true"
+                                            [style]="{
+                                                height: '43px',
+                                                width: '180px'
+                                            }"
+                                        ></p-dropdown>
+                                    </div>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Lọc"
+                                        (click)="EvenFilter()"
+                                    ></button>
+                                </div>
+                            </ng-template>
+
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <!-- <th>
+                                        <p-checkbox [(ngModel)]="selectAll" (onChange)="toggleSelectAll($event)" [binary]="true"></p-checkbox>
+                                    </th> -->
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 150px;
+                                        "
+                                    >
+                                        Mã giao dịch
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 100px;
+                                        "
+                                    >
+                                        Mã tài khoản
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Người nhận
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 150px;
+                                        "
+                                    >
+                                        Số điện thoại nhận
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 300px;
+                                        "
+                                    >
+                                        Địa chỉ nhận
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 150px;
+                                        "
+                                    >
+                                        Phương thức thanh toán
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 150px;
+                                        "
+                                    >
+                                        Số tiền
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Ngày giao dịch
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 150px;
+                                        "
+                                    >
+                                        Ghi chú
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Trạng thái
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 150px;
+                                        "
+                                    >
+                                        Người đặt
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Điện thoại đặt hàng
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Email đặt hàng
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Tên ngân hàng thụ hưởng
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Số tài khoản thụ hưởng
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 200px;
+                                        "
+                                    >
+                                        Tên tài khoản thụ hưởng
+                                    </th>
+                                    <th
+                                        style="
+                                            text-align: center;
+                                            min-width: 100px;
+                                        "
+                                    >
+                                        Hành động
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-order>
+                                <tr
+                                    (click)="showDialog(getOrderByID(order.id))"
+                                >
+                                    <!-- <td>
+                                        <p-checkbox [(ngModel)]="order.selected" [binary]="true" (onChange)="onRowSelectChange()"></p-checkbox>
+                                    </td> -->
+
+                                    <td style="text-align: center">
+                                        {{ order?.orderTrackingNumber || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.userId || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.userName || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.phoneNumber || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.shippingAddress || " " }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            getStatusDeal(order.paymentType) ||
+                                                " "
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            order?.totalAmount?.toLocaleString(
+                                                "vi-VN",
+                                                {
+                                                    style: "currency",
+                                                    currency: "VND"
+                                                } || " "
+                                            )
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            order?.createdAt
+                                                | date
+                                                    : "dd/MM/yyyy HH:mm:ss" ||
+                                                          " "
+                                        }}
+                                    </td>
+
+                                    <td style="text-align: center">
+                                        {{ order?.note || "" }}
+                                    </td>
+                                    <td
+                                        [ngStyle]="{
+                                            color: getStatusText(
+                                                order.orderStatus
+                                            ).color
+                                        }"
+                                        style="text-align: center"
+                                    >
+                                        {{
+                                            getStatusText(order.orderStatus)
+                                                .text || " "
+                                        }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.user?.name || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.user?.phoneNumber || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ order?.user?.email || " " }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{
+                                            order.paymentAccount?.bankName ||
+                                                " "
+                                        }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{
+                                            order?.paymentAccount
+                                                ?.accountNumber || " "
+                                        }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{
+                                            order?.paymentAccount
+                                                ?.accountName || " "
+                                        }}
+                                    </td>
+
+                                    <td>
+                                        <div
+                                            class="flex justify-content-center"
+                                        >
+                                            <button
+                                                pButton
+                                                pRipple
+                                                icon="pi pi-pencil"
+                                                class="p-button-rounded p-button-success mr-2"
+                                                (click)="
+                                                    showDialog(
+                                                        getOrderByID(order.id)
+                                                    )
+                                                "
+                                            ></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                        <div
+                            *ngIf="totalItems === 0"
+                            style="text-align: center; margin-top: 20px"
+                        >
+                            <strong>Không tìm thấy đơn hàng</strong>
+                        </div>
+                    </div>
+
+                    <div class="paging-bot dg-fix" *ngIf="totalItems > 0">
+                        <div class="paging-info">
+                            <p [innerHTML]="currentPageReport"></p>
+                        </div>
+                        <p-paginator
+                            [rows]="pageSize"
+                            [totalRecords]="totalItems"
+                            [rowsPerPageOptions]="[10, 20, 30]"
+                            (onPageChange)="onPageChange($event)"
+                            (onRowsPerPageChange)="onPageSizeChange($event)"
+                            [first]="(pageIndex - 1) * pageSize"
+                            [pageLinkSize]="3"
+                        ></p-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p-dialog
+            header="Chi tiết đơn hàng"
+            [modal]="true"
+            [dismissableMask]="true"
+            [(visible)]="visible"
+            [style]="{ width: '1150px' }"
+            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+            [closable]="true"
+            [position]="'top'"
+            (onHide)="onDialogHide()"
+        >
+            <ng-container *ngIf="orderGetID">
+                <div class="d-flex">
+                    <div class="col-7 col-lg-7">
+                        <div
+                            class="table-responsive"
+                            style="max-height: 300px; overflow-y: auto"
+                        >
+                            <table class="table table-bordered fixed-table">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            style="width: 10%; font-weight: 500"
+                                        >
+                                            #
+                                        </th>
+                                        <th
+                                            style="width: 20%; font-weight: 500"
+                                        >
+                                            Hình ảnh
+                                        </th>
+                                        <th
+                                            style="width: 20%; font-weight: 500"
+                                        >
+                                            Tên sản phẩm
+                                        </th>
+                                        <th
+                                            style="width: 20%; font-weight: 500"
+                                        >
+                                            Số lượng
+                                        </th>
+                                        <th
+                                            style="width: 20%; font-weight: 500"
+                                        >
+                                            Đơn giá
+                                        </th>
+                                        <th
+                                            style="width: 20%; font-weight: 500"
+                                        >
+                                            Tổng tiền
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="
+                                            let item of orderGetID.orderDetails;
+                                            let i = index
+                                        "
+                                    >
+                                        <td
+                                            style="
+                                                text-align: center;
+                                                vertical-align: middle;
+                                            "
+                                        >
+                                            {{ i + 1 }}
+                                        </td>
+                                        <td
+                                            style="
+                                                text-align: center;
+                                                vertical-align: middle;
+                                            "
+                                        >
+                                            <!-- <img *ngIf="item.product?.productImages?.length > 0" 
+                                         [src]="imageUrl + '/api/file/images/' + item.product.productImages[0].link"
+                                         alt="{{ item.product.name }}" 
+                                         style="width: 80px; height: 80px; object-fit: cover;" /> -->
+                                            <ng-container
+                                                *ngIf="
+                                                    item.product?.productImages
+                                                        ?.length > 0;
+                                                    else noImage
+                                                "
+                                            >
+                                                <img
+                                                    [src]="
+                                                        imageUrl +
+                                                        '/api/file/images/' +
+                                                        item.product
+                                                            .productImages[0]
+                                                            .link
+                                                    "
+                                                    alt="{{
+                                                        item.product.name
+                                                    }}"
+                                                    style="
+                                                        width: 80px;
+                                                        height: 80px;
+                                                        object-fit: cover;
+                                                    "
+                                                />
+                                            </ng-container>
+                                            <ng-template #noImage>
+                                                <div class="text-center">
+                                                    <img
+                                                        class="product-image"
+                                                        src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png"
+                                                        alt="Image Not Found"
+                                                        loading="lazy"
+                                                        style="
+                                                            width: 80px;
+                                                            height: 80px;
+                                                            object-fit: cover;
+                                                        "
+                                                    />
+                                                </div>
+                                            </ng-template>
+                                        </td>
+                                        <td
+                                            style="
+                                                text-align: center;
+                                                vertical-align: middle;
+                                            "
+                                        >
+                                            {{ item.product?.name || " " }}
+                                        </td>
+                                        <td
+                                            style="
+                                                text-align: center;
+                                                vertical-align: middle;
+                                            "
+                                        >
+                                            {{ item?.quantity || " " }}
+                                        </td>
+                                        <td
+                                            style="
+                                                text-align: center;
+                                                vertical-align: middle;
+                                            "
+                                        >
+                                            {{
+                                                item?.unitPrice?.toLocaleString(
+                                                    "vi-VN",
+                                                    {
+                                                        style: "currency",
+                                                        currency: "VND"
+                                                    } || ""
+                                                )
+                                            }}
+                                        </td>
+                                        <td
+                                            style="
+                                                text-align: center;
+                                                vertical-align: middle;
+                                            "
+                                        >
+                                            {{
+                                                item?.totalPrice?.toLocaleString(
+                                                    "vi-VN",
+                                                    {
+                                                        style: "currency",
+                                                        currency: "VND"
+                                                    } || ""
+                                                )
+                                            }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-1">
+                            <label for="orderNote" class="form-label"
+                                >Ghi chú:</label
+                            >
+                            <textarea
+                                id="orderNote"
+                                class="form-control"
+                                rows="4"
+                                cols="5"
+                                style="
+                                    padding: 5px 10px;
+                                    text-align: left;
+                                    font-size: 16px;
+                                    height: 150px;
+                                    resize: none;
+                                "
+                                [(ngModel)]="orderGetID.note"
+                                [disabled]="isnote"
+                            >
+                    <!-- [disabled]="isDisabled" -->
+               >
+                </textarea
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="col-5 col-lg-5"
+                        style="
+                            background-color: #f4f4f4;
+                            max-height: 600px;
+                            overflow-y: auto;
+                        "
+                    >
+                        <div class="form-group">
+                            <label
+                                style="font-weight: 500"
+                                for="orderTrackingNumber"
+                                >Mã giao dịch:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID.orderTrackingNumber }}
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="userName"
+                                >Người nhận:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID?.userName || " " }}
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="phoneNumber"
+                                >Điện thoại nhận hàng:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID?.phoneNumber || " " }}
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="phoneNumber"
+                                >Địa chỉ nhận :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID?.shippingAddress || " " }}
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="createdAt"
+                                >Ngày đặt hàng:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{
+                                    orderGetID?.createdAt
+                                        | date : "dd/MM/yyyy HH:mm:ss"
+                                }}
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="totalQuantity"
+                                >Tổng số lượng:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID?.totalQuantity || " " }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="totalAmount">
+                                Mã voucher :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID?.voucher?.code || " " }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="totalAmount">
+                                Giá trị voucher đã áp dụng:</label
+                            >
+                            <p
+                                *ngIf="
+                                    orderGetID?.voucher?.voucherAmount > 0;
+                                    else noAmount
+                                "
+                                style="font-weight: 600"
+                            >
+                                {{
+                                    orderGetID?.voucher?.voucherAmount?.toLocaleString(
+                                        "vi-VN",
+                                        { style: "currency", currency: "VND" }
+                                    )
+                                }}
+                            </p>
+                            <ng-template #noAmount>
+                                <p style="font-weight: 600; color: red"></p>
+                            </ng-template>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="totalAmount"
+                                >Tổng tiền:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{
+                                    orderGetID?.totalAmount?.toLocaleString(
+                                        "vi-VN",
+                                        {
+                                            style: "currency",
+                                            currency: "VND"
+                                        } || " "
+                                    )
+                                }}
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountName"
+                                >Người đặt:</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID.user?.name || " " }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountNumber"
+                                >Điện thoại đặt hàng :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID.user?.phoneNumber || " " }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountNumber"
+                                >Email đặt hàng :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID.user?.email || " " }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountNumber"
+                                >Phương thức thanh toán :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{
+                                    getStatusDeal(orderGetID.paymentType) ||
+                                        " "
+                                }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountNumber"
+                                >Tài khoản nhận :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{ orderGetID.paymentAccount?.bankName || " " }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountNumber"
+                                >Số tài khoản nhận :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{
+                                    orderGetID.paymentAccount?.accountNumber ||
+                                        " "
+                                }}
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 500" for="accountNumber"
+                                >Chủ tài khoản nhận :</label
+                            >
+                            <p style="font-weight: 600">
+                                {{
+                                    orderGetID.paymentAccount?.accountName ||
+                                        " "
+                                }}
+                            </p>
+                        </div>
+
+                        <div class="">
+                            <label
+                                class=""
+                                style="font-weight: 500; margin-right: 130px"
+                                >Trạng thái:</label
+                            >
+                            <p-dropdown
+                                [options]="optionsStatusText"
+                                optionLabel="name"
+                                optionValue="value"
+                                [(ngModel)]="selectedStatusId"
+                                placeholder="Chọn trạng thái"
+                                [showClear]="true"
+                                (onChange)="onStatusChange($event)"
+                                [style]="{ height: '43px', width: '180px' }"
+                                [disabled]="isDisabled"
+                                [baseZIndex]="1000"
+                                appendTo="body"
+                                panelStyleClass="dropdown-up"
+                            >
+                            </p-dropdown>
+                        </div>
+                        <div
+                            class="d-flex justify-content-end"
+                            style="margin-top: 20px"
+                        >
+                            <button
+                                pButton
+                                (click)="visible = false"
+                                label="Hủy"
+                                class="mr-2"
+                                style="
+                                    background-color: #adadad;
+                                    border-color: transparent;
+                                "
+                            ></button>
+                            <button
+                                *ngIf="orderGetID?.orderStatus != 3"
+                                [disabled]="issubmit"
+                                pButton
+                                (click)="updateStatusOrder()"
+                                label="Cập nhật"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </p-dialog>
+    </section>
+</main>

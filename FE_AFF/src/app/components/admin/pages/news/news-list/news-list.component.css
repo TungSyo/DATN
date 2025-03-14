@@ -1,0 +1,5 @@
+@charset "UTF-8";
+.dialog-content {
+  max-height: 700px; /* Đặt chiều cao tối đa của nội dung */
+  overflow-y: auto; /* Cho phép cuộn theo chiều dọc */
+}/*# sourceMappingURL=news-list.component.css.map */

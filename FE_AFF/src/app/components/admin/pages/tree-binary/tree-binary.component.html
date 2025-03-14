@@ -1,0 +1,181 @@
+<main id="main">
+	<div class="pagetitle">
+		<div class="">
+			<h3>Hệ thống điểm thưởng</h3>
+			<p-breadcrumb [model]="items"></p-breadcrumb>
+		</div>
+
+	</div>
+	<div class="toast-container">
+		<p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
+	</div>
+
+	<section class="section k-list-table">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card-body">
+					<!-- <div class="controls-container" [ngClass]="{ 'fixed-controls': isFixed }"> -->
+					<div class="controls-container">
+						<div class="row" style="padding: 20px 10px;">
+							<div style="display: flex; justify-content: end;">
+								<div class="col-lg-3">
+									<p-autoComplete 
+										[(ngModel)]="selectedUser" 
+										[suggestions]="filteredUsers" 
+										(completeMethod)="searchUsers($event)" 
+										[field]="'displayText'" 
+										placeholder="Chọn người dùng">
+									</p-autoComplete>
+								</div>
+								<p-dropdown [options]="downLevels" [(ngModel)]="selectedDownLevel"
+									[style]="{ 'margin-left': '10px' }" placeholder="Chọn cấp độ"
+									(onChange)="onDownLevelChange($event)">
+								</p-dropdown>
+								<div class="btn-add-wrapper">
+									<button pButton pRipple label="Lọc"
+										style="height: 40px; width: 60px; border-radius: 10px; margin: 2px 10px;"
+										(click)="filterData()"></button>
+								</div>
+								<div class="btn-add-wrapper">
+									<button pButton pRipple label="Thêm người vào cây"
+										style="height: 40px;  border-radius: 10px; margin: 2px 10px;"
+										(click)="handleShowAddUserToTree()"></button>
+								</div>
+							</div>
+
+						</div>
+						<div style="margin-bottom: 20px;">
+							<div class="zoom-button" (click)="loadData()">
+								<i class="pi pi-sync"></i>
+							</div>
+							<div class="zoom-button" (click)="zoomOut()">
+								<i class="fa fa-search-minus"></i>
+							</div>
+							<div class="zoom-button" (click)="zoomIn()">
+								<i class="fa fa-search-plus"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="tree-container">
+						<div class="tree" [ngStyle]="{ 'transform': 'scale(' + zoomScale + ')' }"
+							(mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp()">
+							<ul>
+								<li *ngFor="let person of data">
+									<a>
+										<img [src]="(ImgUrl + person.avatarUrl) || 'default-avatar-url.jpg'"
+											alt="{{ person.name }}">
+										<p>{{ person.name }} ({{ person.level }})</p>
+										<span style="font-weight: bold;" *ngIf="person.managerInfo">{{ person.managerInfo }}</span>
+										<p>MKH: {{ person.userId }}</p>
+										<div style="display: flex; justify-content: center;">
+											<p>Combo: {{ person.totalCombos }}</p>
+											<i class="fa fa-trash delete-button" (click)="openDeleteDialog(person)"></i>
+										</div>
+									</a>
+									<ul *ngIf="person.children?.length">
+										<ng-container
+											*ngTemplateOutlet="renderNode; context: { children: person.children }">
+										</ng-container>
+									</ul>
+								</li>
+							</ul>
+
+							<ng-template #renderNode let-children="children">
+								<li *ngFor="let child of children">
+									<a>
+										<img [src]="(ImgUrl + child.avatarUrl) || 'default-avatar-url.jpg'"
+											alt="{{ child.name }}">
+										<p>{{ child.name }} ({{ child.level }})</p>
+										<span style="font-weight: bold;" *ngIf="child.managerInfo">{{ child.managerInfo }}</span>
+										<p>MKH: {{ child.userId }}</p>
+										<div style="display: flex; justify-content: center;">
+											<p>Combo: {{ child.totalCombos }}</p>
+											<i class="fa fa-trash delete-button" (click)="openDeleteDialog2(child)"></i>
+										</div>
+										<!-- <button (click)="deleteNode(child.userId)" class="delete-button">
+										</button> -->
+									</a>
+									<ul *ngIf="child.children?.length">
+										<ng-container
+											*ngTemplateOutlet="renderNode; context: { children: child.children }">
+										</ng-container>
+									</ul>
+								</li>
+							</ng-template>
+
+						</div>
+						<div *ngIf="!data || data.length === 0" class="no-data-message">
+							<p>Không có dữ liệu.</p>
+							<p>Vui lòng chọn thông tin người dùng.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+<p-dialog header="Thêm người vào cây" [modal]="true" [(visible)]="showAddUserToTree" [style]="{ width: '40rem' }">
+	<div style="padding-bottom: 20px" class="flex gap-1 auto-comple">
+		<div class="form-group ">
+			<label for="">Chọn người mời</label>
+			<!-- <p-autoComplete [suggestions]="filteredUsers" (completeMethod)="filterUserSuggestions($event)"
+				field="displayLabel" [(ngModel)]="selectedUserInvite" [style]="{width: '50%', height: '44px' }"
+				placeholder="Chọn người mời">
+				<ng-template let-user pTemplate="item">
+					<div>
+						<span>{{ user.name }}</span>
+						<span style="color: rgb(64, 0, 255); font-weight: 600;"> - {{
+							user.phoneNumber }}</span>
+					</div>
+				</ng-template>
+			</p-autoComplete> -->
+			<p-autoComplete 
+				[(ngModel)]="selectedUserInvite" 
+				[suggestions]="filteredUsers" 
+				(completeMethod)="searchUsers($event)" 
+				[field]="'displayText'" 
+				[style]="{width: '100%', height: '44px' }"
+				placeholder="Chọn người mời">
+			</p-autoComplete>
+			
+		</div>
+
+		<div class="form-group ">
+			<label for="">Chọn người vào cây</label>
+			<!-- <p-autoComplete [suggestions]="filteredUsers" (completeMethod)="filterUserSuggestions($event)"
+				field="displayLabel" [(ngModel)]="selectedUserJoin" [style]="{width: '50%', height: '44px' }"
+				placeholder="Chọn người tham gia cây">
+				<ng-template let-user pTemplate="item">
+					<div>
+						<span>{{ user.name }}</span>
+						<span style="color: rgb(64, 0, 255); font-weight: 600;"> - {{
+							user.phoneNumber }}</span>
+					</div>
+				</ng-template>
+			</p-autoComplete> -->
+			<p-autoComplete 
+				[(ngModel)]="selectedUserJoin" 
+				[suggestions]="filteredUsers" 
+				(completeMethod)="searchUsers($event)" 
+				[field]="'displayText'" 
+				[style]="{width: '100%', height: '44px' }"
+				placeholder="Chọn người tham gia cây">
+			</p-autoComplete>
+		</div>
+		<!-- <p-button label="Duyệt" (click)="approveNextStatus()" /> -->
+	</div>
+	<div class="flex justify-content-end gap-2">
+		<p-button label="Hủy" severity="secondary" (click)="showAddUserToTree = false" />
+		<p-button label="Thêm" (click)="handleAddUserToTree()" />
+	</div>
+</p-dialog>
+
+<p-dialog [(visible)]="showConfirmDialog" [modal]="true" [closable]="false" header="Xác nhận xóa">
+    <p>Bạn có chắc chắn muốn xóa không?</p>
+    <p>MKH: {{ userToDelete?.userId }}</p>
+    <div class="dialog-buttons">
+        <button pButton type="button" label="Hủy" (click)="onCancel()" class="p-button-secondary"></button>
+        <button pButton type="button" label="Xóa" (click)="onConfirmDelete()" class="p-button-danger"></button>
+    </div>
+</p-dialog>

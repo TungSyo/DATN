@@ -1,0 +1,6 @@
+# Loại bỏ tất cả các file .log
+*.dump
+*.dumpstream
+
+# Loại bỏ thư mục build hoặc target
+surefire-reports/

@@ -1,0 +1,406 @@
+<form [formGroup]="productForm" (ngSubmit)="checkAndOnSubmit()">
+    <div class="grid">
+        <div class="col-12">
+            <p-toolbar styleClass="mb-2">
+                <div class>
+                    <h3>Thêm mới sản phẩm</h3>
+                    <p-breadcrumb
+                        [model]="items">
+                    </p-breadcrumb>
+                </div>
+                <div class="toast-container">
+                  <p-messages
+                    [(value)]="messages"
+                    [enableService]="false"
+                    [closable]="false"
+                  ></p-messages>
+                </div>
+            </p-toolbar>
+            <div class="grid p-fluid">
+                <div class="col-12 md:col-12">
+                    <!-- <div class="box">
+                        <div class="border-manager">
+                            <span>HÌNH THỨC QUẢN LÝ</span>
+                        </div>
+                        <div class="processing">
+                            <div class="processing-checkbox">
+                              <input type="radio" id="sanphamthuong" formControlName="productType" [value]="0" />
+                              <label style="padding-left: 10px;" for="sanphamthuong">Sản phẩm thường</label>
+                            </div>
+                            <div style="margin-left: 100px;" class="processing-checkbox">
+                              <input type="radio" id="sanphamserial" formControlName="productType" [value]="1" />
+                              <label style="padding-left: 10px;" for="sanphamserial">Sản phẩm Serial/iMei</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="box">
+                        <div class="border-manager">
+                            <span>THÔNG TIN SẢN PHẨM</span>
+                            <div style="margin-top: -27px;" class="horizontal-row">
+                              <p-inputSwitch
+                                name="switchControl"
+                                [style]="{ height: '20px', 'margin-top': '7px' }"
+                                formControlName="status"
+                              ></p-inputSwitch>
+                              <span style="margin-left: 10px">Ẩn/Hiển</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                    <label class="labelip">Thương hiệu </label>
+                                    <p-dropdown
+                                      formControlName="brandId"
+                                      [options]="brands"
+                                      [style]="{ height: '43px', width: '100%' }"
+                                      optionLabel="name"
+                                      [showClear]="true"
+                                      placeholder="Chọn thương hiệu"
+                                      optionValue="id"
+                                    ></p-dropdown>
+                                    <!-- <div *ngIf="productForm.get('brandId')?.invalid && (productForm.get('brandId')?.dirty || productForm.get('brandId')?.touched) || showNameError3">
+                                      <div *ngIf="productForm.get('brandId')?.errors?.['required']" class="error-message">
+                                        Thương hiệu không được bỏ trống
+                                      </div>
+                                    </div> -->
+                                    </div>         
+                                    <div class="col-lg-4">
+                                        <label class="labelip">Danh mục sản phẩm <span
+                                            class="red-asterisk">*</span></label>
+                                            <p-treeSelect
+                                            containerStyleClass="w-full"
+                                            [options]="categorieandchild"
+                                            optionValue="selectedCategory"
+                                            formControlName="categoryId"
+                                            optionLabel="label"
+                                            [showClear]="true"
+                                            placeholder="Chọn danh mục sản phẩm"
+                                            [style]="{ width: '100%' }"
+                                            (onNodeSelect)="onNodeSelect($event)"
+                                            (onNodeUnselect)="onNodeUnselect($event)"
+                                            (onFocus)="onTreeSelectFocus()"
+                                          >
+                                            <ng-template let-node pTemplate="default">
+                                              <span>{{ node.label }}</span>
+                                            </ng-template>
+                                          </p-treeSelect>
+                                          <div
+                                          *ngIf="
+                                            (productForm.get('categoryId')?.invalid &&
+                                              (productForm.get('categoryId')?.dirty ||
+                                                productForm.get('categoryId')?.touched)) ||
+                                            showNameError4
+                                          "
+                                        >
+                                          <div
+                                            *ngIf="productForm.get('categoryId')?.errors?.['required']"
+                                            class="error-message"
+                                          >
+                                            Danh mục không được bỏ trống
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label class="labelip">SKU </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            pInputText
+                                            [style]="{ height: '40px', width: '100%' }"
+                                            formControlName="sku"
+                                            placeholder="Nhập thông tin"
+                                            maxlength="100"
+                                            (input)="onInput2($event)"
+                                            />
+                                            <div *ngIf="showNameError14" class="error-message">
+                                              {{ errorMessage2 }}
+                                            </div> 
+                                    </div>             
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                      <label class="labelip">Tên sản phẩm <span
+                                          class="red-asterisk">*</span></label>
+                                          <input
+                                              type="text"
+                                              class="form-control"
+                                              pInputText
+                                              [style]="{ height: '40px', width: '100%' }"
+                                              formControlName="name"
+                                              placeholder="Nhập tên sản phẩm"
+                                              maxlength="100"
+                                          />
+                                          <div
+                                          *ngIf="
+                                            (productForm.get('name')?.invalid &&
+                                              (productForm.get('name')?.dirty ||
+                                                productForm.get('name')?.touched)) ||
+                                            showNameError2 ||
+                                            showNameError11
+                                          "
+                                        >
+                                          <div
+                                            *ngIf="productForm.get('name')?.errors?.['required']"
+                                            class="error-message"
+                                          >
+                                            Tên sản phẩm không được để trống
+                                          </div>
+                                          <div
+                                            *ngIf="productForm.get('name')?.errors?.['invalidName'] && !productForm.get('name')?.errors?.['required']"
+                                            class="error-message"
+                                          >
+                                            Tên không được chứa toàn ký tự trắng
+                                          </div>
+                                          
+                                        </div> 
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <label class="labelip">Khối lượng</label>
+                                      <div class="input-group">
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          pInputText
+                                          [style]="{ height: '40px', width: '70%' }"
+                                          formControlName="mass"
+                                          placeholder="Nhập khối lượng"
+                                          min="0.01"
+                                          step="0.01"
+                                          (keypress)="onKeyPress($event)"
+                                        />
+                                        <div class="input-group-append">
+                                          <select
+                                            class="form-control"
+                                            formControlName="unit"
+                                            [style]="{ height: '40px' }">
+                                            <option value="kg" selected>kg</option>
+                                            <option value="g">g</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <label class="labelip">Đơn vị</label>
+                                          <input
+                                              type="text"
+                                              class="form-control"
+                                              pInputText
+                                              [style]="{ height: '40px', width: '100%' }"
+                                              formControlName="unitName"
+                                              placeholder="Nhập đơn vị"
+                                              maxlength="100"
+                                          /> 
+                                    </div>      
+                                    <!-- <div class="col-lg-4">
+                                      <label class="labelip">Đơn vị</label>
+                                          <input
+                                              type="text"
+                                              class="form-control"
+                                              pInputText
+                                              [style]="{ height: '40px', width: '100%' }"
+                                              formControlName="unitName"
+                                              placeholder="Nhập đơn vị"
+                                              maxlength="100"
+                                          /> 
+                                    </div>                                    -->
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                  <div class="col-lg-4" *ngIf="!formattedSellingPrice || isEditMode">
+                                    <label class="labelip">Giá bán </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        pInputText
+                                        [style]="{ height: '40px', width: '100%' }"
+                                        formControlName="sellingPrice"
+                                        placeholder="Nhập giá bán"
+                                        maxlength="100"
+                                        (keypress)="onKeyPressPrice($event)"
+                                        (blur)="convertToCurrency()"
+                                    />
+                                  </div>
+                                
+                                  <div class="col-lg-4" *ngIf="formattedSellingPrice && !isEditMode">
+                                      <label class="labelip">Giá bán</label>
+                                      <input
+                                          type="text"
+                                          class="form-control"
+                                          [style]="{ height: '40px', width: '100%' }"
+                                          [value]="formattedSellingPrice"
+                                          readonly
+                                          (click)="toggleEditMode()"
+                                      />
+                                  </div>
+                                  
+                                  <div class="col-lg-4"  *ngIf="!formattedImPrice || isEditMode2">
+                                      <label class="labelip">Giá nhập</label>
+                                      <input
+                                          type="text"
+                                          class="form-control"
+                                          pInputText
+                                          [style]="{ height: '40px', width: '100%' }"
+                                          formControlName="importPrice"
+                                          placeholder="Nhập giá nhập"
+                                          maxlength="100"
+                                          (keypress)="onKeyPress($event)"
+                                          (blur)="convertToCurrency2()"
+                                      />                                      
+                                  </div> 
+                                  <div  class="col-lg-4" *ngIf="formattedImPrice && !isEditMode2">
+                                    <label class="labelip">Giá nhập</label>
+                                      <input
+                                          type="text"
+                                          class="form-control"
+                                          [style]="{ height: '40px', width: '100%' }"
+                                          [value]="formattedImPrice"
+                                          readonly
+                                          (click)="toggleEditMode2()"
+                                      />
+                                  </div>      
+                                   
+                                </div>
+                            </div>                     
+                            <!-- <div class="col-lg-12"  *ngIf="productForm.get('productType').value === 0">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label class="labelip">Kho hàng</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                pInputText
+                                                [style]="{ height: '40px', width: '100%' }"
+                                                formControlName="totalQuantity"
+                                                placeholder="Nhập kho hàng"
+                                                maxlength="100"
+                                                (keypress)="onKeyPressQuantity($event)"
+                                            /> 
+                                    </div>      
+                                </div>
+                            </div> -->
+                            <div class="col-lg-12">
+                              <label style="color: rgb(139, 127, 248); cursor: pointer;" class="labelip" (click)="toggleDescriptionEditor()">
+                                {{ showDescriptionEditor ? 'Ẩn mô tả sản phẩm' : 'Hiển thị mô tả sản phẩm' }}
+                              </label>                          
+                              <p-editor *ngIf="showDescriptionEditor" formControlName="description" [style]="{ height: '320px' }"></p-editor>  
+                            </div>                      
+                            <div class="col-lg-12">
+                                <div class="product-content">
+                                  <label class="labelip">Ảnh sản phẩm</label>
+                                  <div class="image-container">
+                                    <div
+                                      style="margin-left: 15px"
+                                      *ngFor="let image of base64_FileIamges; let i = index"
+                                      class="image-product"
+                                    >
+                                      <img [src]="image.preview" width="100" height="50" />
+                                      <i
+                                        style="margin-top: 10px"
+                                        class="pi pi-trash"
+                                        (click)="removeImage(i)"
+                                      ></i>
+                                    </div>
+                                    <div class="img-ch">
+                                      <label for="fileInput" class="preview">
+                                        <i class="pi pi-plus"></i>
+                                        <span
+                                          >Tải ảnh {{ base64_FileIamges.length }}/{{
+                                            maxImages
+                                          }}</span
+                                        >
+                                      </label>
+                                      <input
+                                        type="file"
+                                        #imageInput
+                                        id="fileInput"
+                                        (change)="onImageSelected($event)"
+                                        accept="image/*"
+                                        [disabled]="base64_FileIamges.length >= maxImages"
+                                        style="display: none"
+                                        multiple
+                                      />
+                                    </div>
+                                    <div class="flex-wrap">
+                                        <p>Định dạng JPG/PNG/JPEG</p>
+                                        <span>Dung lượng: 3MB</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- <div *ngIf="showNameError" class="error-message">
+                                  Hình ảnh đã bị thiếu, hãy chắc chắn rằng sản phẩm này có ít nhất một hình ảnh.
+                                </div> -->
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 flex justify-content-end gap-3">
+            <button
+                pButton
+                pRipple
+                type="button"
+                label="Hủy"
+                class="p-button-outlined"
+                (click)="openDialog3()">
+              </button>
+            <button
+                type="submit"
+                pButton
+                label="Thêm mới"
+                class="p-button-primary">
+            </button>
+        </div>
+
+        <div class="dialog-background" *ngIf="showDialog3">
+          <div class="dialog-container-customerdelete">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title">Xác nhận</h5>
+                <p-button
+                  icon="pi pi-times"
+                  [rounded]="true"
+                  [text]="true"
+                  severity="danger"
+                  [style]="{ 'border-radius': '25%' }"
+                  (click)="closeDialog3()"
+                ></p-button>
+              </div>
+              <!-- General Form Elements -->
+              <form>
+                <div class="row mb-12">
+                  <label
+                    >Dữ liệu sẽ không được lưu lại, bạn có chắc muốn thoát?</label
+                  >
+                </div>
+                <div class="row mb-12 mt-5">
+                  <div class="col-sm-12 buttonsl">
+                    <button
+                      pButton
+                      pRipple
+                      label="Hủy"
+                      class="p-button-success buttoncloses"
+                      type="button"
+                      (click)="closeDialog3()"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      label="Đồng ý"
+                      class="p-button-success buttondelete"
+                      type="button"
+                      [routerLink]="['/admin/pages/products/show-product']"
+                    ></button>
+                  </div>
+                </div>
+              </form>
+              <!-- End General Form Elements -->
+            </div>
+          </div>
+        </div>
+    </div>
+</form>

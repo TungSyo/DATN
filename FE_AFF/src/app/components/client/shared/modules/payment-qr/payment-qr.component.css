@@ -1,0 +1,15 @@
+.qr-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .qr-container img{
+    width: 350px;
+  }
+  @media (min-width: 1900px) {
+    .qr-container img{
+      width: 400px;
+    }
+
+    }

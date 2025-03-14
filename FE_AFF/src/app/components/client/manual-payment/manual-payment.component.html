@@ -1,0 +1,218 @@
+<div class="manual-payment">
+    <div class="container">
+        <div class="manual-payment-inner">
+            <div class="manual-payment-left">
+                <div class="manual-payment-logo">
+                    <img
+                        height="45"
+                        src="https://honivy.com/wp-content/uploads/2024/04/LOGO-HONIVY-01.png"
+                    />
+                </div>
+                <div class="manual-payment-customer-info">
+                    <h4>Thông tin khách hàng</h4>
+                    <div style="padding-left: 10px">
+                        <div class="row mb-2">
+                            <div class="col-md-4">Email:</div>
+                            <div class="col-md-8">{{ order.user?.email }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Họ và tên:</div>
+                            <div class="col-md-8">{{ order?.userName }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Số điện thoại:</div>
+                            <div class="col-md-8">{{ order?.phoneNumber }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Địa chỉ:</div>
+                            <div class="col-md-8">
+                                {{ order?.shippingAddress }}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Ghi chú:</div>
+                            <div class="col-md-8">{{ order?.note }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="manual-payment-customer-receiving">
+                    <h4>Thông tin người nhận</h4>
+                    <div class="beneficiary">
+                        <h6>Ngân hàng thụ hưởng</h6>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Số tiền:</div>
+                            <div class="col-md-8">
+                                {{ order?.totalAmount | number : "1.0-0" }}₫
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Tên chủ TK:</div>
+                            <div class="col-md-8">
+                                {{ order.paymentAccount?.accountName }}
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">Số TK:</div>
+                            <div class="col-md-8">
+                                {{ order?.paymentAccount?.accountNumber }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transfer-content">
+                        <h6>Nội dung chuyển khoản</h6>
+                        <div class="row">
+                            <div class="col-md-4">Nội dung:</div>
+                            <div class="col-md-8">
+                                {{ order?.orderTrackingNumber }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="manual-payment-center">
+                <app-payment-qr
+                    *ngIf="manualPayment.transferContent != null"
+                    [bank]="manualPayment.bankCode"
+                    [bankAccount]="manualPayment.bankAccount"
+                    [amount]="manualPayment.amount"
+                    [transferContent]="manualPayment?.transferContent"
+                    [accountName]="manualPayment.accountName"
+                >
+                </app-payment-qr>
+            </div>
+            <div class="manual-payment-right">
+                <div class="payment__sidebar">
+                    <div class="order-header">
+                        <h4 class="order-title">ĐƠN HÀNG CỦA BẠN</h4>
+                        <table class="checkout-review-order-table">
+                            <thead>
+                                <tr>
+                                    <th class="product-name">Sản phẩm</th>
+                                    <th
+                                        class="product-total"
+                                        style="text-align: right"
+                                    >
+                                        Tạm tính
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    class="cart_item"
+                                    *ngFor="let item of order.orderDetails"
+                                >
+                                    <td class="product-name">
+                                        {{ item.product.name }}
+                                        <strong class="product-quantity"
+                                            >×&nbsp; {{ item.quantity }}</strong
+                                        >
+                                    </td>
+                                    <td
+                                        class="product-total"
+                                        style="text-align: right"
+                                    >
+                                        <span class="price-amount amount"
+                                            ><bdi
+                                                >{{
+                                                    item.totalPrice
+                                                        | number : "1.0-0"
+                                                }}<span
+                                                    class="woocommerce-Price-currency-symbol"
+                                                    >đ</span
+                                                ></bdi
+                                            ></span
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="cart-subtotal">
+                                    <th>Tạm tính</th>
+                                    <td style="text-align: right">
+                                        <span class="price-amount amount"
+                                            ><bdi
+                                                >{{
+                                                    order.originalAmount
+                                                        | number : "1.0-0"
+                                                }}<span
+                                                    class="price-currency-symbol"
+                                                    >đ</span
+                                                ></bdi
+                                            ></span
+                                        >
+                                    </td>
+                                </tr>
+
+                                <tr
+                                    class="cart-subtotal"
+                                    *ngIf="order.isDecrease500"
+                                >
+                                    <th>Giảm đơn hàng thứ 2</th>
+                                    <td style="text-align: right">
+                                        <span class="price-amount amount"
+                                            ><bdi style="color: red"
+                                                >500,000<span
+                                                    class="price-currency-symbol"
+                                                    >đ</span
+                                                ></bdi
+                                            ></span
+                                        >
+                                    </td>
+                                </tr>
+                                <tr class="cart-subtotal" *ngIf="order.voucher">
+                                    <th>Voucher</th>
+                                    <td style="text-align: right">
+                                        <span class="price-amount amount"
+                                            ><bdi style="color: red"
+                                                >{{
+                                                    order.voucher.voucherAmount
+                                                        | number : "1.0-0"
+                                                }}<span
+                                                    class="price-currency-symbol"
+                                                    >đ</span
+                                                ></bdi
+                                            ></span
+                                        >
+                                    </td>
+                                </tr>
+
+                                <tr class="order-total">
+                                    <th>Tổng</th>
+                                    <td style="text-align: right">
+                                        <strong
+                                            ><span class="price-amount amount"
+                                                ><bdi
+                                                    >{{
+                                                        order.totalAmount
+                                                            | number : "1.0-0"
+                                                    }}<span
+                                                        class="price-currency-symbol"
+                                                        >đ</span
+                                                    ></bdi
+                                                ></span
+                                            ></strong
+                                        >
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <p class="payment__sidebar-desc">
+                            Xin lỗi, có vẻ như không có phương thức thanh toán
+                            nào khả dụng. Vui lòng liên hệ với chúng tôi nếu bạn
+                            cần hỗ trợ hoặc muốn sắp xếp phương thức thanh toán
+                            thay thế.
+                        </p>
+                        <p class="payment__sidebar-policy">
+                            Thông tin cá nhân của bạn sẽ được sử dụng để xử lý
+                            đơn hàng, tăng trải nghiệm sử dụng website, và cho
+                            các mục đích cụ thể khác đã được mô tả trong
+                            <a href="#"> chính sách riêng tư. </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

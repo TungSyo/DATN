@@ -1,0 +1,44 @@
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+    
+//       {
+//           "type": "java",
+//           "name": "Debug TestNG via Maven",
+//           "request": "launch",
+//           "mainClass": "org.testng.RemoteTestNG",
+//           "args": [
+//               "-usedefaultlisteners",
+//               "-d", "test-output",
+//               "src/test/resources/testng.xml"
+//           ],
+//           "vmArgs": "-Dfile.encoding=UTF-8",
+//           "projectName": "AFF"  // Thay bằng tên project trong pom.xml
+//       }
+//   ]
+// }
+
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "command": "npm start",
+        "name": "Run npm start",
+        "request": "launch",
+        "type": "node-terminal"
+      },
+      {
+        "type": "java",
+        "name": "Debug TestNG",
+        "request": "launch",
+        "mainClass": "org.testng.TestNG",
+        "args": [
+          "src/test/resources/testng.xml"
+        ],
+        "vmArgs": "-Dfile.encoding=UTF-8",
+        "projectName": "AFF"
+      },
+      
+    ]
+  }
+  

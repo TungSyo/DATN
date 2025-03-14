@@ -1,0 +1,140 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Container cho chi tiết tin tức */
+.news-container {
+    padding: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* .news-content img{
+    width: 100% !important;
+} */
+
+img{
+    width: 100%;
+}
+
+
+/* Tiêu đề tin tức */
+.news-container h1 {
+    font-size: 28px;
+    color: #2a7b33;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Mô tả ngắn */
+.news-subdescription {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Nội dung chi tiết */
+.news-content {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Container cho hình ảnh */
+.image-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Căn giữa ảnh và mở rộng tối đa 100% chiều rộng của container */
+.image-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+
+/* Đối với màn hình nhỏ hơn 576px (Mobile) */
+@media (max-width: 576px) {
+    .news-container {
+        padding: 10px;
+    }
+
+    .news-container h1 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .news-subdescription {
+        font-size: 14px;
+    }
+
+    .news-content {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .image-container img {
+        border-radius: 5px;
+    }
+}
+
+/* Đối với màn hình từ 577px đến 768px (Tablet) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .news-container {
+        padding: 15px;
+    }
+
+    .news-container h1 {
+        font-size: 24px;
+    }
+
+    .news-subdescription {
+        font-size: 16px;
+    }
+
+    .news-content {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .image-container img {
+        border-radius: 6px;
+    }
+}
+
+/* Đối với màn hình lớn hơn 1200px (Desktop) */
+@media (min-width: 1200px) {
+    .news-container {
+        padding: 20px;
+    }
+
+    .news-container h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .news-subdescription {
+        font-size: 20px;
+    }
+
+    .news-content {
+        font-size: 18px;
+        line-height: 1.8;
+    }
+
+    .image-container img {
+        border-radius: 10px;
+    }
+}

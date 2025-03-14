@@ -1,0 +1,18 @@
+<div class="news-container">
+    <!-- Tiêu đề tin tức -->
+    <h1>{{ newsDetail?.title }}</h1>
+
+    <!-- Mô tả ngắn gọn -->
+    <p class="news-subdescription">{{ newsDetail?.subDescription }}</p>
+
+    <!-- Nội dung tin tức, hiển thị dưới dạng HTML đã được sanitize -->
+    <div class="news-content" [innerHTML]="safeContent"></div>
+
+    <!-- Hình ảnh chính của tin tức -->
+    <div *ngIf="newsDetail?.image" class="image-container">
+        <img
+            [src]="imageUrl + newsDetail.image"
+            alt="{{ newsDetail?.title }}"
+        />
+    </div>
+</div>

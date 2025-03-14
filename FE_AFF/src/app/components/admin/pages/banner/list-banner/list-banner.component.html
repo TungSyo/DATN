@@ -1,0 +1,455 @@
+<!-- <app-loading *ngIf="isLoading"></app-loading> -->
+<div class="toast-container">
+    <p-messages [enableService]="false" [closable]="false"></p-messages>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <p-toolbar styleClass="mb-2">
+            <div class="">
+                <h3>Danh sách banner</h3>
+                <p-breadcrumb
+                    [model]="items"
+                    [home]="{
+                        icon: 'pi pi-home',
+                        routeLink: '/admin/dashboard'
+                    }"
+                ></p-breadcrumb>
+            </div>
+            <ng-template pTemplate="right">
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-plus"
+                    label="Thêm mới"
+                    (click)="createBannerVisible = true"
+                    [routerLink]="['admin/pages/banner/create']"
+                ></button>
+            </ng-template>
+        </p-toolbar>
+        <div class="card">
+            <p-table
+                #dt
+                [value]="banners"
+                responsiveLayout="scroll"
+                styleClass="p-datatable-striped"
+                [rows]="paging.pageSize"
+                [first]="paging.pageIndex * paging.pageSize"
+                [paginator]="false"
+                [rowHover]="true"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex flex-column gap-3 align-items-end md:flex-row md:"
+                    >
+                        <div class="flex flex-column">
+                            <label
+                                for="email1"
+                                class="block text-900 text-large font-weight mb-2"
+                                >Tìm kiếm theo tiêu đề:</label
+                            >
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    [(ngModel)]="queryParameters.title"
+                                    placeholder="Tìm theo tiêu đề"
+                                    style="width: 350px"
+                                    class="sm:"
+                                />
+                            </span>
+                        </div>
+                        <div class="flex flex-column">
+                            <label
+                                for="email1"
+                                class="block text-900 text-large font-weight mb-2"
+                                >Vị trí:</label
+                            >
+                            <p-dropdown
+                                [options]="constant.banner.places"
+                                optionLabel="key"
+                                optionValue="value"
+                                [(ngModel)]="queryParameters.place"
+                                [showClear]="true"
+                                placeholder="Chọn vị trí"
+                                (onChange)="onFromBranchChange()"
+                            >
+                            </p-dropdown>
+                        </div>
+                        <div class="flex flex-column">
+                            <label
+                                for="email1"
+                                class="block text-900 text-large font-weight mb-2"
+                                >Chọn loại:</label
+                            >
+                            <p-dropdown
+                                [options]="constant.banner.types"
+                                optionLabel="key"
+                                optionValue="value"
+                                [(ngModel)]="queryParameters.type"
+                                [showClear]="true"
+                                placeholder="Chọn loại banner"
+                                (onChange)="onFromBranchChange()"
+                            >
+                            </p-dropdown>
+                        </div>
+                        <button
+                            pButton
+                            pRipple
+                            label="Lọc"
+                            (click)="handleSearchBanners()"
+                        ></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th class="order-sort" (click)="handleOnSortAndOrderChange(constant.order.id)" [ngClass]="{'order-sort-active': paging?.orderBy === constant.order.id }">
+                              Id
+                              <span *ngIf="paging?.orderBy === constant.order.id" class="order-sort-group test-{{paging?.orderBy}}">
+                                 <i *ngIf="paging?.sortBy === constant.sort.desc" class="bi bi-sort-down"></i>
+                                 <i *ngIf="paging?.sortBy === constant.sort.asc" class="bi bi-sort-up"></i>
+                              </span>
+                              <span *ngIf="!(paging?.orderBy === constant.order.id)" class="test-{{paging?.orderBy}}"><img  src="app/features/admin/assets/images/icons/sort.png" height="14.41" width="14.41" style="margin-top: -3px;" alt="icon-sort"></span>
+                           </th> -->
+                        <th style="text-align: center">Ảnh</th>
+                        <th pSortableColumn="title">
+                            Tiêu đề<p-sortIcon field="title"></p-sortIcon>
+                        </th>
+                        <th>Vị trí</th>
+                        <th>Loại</th>
+                        <th style="text-align: center">Thời hạn</th>
+                        <th>Hành động</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-banner>
+                    <tr>
+                        <td>
+                            <div
+                                class="d-flex align-items-center justify-content-center"
+                            >
+                                <img
+                                    width="80"
+                                    height="50"
+                                    src="{{ config.baseUrl + banner.image }}"
+                                    alt="Header Avatar"
+                                    class="rounded border image-item-lg"
+                                />
+                            </div>
+                        </td>
+                        <td>{{ banner.title }}</td>
+                        <td>{{ banner.placeName }}</td>
+                        <td>{{ banner.typeName }}</td>
+                        <td style="text-align: center">
+                            <span
+                                class="badge {{
+                                    banner.status
+                                        ? 'badge-success'
+                                        : 'badge-danger'
+                                }}"
+                                >{{
+                                    banner.status ? "Hoạt động" : "Hết bạn"
+                                }}</span
+                            >
+                        </td>
+                        <td>
+                            <span
+                                class="cursor-pointer ml-2"
+                                (click)="handleUpdateItem(banner)"
+                                ><i class="pi pi-file-edit"></i
+                            ></span>
+                            <span
+                                class="cursor-pointer ml-2"
+                                (click)="handleDeleteItem(banner.id)"
+                                ><i class="pi pi-trash"></i
+                            ></span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div
+                class="flex align-items-center"
+                style="justify-content: space-between"
+            >
+                <p>
+                    <span style="font-weight: 500">{{
+                        1 + (paging.pageIndex - 1) * paging.pageSize
+                    }}</span>
+                    -
+                    <span style="font-weight: 500">{{
+                        1 +
+                            (paging.pageIndex - 1) * paging.pageSize +
+                            (paging.pageSize - 1)
+                    }}</span>
+                    trong
+                    <span style="font-weight: 500">{{
+                        paging.totalRecords
+                    }}</span>
+                    bản ghi
+                </p>
+                <div *ngIf="banners?.length > 0">
+                    <p-paginator
+                        class="custum-paging"
+                        (onPageChange)="onPageChange($event)"
+                        [first]="(paging.pageIndex - 1) * paging.pageSize"
+                        [rows]="paging.pageSize"
+                        [totalRecords]="paging.totalRecords"
+                        [rowsPerPageOptions]="config.pageSizeOptions"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+    header="Thêm mới banner"
+    [modal]="true"
+    [style]="{ width: '40vw' }"
+    [(visible)]="createBannerVisible"
+>
+    <div class="p-field">
+        <label class="labelip" for="image"
+            >Ảnh <span class="text-danger">*</span></label
+        >
+        <div class="col-md-9 col-lg-8 col-table-reponsive p-0">
+            <div class="custom-file">
+                <input
+                    (change)="handleChangeImage($event)"
+                    type="file"
+                    name="image"
+                    id="image"
+                    class="custom-file-input"
+                    id="customFile"
+                    accept="image/*"
+                    multiple="false"
+                />
+                <label class="custom-file-label" for="customFile"
+                    >Chọn file</label
+                >
+            </div>
+            <!-- || image -->
+            <div *ngIf="base64Image || image" class="img-preview mt-2">
+                <img
+                    *ngIf="base64Image"
+                    [src]="base64Image"
+                    class="rounded img-preview-small"
+                />
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="createBannerForm">
+        <div class="p-fluid">
+            <div class="p-field mt-3">
+                <label class="labelip" for="treeData"
+                    >Tiêu đề<span class="red-asterisk">*</span></label
+                >
+                <input
+                    pInputText
+                    placeholder="Nhập tên tiêu đề"
+                    formControlName="title"
+                />
+            </div>
+            <div class="p-field mt-3">
+                <label class="labelip" for="summaryTimesheetNameStaffPositions"
+                    >Vị trí<span class="red-asterisk">*</span></label
+                >
+                <p-dropdown
+                    [options]="constant.banner.places"
+                    formControlName="place"
+                    optionLabel="key"
+                    placeholder="Chọn vị trí"
+                />
+            </div>
+
+            <div class="p-field mt-3">
+                <label class="labelip" for="value"
+                    >Loại <span class="red-asterisk">*</span></label
+                >
+                <p-dropdown
+                    [options]="constant.banner.types"
+                    formControlName="type"
+                    optionLabel="key"
+                    placeholder="Chọn loại banner"
+                />
+            </div>
+            <div class="p-field mt-3">
+                <label class="labelip" for="treeData"
+                    >Thời hạn<span class="red-asterisk">*</span></label
+                >
+                <p-calendar
+                    [iconDisplay]="'input'"
+                    formControlName="expired"
+                    placeholder="dd/mm/yyyy"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    inputId="icondisplay"
+                />
+            </div>
+            <div class="p-field mt-3">
+                <label class="labelip" for="treeData"
+                    >Độ ưu tiên<span class="red-asterisk">*</span></label
+                >
+                <p-inputNumber
+                    placeholder="Nhập độ ưu tiên"
+                    formControlName="priority"
+                />
+            </div>
+        </div>
+    </form>
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+        <div
+            class="footer-buttons justify-content-end flex gap-2"
+            style="text-align: right"
+        >
+            <p-button
+                label="Hủy"
+                [outlined]="true"
+                severity="secondary"
+            ></p-button>
+            <button
+                pButton
+                type="button"
+                label="Lưu"
+                (click)="handleOnSubmitCreateBanner()"
+                severity="danger"
+            ></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    header="Cập nhật banner"
+    [modal]="true"
+    [style]="{ width: '40vw' }"
+    [(visible)]="updateBannerVisible"
+>
+    <div class="p-field">
+        <label class="labelip" for="image"
+            >Ảnh <span class="text-danger">*</span></label
+        >
+        <div class="col-md-9 col-lg-8 col-table-reponsive p-0">
+            <div class="custom-file">
+                <input
+                    (change)="handleChangeImage($event)"
+                    type="file"
+                    name="image"
+                    id="image"
+                    class="custom-file-input"
+                    id="customFile"
+                    accept="image/*"
+                    multiple="false"
+                />
+                <div class="flex align-items-center gap-2">
+                    <label class="custom-file-label" for="customFile"
+                        >Chọn file</label
+                    >
+                </div>
+            </div>
+            <!-- || image -->
+
+            <div *ngIf="base64Image || image" class="img-preview mt-2">
+                <!-- <img
+                    *ngIf="base64Image"
+                    [src]="base64Image || imageUrl + image"
+                    class="rounded img-preview-small"
+                /> -->
+                <div
+                    *ngIf="image && base64Image == null"
+                    class="img-preview mt-2"
+                >
+                    <img
+                        [src]="imageUrl + image"
+                        class="rounded img-preview-small"
+                    />
+                </div>
+                <div *ngIf="base64Image" class="img-preview mt-2">
+                    <img
+                        [src]="base64Image"
+                        class="rounded img-preview-small"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="updateBannerForm">
+        <div class="p-fluid">
+            <div class="p-field mt-3">
+                <label class="labelip" for="treeData"
+                    >Tiêu đề<span class="red-asterisk">*</span></label
+                >
+                <input
+                    pInputText
+                    placeholder="Nhập tên tiêu đề"
+                    formControlName="title"
+                />
+            </div>
+            <div class="p-field mt-3">
+                <label class="labelip" for="summaryTimesheetNameStaffPositions"
+                    >Vị trí<span class="red-asterisk">*</span></label
+                >
+                <p-dropdown
+                    [options]="constant.banner.places"
+                    formControlName="place"
+                    optionLabel="key"
+                    placeholder="Chọn vị trí"
+                />
+            </div>
+
+            <div class="p-field mt-3">
+                <label class="labelip" for="value"
+                    >Loại <span class="red-asterisk">*</span></label
+                >
+                <p-dropdown
+                    [options]="constant.banner.types"
+                    formControlName="type"
+                    optionLabel="key"
+                    placeholder="Chọn loại banner"
+                />
+            </div>
+            <div class="p-field mt-3">
+                <label class="labelip" for="treeData"
+                    >Thời hạn<span class="red-asterisk">*</span></label
+                >
+                <p-calendar
+                    [iconDisplay]="'input'"
+                    formControlName="expired"
+                    placeholder="dd/mm/yyyy"
+                    dateFormat="dd/mm/yy"
+                    [showIcon]="true"
+                    inputId="icondisplay"
+                />
+            </div>
+            <div class="p-field mt-3">
+                <label class="labelip" for="treeData"
+                    >Độ ưu tiên<span class="red-asterisk">*</span></label
+                >
+                <p-inputNumber
+                    placeholder="Nhập độ ưu tiên"
+                    formControlName="priority"
+                />
+            </div>
+        </div>
+    </form>
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+        <div
+            class="footer-buttons justify-content-end flex gap-2"
+            style="text-align: right"
+        >
+            <p-button
+                label="Hủy"
+                (click)="updateBannerVisible = false; image = null"
+                [outlined]="true"
+                severity="secondary"
+            ></p-button>
+            <button
+                pButton
+                type="button"
+                label="Lưu"
+                (click)="handleOnSubmitUpdateBanner()"
+                severity="danger"
+            ></button>
+        </div>
+    </ng-template>
+</p-dialog>

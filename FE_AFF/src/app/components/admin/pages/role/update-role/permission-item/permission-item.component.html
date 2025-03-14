@@ -1,0 +1,54 @@
+<!-- <li>
+	<div class="permission-item">
+		<span (click)="toggleExpansion()" class="toggle-icon">
+			<span *ngIf="permission.childrens && permission.childrens.length > 0">
+				<i *ngIf="!isExpanded " class="pi pi-sort-down"></i>
+				<i *ngIf="isExpanded " class="pi pi-sort-up"></i>
+
+			</span>
+		</span>
+		<input type="checkbox" [checked]="isSelected(permission)" (change)="togglePermission(permission, $event)">
+		{{ permission.displayName }}
+	</div>
+
+	<ul [ngClass]="{'hidden': !isExpanded}" class="permission-children">
+		<ng-container *ngFor="let child of permission.childrens">
+			<app-permission-item [permission]="child" [permissionsTree]="permissionsTree"
+				[(selectedPermissions)]="selectedPermissions">
+			</app-permission-item>
+		</ng-container>
+	</ul>
+</li> -->
+
+<li class="margin-left">
+	<div class="permission-item">
+	  <span (click)="toggleExpansion()" class="toggle-icon">
+		<span *ngIf="(permission.childrens && permission.childrens.length > 0) ||(permission.parentPermissionId==null) ">
+		  <i *ngIf="!isExpanded" class="pi pi-folder"></i>
+		  <i *ngIf="isExpanded" class="pi pi-folder"></i>
+		  <!-- <i *ngIf="permission.childrens && permission.childrens.length > 0" class="fa-solid fa-folder"></i>
+		  <i *ngIf="permission.parentPermissionId==null" class="fa-regular fa-folder"></i> -->
+		  
+		</span>
+	  </span>
+	  	  <label class="custom-checkbox">
+		<input type="checkbox" [checked]="isSelected(permission)" (change)="togglePermission(permission, $event)">
+		<span class="checkmark"></span>
+	  </label>
+	  
+	  {{ permission.displayName }}
+	</div>
+  
+	<ul [ngClass]="{'hidden': !isExpanded}" class="permission-children">
+	  <ng-container *ngFor="let child of permission.childrens">
+		<app-permission-item 
+		  [permission]="child" 
+		  [permissionsTree]="permissionsTree"
+		  [(selectedPermissions)]="selectedPermissions"
+		  (selectedPermissionsChange)="onChildPermissionsChange($event)">
+		  >
+		</app-permission-item>
+	  </ng-container>
+	</ul>
+  </li>
+  

@@ -1,0 +1,65 @@
+/* Add custom styles for the multi-select options */
+.p-multiselect .p-multiselect-item {
+  transition: background-color 0.3s ease;
+}
+
+.p-multiselect .p-multiselect-item:hover {
+  background-color: #f0f0f0; /* Change background color on hover */
+}
+
+/* Style for the selected items */
+.p-multiselect .p-multiselect-item.p-highlight {
+  background-color: #007ad9; /* Color for highlighted items */
+  color: white; /* Text color for highlighted items */
+}
+
+
+
+
+.permissions-tree .ui-treenode-connector {
+  display: none;
+}
+.permission-tree {
+  list-style-type: none; /* Xóa dấu bullet */
+}
+
+.permission-item {
+  cursor: pointer;
+}
+
+.permission-item ul {
+  margin-left: 20px;
+}
+
+.permission-tree-box {
+    height: 250px;
+    overflow: hidden;
+    overflow-y: scroll;
+
+    /* Webkit-specific properties */
+    -webkit-overflow-scrolling: touch;
+    /* Cải thiện cuộn mượt mà trên thiết bị di động */
+}
+
+/* Tùy chỉnh thanh cuộn trên trình duyệt Webkit */
+.permission-tree-box::-webkit-scrollbar {
+    width: 8px;
+    /* Chiều rộng của thanh cuộn */
+}
+
+/* Màu nền của thanh cuộn */
+.permission-tree-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Màu của tay cầm cuộn */
+.permission-tree-box::-webkit-scrollbar-thumb {
+    background: #cdcbcb;
+    border-radius: 4px;
+    transition: 0.2s linear;
+}
+
+/* Khi hover trên thanh cuộn */
+.permission-tree-box::-webkit-scrollbar-thumb:hover {
+    background: #8c8b8b;
+}

@@ -1,0 +1,163 @@
+<form [formGroup]="newsForm" (ngSubmit)="updateNews()" enctype="multipart/form-data">
+    <div class="grid">
+      <div class="col-12">
+        <p-toolbar styleClass="mb-2">
+          <div class>
+              <h3>Cập nhật tin tức</h3>
+              <p-breadcrumb
+                  [model]="items">
+              </p-breadcrumb>
+          </div>
+          <div class="toast-container">
+            <p-messages
+              [(value)]="messages"
+              [enableService]="false"
+              [closable]="false"
+            ></p-messages>
+          </div>
+        </p-toolbar>
+        <div class="grid p-fluid">
+          <div class="col-12 md:col-12">
+            <div class="box">
+              <div class="border-manager">
+                  <span>Cập nhật tin tức</span>
+                  <div style="margin-top: -27px;" class="horizontal-row">
+                    <p-inputSwitch
+                      name="switchControl"
+                      [style]="{ height: '20px', 'margin-top': '7px' }"
+                      formControlName="isActive"
+                    ></p-inputSwitch>
+                    <span style="margin-left: 10px">Ẩn/Hiện</span>
+                  </div>
+              </div>
+              <div class="card-body">
+                <div class="col-lg-12">
+                  <label class="labelip">Ngày tạo</label>
+                  <p-calendar
+                    formControlName="createdAt"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    placeholder="Chọn ngày"
+                    inputStyleClass="form-control"
+                  ></p-calendar>
+                  <small class="p-error" *ngIf="isInvalid('createdAt')">
+                    Vui lòng chọn ngày!
+                  </small>
+                </div>
+                <div class="col-lg-12">
+                    <label class="labelip">Tiêu đề</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        pInputText
+                        [style]="{ height: '40px', width: '100%' }"
+                        formControlName="title"
+                        placeholder="Nhập thông tin tiêu đề"
+                        maxlength="100"
+                        [ngClass]="{ 'ng-invalid': isInvalid('title') }"
+                        />
+                      <small class="p-error" *ngIf="isInvalid('title')">Vui lòng nhập tiêu đề!</small>
+                      <small class="p-error" *ngIf="showError">Vui lòng nhập tiêu đề!</small>
+                </div>             
+                <div class="col-lg-12">
+                    <label class="labelip">Mô tả ngắn</label>
+                    <textarea id="subDescription" pInputTextarea formControlName="subDescription" placeholder="Nhập thông tin mô tả"></textarea>
+                </div>             
+                <div class="col-lg-12">     
+                  <label class="labelip">Nội dung</label>                  
+                  <p-editor formControlName="content" [style]="{ height: '320px' }" ></p-editor>  
+                </div>                      
+                <div class="col-lg-12">     
+                  <label class="labelip">Ảnh tin tức</label>                   
+                  <p-fileUpload 
+                    *ngIf="!imageUrl"
+                    name="imageFile"
+                    (onSelect)="onFileSelect($event)"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    chooseLabel="Chọn ảnh"
+                    [showUploadButton]="false"
+                    [showCancelButton]="false"
+                    [auto]="false">
+                  </p-fileUpload>  
+                
+                </div>                
+                <div *ngIf="imageUrl" class="image-container">
+                  <img [src]="imageUrl" alt="{{ selectedNews?.title }}" class="news-image" />
+                  
+                  <!-- Biểu tượng trash khi hover vào ảnh -->
+                  <i *ngIf="imageUrl" 
+                  class="pi pi-trash trash-icon" 
+                  (click)="removeImage()"></i>
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 flex justify-content-end gap-3">
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Hủy"
+            class="p-button-outlined"
+            (click)="openDialog3()">
+          </button>
+        <button
+            type="submit"
+            pButton
+            label="Lưu"
+            class="p-button-primary"></button>
+      </div>
+
+      <div class="dialog-background" *ngIf="showDialog3">
+        <div class="dialog-container-customerdelete">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Xác nhận</h5>
+              <p-button
+                icon="pi pi-times"
+                [rounded]="true"
+                [text]="true"
+                severity="danger"
+                [style]="{ 'border-radius': '25%' }"
+                (click)="closeDialog3()"
+              ></p-button>
+            </div>
+            <!-- General Form Elements -->
+            <form>
+              <div class="row mb-12">
+                <label
+                  >Dữ liệu sẽ không được lưu lại, bạn có chắc muốn thoát?</label
+                >
+              </div>
+              <div class="row mb-12 mt-5">
+                <div class="col-sm-12 buttonsl">
+                  <button
+                    pButton
+                    pRipple
+                    label="Hủy"
+                    class="p-button-success buttoncloses"
+                    type="button"
+                    (click)="closeDialog3()"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    label="Đồng ý"
+                    class="p-button-success buttondelete"
+                    type="button"
+                    [routerLink]="['/admin/pages/news']"
+                  ></button>
+                </div>
+              </div>
+            </form>
+            <!-- End General Form Elements -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
+    

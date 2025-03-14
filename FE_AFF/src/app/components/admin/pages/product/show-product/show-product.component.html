@@ -1,0 +1,424 @@
+<div class="toast-container">
+    <p-messages
+        [(value)]="messages"
+        [enableService]="false"
+        [closable]="false"
+    ></p-messages>
+</div>
+<main id="main">
+    <div class="pagetitle">
+        <div>
+            <h3>Quản lý sản phẩm</h3>
+            <p-breadcrumb [model]="items"> </p-breadcrumb>
+        </div>
+
+        <div>
+            <button
+                pButton
+                pRipple
+                label="Thêm mới"
+                style="height: 40px; width: 130px; border-radius: 10px"
+                [routerLink]="['/admin/pages/products/create-product']"
+            ></button>
+        </div>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section show-product-component k-list-table">
+        <!-- <div class="row title">
+        <div class="col-lg-6 tilte_left">
+          <h4>Danh sách sản phẩm</h4>
+        </div>
+        <div class="col-lg-6">
+          <div
+            class="button_add_product"
+            [routerLink]="['/admin/quanlysanpham/themsanpham']"
+          >
+            <i class="fa fa-plus"></i>
+            <a>Thêm sản phẩm</a>
+          </div>
+        </div>
+      </div> -->
+        <div class="row filter">
+            <div class="col-lg-3 search">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                        [(ngModel)]="this.optionsFillerProduct.KeyWord"
+                        class="form-control search"
+                        type="text"
+                        placeholder="Tìm kiếm theo tên/SKU sản phẩm"
+                    />
+                </span>
+            </div>
+            <div class="col-lg-2 filter-categories">
+                <p-treeSelect
+                    containerStyleClass="w-full2"
+                    [options]="treeCategory"
+                    (onNodeSelect)="onNodeSelect()"
+                    (onClear)="onClear()"
+                    optionLabel="label"
+                    [showClear]="true"
+                    [(ngModel)]="selectedNodes"
+                    placeholder="Danh mục"
+                    [style]="{ width: '200px', height: '100%' }"
+                >
+                    <ng-template let-node pTemplate="default">
+                        <span>{{ node.name }}</span>
+                    </ng-template>
+                </p-treeSelect>
+            </div>
+            <div class="col-lg-3 filter-price" style="max-width: 220px">
+                <span>Giá</span>
+                <input
+                    [(ngModel)]="this.optionsFillerProduct.StartPrice"
+                    type="text"
+                    pKeyFilter="int"
+                    placeholder="Từ :"
+                    (blur)="checkStartPriceValue()"
+                    (keypress)="onKeyPress($event)"
+                />
+                <input
+                    [(ngModel)]="this.optionsFillerProduct.EndPrice"
+                    type="text"
+                    pKeyFilter="int"
+                    placeholder="Đến :"
+                    (blur)="checkEndPriceValue()"
+                    (keypress)="onKeyPress($event)"
+                />
+            </div>
+            <div class="col-lg-2 filter-status">
+                <p-dropdown
+                    [options]="this.optionsStatus"
+                    [(ngModel)]="this.statusFilter"
+                    optionLabel="name"
+                    [showClear]="true"
+                    placeholder="Trạng thái"
+                    [style]="{ height: '37px', width: '100%' }"
+                ></p-dropdown>
+            </div>
+            <div class="col-lg-1 filter-button">
+                <button (click)="EvenFilter()">Lọc</button>
+            </div>
+        </div>
+        <div class="row section-main" style="margin-top: -26px">
+            <div class="row section-main-product card">
+                <p-table
+                    [value]="products"
+                    [rows]="5"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]"
+                    styleClass="p-datatable-striped"
+                >
+                    <ng-template pTemplate="header">
+                        <tr style="height: 60px" class="n-title-head">
+                            <th style="width: 10%">Ảnh</th>
+                            <th style="width: 17%">Sản phẩm</th>
+                            <th style="width: 17%">Danh mục</th>
+                            <th style="width: 15%">Người tạo</th>
+                            <th style="width: 10%">Giá bán</th>
+                            <th style="width: 12%">Thương hiệu</th>
+                            <th style="width: 10%; text-align: center">
+                                Trạng thái
+                            </th>
+                            <th style="width: 13%">Ngày tạo</th>
+                            <th style="width: 10%">Thao tác</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product class="row">
+                        <tr
+                            style="
+                                border-bottom: 1px solid #d9d9d9;
+                                height: 100%;
+                                overflow: visible;
+                                position: relative;
+                            "
+                        >
+                            <td class="n-image-product">
+                                <ng-container
+                                    *ngIf="
+                                        product.productImages[0] &&
+                                            product.productImages[0].link;
+                                        else noImage
+                                    "
+                                >
+                                    <img
+                                        width="60"
+                                        height="60"
+                                        [src]="
+                                            imageUrl +
+                                            '/api/file/images/' +
+                                            product.productImages[0].link
+                                        "
+                                    />
+                                </ng-container>
+                                <ng-template #noImage>
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style="
+                                            color: rgb(232, 234, 235);
+                                            height: 50px;
+                                        "
+                                    >
+                                        <path
+                                            d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2ZM5 19V5h14l.002 14H5Z"
+                                            fill="currentColor"
+                                        ></path>
+                                        <path
+                                            d="m10 14-1-1-3 4h12l-5-7-3 4ZM8.5 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                                            fill="currentColor"
+                                        ></path>
+                                    </svg>
+                                </ng-template>
+                            </td>
+                            <td>
+                                <span>{{ product.name }}</span>
+                                <p style="color: blue; font-weight: 600">
+                                    {{ product.sku }}
+                                </p>
+                            </td>
+
+                            <td>{{ product.categoryName }}</td>
+
+                            <td>{{ product.createdName }}</td>
+
+                            <td class="price-product">
+                                <p
+                                    style="margin: 15px 0; height: 23px"
+                                    *ngFor="
+                                        let variant of this.showAllVariants.get(
+                                            product.id
+                                        ) === 0 ||
+                                        this.showAllVariants.get(product.id) ===
+                                            2
+                                            ? product.productVariants
+                                            : product.productVariants.slice(
+                                                  0,
+                                                  3
+                                              )
+                                    "
+                                >
+                                    {{
+                                        variant?.price?.toLocaleString(
+                                            "vi-VN",
+                                            {
+                                                style: "currency",
+                                                currency: "VND"
+                                            }
+                                        )
+                                    }}
+                                </p>
+                                <p *ngIf="product.productVariants.length === 0">
+                                    {{
+                                        product?.sellingPrice?.toLocaleString(
+                                            "vi-VN",
+                                            {
+                                                style: "currency",
+                                                currency: "VND"
+                                            }
+                                        )
+                                    }}
+                                </p>
+                            </td>
+                            <td>{{ product.brandName }}</td>
+                            <td
+                                style="
+                                    padding-left: 10px;
+                                    border-bottom: none;
+                                    border-left: none;
+                                    border-right: none;
+                                "
+                            >
+                            <div
+                                style="
+                                    margin: 15px 0;
+                                    width: 90%;
+                                    height: 26px;
+                                    border: 1px solid #d9d9d9;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    background-color: red;
+                                    color: white;
+                                "
+                                [style.background-color]="
+                                    product.status === 1
+                                    ? '#57f298'
+                                    : '#d9d9d9'
+                                "
+                            >
+                                {{
+                                product.status === 1
+                                    ? "Hoạt động"
+                                    : "Ẩn"
+                                }}
+                            </div>
+                            </td>
+                            <td>
+                                {{ product.createdAt | date : "dd/MM/yyyy" }}
+                            </td>
+                            <td class="actions">
+                                <!-- [routerLink]="['/admin/quanlysanpham/themsanpham']" -->
+                                <a
+                                    [routerLink]="[
+                                        '/admin/pages/products/update-product',
+                                        product.id
+                                    ]"
+                                >
+                                    <p>Cập nhật</p>
+                                </a>
+                                <!-- <p
+                                    style="
+                                        margin: 5px 0;
+                                        text-align: center;
+                                        cursor: pointer;
+                                    "
+                                    (click)="ClickChangeStatus($event, product)"
+                                >
+                                    {{
+                                        product.status !== 1
+                                            ? "Hoạt động"
+                                            : "Ẩn"
+                                    }}
+                                </p> -->
+                                <p
+                                    style="margin-top: 5px"
+                                    (click)="openDiaLogDelete($event, product)"
+                                >
+                                    Xóa
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="position: relative; height: 15px">
+                            <button
+                                style="
+                                    border: none;
+                                    background-color: #fff;
+                                    position: absolute;
+                                    top: -10px;
+                                    left: 40%;
+                                    width: 200px;
+                                    z-index: 1;
+                                    color: #626161;
+                                "
+                                class="col-lg-12"
+                                [style.display]="
+                                    this.showAllVariants.get(product.id) === 0
+                                        ? 'hide'
+                                        : 'block'
+                                "
+                                (click)="toggleShowAllVariants(product.id)"
+                            >
+                                {{
+                                    this.showAllVariants.get(product.id) === 1
+                                        ? "Xem thêm " +
+                                          (product.productVariants.length - 3) +
+                                          " sản phẩm"
+                                        : this.showAllVariants.get(
+                                              product.id
+                                          ) === 2
+                                        ? "Thu gọn " +
+                                          (product.productVariants.length - 3) +
+                                          " sản phẩm"
+                                        : ""
+                                }}
+                            </button>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="paginatorleft">
+                        <p-button
+                            type="button"
+                            icon="pi pi-plus"
+                            styleClass="p-button-text"
+                        ></p-button>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorright">
+                        <p-button
+                            type="button"
+                            icon="pi pi-cloud"
+                            styleClass="p-button-text"
+                        ></p-button>
+                    </ng-template>
+                </p-table>
+                <div *ngIf="totalRecords === 0" style="text-align: center">
+                    <strong style="text-align: center; width: 100%"
+                        >Không tìm thấy kết quả phù hợp</strong
+                    >
+                </div>
+                <div class="paging-info">
+                    <div [innerHTML]="currentPageReport"></div>
+                </div>
+                <div class="paginator">
+                    <p-paginator
+                        [rows]="pageSize"
+                        (onPageChange)="onPageChange($event)"
+                        [totalRecords]="totalRecords > 0 ? totalRecords : 1"
+                        [rowsPerPageOptions]="[10, 20, 30]"
+                    ></p-paginator>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-background" *ngIf="showDiaLogDelete">
+            <div style="width: 35%" class="dialog-containerdelete">
+                <div
+                    style="padding: 15px"
+                    class="card-body"
+                    *ngIf="productDelete"
+                >
+                    <div
+                        class="d-flex justify-content-between align-items-center"
+                    >
+                        <h5 class="card-title">Xóa Sản Phẩm</h5>
+                        <p-button
+                            icon="pi pi-times"
+                            [rounded]="true"
+                            [text]="true"
+                            severity="danger"
+                            [style]="{ 'border-radius': '25%' }"
+                            (click)="closeDiaLogDelete()"
+                        ></p-button>
+                    </div>
+                    <!-- General Form Elements -->
+                    <form>
+                        <div class="row mb-12">
+                            <label
+                                >Bạn có chắc muốn xóa sẩn phẩm này? Lưu ý: Sau
+                                khi xóa bạn không thể hoàn tác hay khôi phục sẩn
+                                phẩm.</label
+                            >
+                            <strong
+                                style="text-align: center"
+                                class="name-delete"
+                                >{{ productDelete.name }}</strong
+                            >
+                        </div>
+                        <div class="row mb-12 mt-5">
+                            <div class="col-sm-12 buttonsl">
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Hủy"
+                                    class="p-button-success buttoncloses"
+                                    type="button"
+                                    (click)="closeDiaLogDelete()"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    label="Đồng ý"
+                                    class="p-button-success buttondelete"
+                                    type="submit"
+                                    (click)="ClickDelete()"
+                                ></button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End General Form Elements -->
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

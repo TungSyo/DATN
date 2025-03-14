@@ -1,0 +1,1042 @@
+<p-toast />
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="profile-nav col-md-3">
+            <div class="panel">
+                <div class="user-heading round">
+                    <a>
+                        <img
+                            [src]="
+                                ImgUrl + user?.avatarUrl ||
+                                'default-avatar-url.jpg'
+                            "
+                            alt=""
+                        />
+                    </a>
+                    <h1>{{ user?.name || "Admin" }}</h1>
+                    <div class="userreward-infomation">
+                        <!-- Công thương -->
+                        <p class="user-commission">
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 256 256"
+                                height="20px"
+                                width="20px"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M210.35,129.36c-.81-.47-1.7-.92-2.62-1.36.92-.44,1.81-.89,2.62-1.36a40,40,0,1,0-40-69.28c-.81.47-1.65,1-2.48,1.59.08-1,.13-2,.13-3a40,40,0,0,0-80,0c0,.94,0,1.94.13,3-.83-.57-1.67-1.12-2.48-1.59a40,40,0,1,0-40,69.28c.81.47,1.7.92,2.62,1.36-.92.44-1.81.89-2.62,1.36a40,40,0,1,0,40,69.28c.81-.47,1.65-1,2.48-1.59-.08,1-.13,2-.13,2.95a40,40,0,0,0,80,0c0-.94-.05-1.94-.13-2.95.83.57,1.67,1.12,2.48,1.59A39.79,39.79,0,0,0,190.29,204a40.43,40.43,0,0,0,10.42-1.38,40,40,0,0,0,9.64-73.28ZM128,156a28,28,0,1,1,28-28A28,28,0,0,1,128,156Z"
+                                ></path>
+                            </svg>
+                            Ví trực tiếp:
+                            {{ directAmount | number : "1.0-2" }} Điểm
+                        </p>
+                        <p class="user-reward">
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 512 512"
+                                height="20px"
+                                width="20px"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71 66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104zm320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64zM368 320a32 32 0 1 1 32-32 32 32 0 0 1-32 32z"
+                                ></path>
+                                <path
+                                    d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16-18.5 24.5 0 24.5 0 23.5 0 23.5L85.5 236z"
+                                ></path>
+                            </svg>
+                            Ví gián tiếp:
+                            {{ indirectAmount | number : "1.0-2" }} Điểm
+                        </p>
+                        <!-- Công thương -->
+
+                        <!-- Nút Xem chi tiết -->
+                        <div
+                            class="flex flex-column gap-2 justify-content-center"
+                        >
+                            <button
+                                class="detail-button"
+                                [routerLink]="['/detail-amount']"
+                            >
+                                Xem chi tiết
+                            </button>
+                            <button
+                                class="detail-button"
+                                [routerLink]="['/withdraw-history']"
+                            >
+                                Lịch sử rút điểm
+                            </button>
+                            <button
+                                (click)="showDialogWithDraw()"
+                                class="detail-button"
+                            >
+                                Đổi điểm thưởng
+                            </button>
+                            <button
+                                class="detail-button"
+                                [routerLink]="['/account-refferal']"
+                            >
+                                Danh sách mời trực tiếp
+                            </button>
+                        </div>
+                    </div>
+                    <!-- <button
+                        class="detail-button"
+                        [routerLink]="['/detail-amount']"
+                    >
+                        Xem chi tiết
+                    </button> -->
+                </div>
+            </div>
+        </div>
+        <div class="profile-info col-md-9">
+            <div class="panel">
+                <div class="bio-graph-heading">
+                    Thông Tin Người Dùng
+                    <button
+                        class="btn-update-user"
+                        (click)="showUpdateUserDal()"
+                    >
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 5.63l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83a.996.996 0 0 0 0-1.41z"
+                                ></path>
+                            </svg>
+                        </span>
+                        <span> Cập nhật </span>
+                    </button>
+                </div>
+                <div class="panel-body bio-graph-info">
+                    <div class="row">
+                        <div class="bio-row">
+                            <p>
+                                <span>Tên người dùng </span>: {{ user?.name }}
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p>
+                                <span>Mã giới thiệu </span>:
+                                <span id="accountNumber">{{
+                                    user?.phoneNumber
+                                }}</span>
+                                <svg
+                                    (click)="copyText('accountNumber')"
+                                    stroke="currentColor"
+                                    fill="currentColor"
+                                    stroke-width="0"
+                                    viewBox="0 0 24 24"
+                                    height="1em"
+                                    width="1em"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill="none"
+                                        d="M0 0h24v24H0V0z"
+                                    ></path>
+                                    <path
+                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                    ></path>
+                                </svg>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p>
+                                <span>Số điện thoại </span>:
+                                {{ user?.phoneNumber }}
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p>
+                                <span>CCCD/CMND</span>:
+                                {{ user?.citizenIdentification }}
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Email </span>: {{ user?.email }}</p>
+                        </div>
+                        <div class="bio-row">
+                            <p>
+                                <span>Mã thuế cá nhân </span>:
+                                {{ user?.personalTaxCode }}
+                            </p>
+                        </div>
+
+                        <div class="bio-row">
+                            <p>
+                                <span>Địa chỉ</span>: {{ user?.wardName }},
+                                {{ user?.districtName }}, {{ user?.cityName }}
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p>
+                                <span>Tài khoản ngân hàng</span>:
+                                {{ user?.bankAccountNumber }}
+                                {{
+                                    user?.bankName != null
+                                        ? "-" + user?.bankName
+                                        : ""
+                                }}
+                            </p>
+                        </div>
+                        <div></div>
+                        <!-- <input
+                                class="mb-2"
+                                type="text"
+                                placeholder="Nhập số tiền rút"
+                            />
+                            <button>Rút tiền</button> -->
+                        <!-- <div class="bio-row">
+                            <p class="user-commission">
+                                <span>Ví trực tiếp: </span>:
+                                {{ directAmount | number : "1.0-2" }} Điểm
+                            </p>
+                        </div> -->
+                        <div class="bio-row">
+                            <p>
+                                <span>Địa chỉ chi tiết</span>:
+                                {{ user?.address }}
+                            </p>
+                        </div>
+                        <!-- <div class="bio-row">
+                            <p class="user-commission">
+                                <span>Ví gián tiếp: </span>:
+                                {{ indirectAmount | number : "1.0-2" }} Điểm
+                            </p>
+                        </div> -->
+                    </div>
+                    <div class="voucher-box" *ngIf="voucheres?.length > 0">
+                        <h4>Danh sách voucher</h4>
+                        <ul class="voucher-list">
+                            <li
+                                class="voucher-item"
+                                *ngFor="let voucher of voucheres"
+                            >
+                                <div class="voucher-left">
+                                    <span>
+                                        <svg
+                                            stroke="currentColor"
+                                            fill="currentColor"
+                                            stroke-width="0"
+                                            viewBox="0 0 24 24"
+                                            height="1em"
+                                            width="1em"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M21 5H3a1 1 0 0 0-1 1v4h.893c.996 0 1.92.681 2.08 1.664A2.001 2.001 0 0 1 3 14H2v4a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-4h-1a2.001 2.001 0 0 1-1.973-2.336c.16-.983 1.084-1.664 2.08-1.664H22V6a1 1 0 0 0-1-1zM11 17H9v-2h2v2zm0-4H9v-2h2v2zm0-4H9V7h2v2z"
+                                            ></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div class="voucher-right">
+                                    <p
+                                        [attr.id]="'voucher-code-' + voucher.id"
+                                        class="voucher-code"
+                                    >
+                                        {{ voucher.code }}
+                                    </p>
+                                    <p>
+                                        Trị giá:
+                                        {{
+                                            voucher.voucherAmount
+                                                | number : "1.0-0"
+                                        }}đ
+                                    </p>
+                                    <p
+                                        *ngIf="voucher.voucherStatus == 0"
+                                        style="color: #4d8526"
+                                    >
+                                        Chưa sử dụng
+                                    </p>
+                                    <p
+                                        *ngIf="voucher.voucherStatus == 1"
+                                        style="color: red"
+                                    >
+                                        Hết hạn
+                                    </p>
+                                </div>
+                                <span
+                                    class="icon-close"
+                                    (click)="handleDeleteVoucher(voucher.id)"
+                                >
+                                    <svg
+                                        stroke="currentColor"
+                                        fill="currentColor"
+                                        stroke-width="0"
+                                        viewBox="0 0 512 512"
+                                        height="1em"
+                                        width="1em"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill="none"
+                                            stroke-miterlimit="10"
+                                            stroke-width="32"
+                                            d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                                        ></path>
+                                        <path
+                                            fill="none"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="32"
+                                            d="M320 320 192 192m0 128 128-128"
+                                        ></path></svg
+                                ></span>
+                                <span class="icon-copied">
+                                    <svg
+                                        (click)="
+                                            copyText('voucher', voucher.id)
+                                        "
+                                        stroke="currentColor"
+                                        fill="currentColor"
+                                        stroke-width="0"
+                                        viewBox="0 0 24 24"
+                                        height="1em"
+                                        width="1em"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill="none"
+                                            d="M0 0h24v24H0V0z"
+                                        ></path>
+                                        <path
+                                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                        ></path>
+                                    </svg>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Công thương -->
+
+    <div style="margin-bottom: 40px">
+        <div class="zoom-button" (click)="loadData()">
+            <i class="pi pi-sync"></i>
+        </div>
+        <div class="zoom-button" (click)="zoomOut()">
+            <i class="fa fa-search-minus"></i>
+        </div>
+        <div class="zoom-button">
+            <i class="fa fa-search-plus" (click)="zoomIn()"></i>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div style="margin-top: 20px" class="bio-graph-heading">
+            Thứ hạng người dùng
+        </div>
+        <div class="bio-graph-tree">
+            <div class="table-tree-container">
+                <table
+                    class="table-tree"
+                    [ngStyle]="{ transform: 'scale(' + zoomScale + ')' }"
+                >
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">Avatar</th>
+                            <th>Tên</th>
+                            <th>Thứ hạng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let person of data">
+                            <tr>
+                                <td>
+                                    <img
+                                        [src]="
+                                            ImgUrl + person.avatarUrl ||
+                                            'default-avatar-url.jpg'
+                                        "
+                                        alt="{{ person.name }}"
+                                    />
+                                </td>
+                                <td>
+                                    <button
+                                        *ngIf="person.children?.length"
+                                        class="toggle-button"
+                                        (click)="toggleExpand(person)"
+                                    >
+                                        {{ person.expanded ? "-" : "+" }}
+                                    </button>
+                                    <span>{{ person.name }}</span>
+                                </td>
+                                <td>{{ person.level }}</td>
+                            </tr>
+                            <ng-container *ngIf="person.expanded">
+                                <ng-container
+                                    *ngTemplateOutlet="
+                                        renderRow;
+                                        context: {
+                                            children: person.children,
+                                            level: 1
+                                        }
+                                    "
+                                >
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+                <ng-template
+                    #renderRow
+                    let-children="children"
+                    let-level="level"
+                >
+                    <ng-container *ngFor="let child of children">
+                        <tr>
+                            <td>
+                                <img
+                                    [src]="
+                                        ImgUrl + child.avatarUrl ||
+                                        'default-avatar-url.jpg'
+                                    "
+                                    alt="{{ child.name }}"
+                                />
+                            </td>
+                            <td>
+                                <button
+                                    *ngIf="child.children?.length"
+                                    class="toggle-button"
+                                    (click)="toggleExpand(child)"
+                                    [style.margin-left.px]="level * 20"
+                                >
+                                    {{ child.expanded ? "-" : "+" }}
+                                </button>
+                                <span [style.margin-left.px]="level * 20">{{
+                                    child.name
+                                }}</span>
+                            </td>
+                            <td>{{ child.level }}</td>
+                        </tr>
+                        <ng-container *ngIf="child.expanded">
+                            <ng-container
+                                *ngTemplateOutlet="
+                                    renderRow;
+                                    context: {
+                                        children: child.children,
+                                        level: level + 1
+                                    }
+                                "
+                            >
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-template>
+
+                <div *ngIf="!data || data.length === 0" class="no-data-message">
+                    <p>Không có dữ liệu.</p>
+                    <p>Vui lòng chọn thông tin người dùng.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+    <!-- Cây -->
+</div>
+
+<p-dialog
+    header="Đổi điểm thưởng"
+    [modal]="true"
+    [(visible)]="visibleDialogWithDraw"
+    [style]="{ width: '25rem' }"
+>
+    <form [formGroup]="withdrawForm" (ngSubmit)="onSubmit()">
+        <div
+            [formGroup]="withdrawForm"
+            class="flex gap-2 mb-3 flex-column withdraw-spc"
+        >
+            <div class="flex flex-column mb-3">
+                <label for="username" class="font-semibold">Số điểm muốn rút:</label>
+                <p-inputNumber
+                    inputId="minmaxfraction"
+                    formControlName="commission"
+                    placeholder="Nhập số điểm muốn rút"
+                    mode="decimal"
+                />
+                <div
+                    *ngIf="
+                        withdrawForm.get('commission')?.invalid &&
+                        (withdrawForm.get('commission')?.dirty ||
+                            withdrawForm.get('commission')?.touched)
+                    "
+                >
+                    <div
+                        *ngIf="withdrawForm.get('commission')?.errors?.['required']"
+                        class="error-message"
+                        style="margin-left: 0"
+                    >
+                        Vui lòng nhập số điểm muốn rút
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="username" class="font-semibold pb-1"
+                    >Chọn phương thức:</label
+                >
+                <div>
+                    <div class="row">
+                        <div class="col-md-12 mb-2 px-3">
+                            <div
+                                class="field-group-radio flex align-items-center gap-2 user_name"
+                            >
+                                <input
+                                    type="radio"
+                                    formControlName="paymentMethod"
+                                    [value]="1"
+                                />
+                                <label>Điểm trực tiếp</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2 px-3">
+                            <div
+                                class="field-group-radio flex align-items-center gap-2 user_name"
+                            >
+                                <input
+                                    type="radio"
+                                    formControlName="paymentMethod"
+                                    [value]="2"
+                                />
+                                <label>Điểm gián tiếp</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-end gap-2 mb-2">
+            <button
+                class="withdraw-btn close-bbtn"
+                (click)="visibleDialogWithDraw = false"
+            >
+                Hủy
+            </button>
+            <button class="withdraw-btn" type="submit">
+                {{ buttonLabel }}
+            </button>
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog
+    header="Cập nhật thông tin"
+    [modal]="true"
+    [(visible)]="updateUserVisible"
+    [style]="{ width: '60rem' }"
+    (onHide)="onDialogHide()"
+>
+    <form
+        [formGroup]="updateUserForm"
+        (ngSubmit)="onSubmit()"
+        style="padding-bottom: 10px"
+    >
+        <div class="register-response">
+            <div class="row">
+                <!-- Name -->
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Tên người dùng"
+                            formControlName="name"
+                        />
+                        <div
+                            *ngIf="
+                                updateUserForm.get('name')?.invalid &&
+                                (updateUserForm.get('name')?.dirty ||
+                                    updateUserForm.get('name')?.touched)
+                            "
+                        >
+                            <div
+                                *ngIf="updateUserForm.get('name')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập tên
+                            </div>
+                            <div
+                                *ngIf="!updateUserForm.get('name')?.errors?.['required'] &&
+                                        updateUserForm.get('name')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                Tên không được chứa khoảng trắng
+                            </div>
+                        </div>
+
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 512 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M256 256a112 112 0 1 0-112-112 112 112 0 0 0 112 112zm0 32c-69.42 0-208 42.88-208 128v64h416v-64c0-85.12-138.58-128-208-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <!-- citizenIdentification -->
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="CCCD/CMND"
+                            formControlName="citizenIdentification"
+                        />
+                        <div
+                            *ngIf="
+                                updateUserForm.get('citizenIdentification')
+                                    ?.invalid &&
+                                (updateUserForm.get('citizenIdentification')
+                                    ?.dirty ||
+                                    updateUserForm.get('citizenIdentification')
+                                        ?.touched)
+                            "
+                        >
+                            <div
+                                *ngIf="updateUserForm.get('citizenIdentification')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập CMND/CCCD
+                            </div>
+                            <div
+                                *ngIf="!updateUserForm.get('citizenIdentification')?.errors?.['required'] &&
+                                updateUserForm.get('citizenIdentification')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                CCCD không được chứa khoảng trắng
+                            </div>
+                        </div>
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M1 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V6Zm4 1.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm2 3a4 4 0 0 0-3.665 2.395.75.75 0 0 0 .416 1A8.98 8.98 0 0 0 7 14.5a8.98 8.98 0 0 0 3.249-.604.75.75 0 0 0 .416-1.001A4.001 4.001 0 0 0 7 10.5Zm5-3.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 6.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm.75-4a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Z"
+                                    clip-rule="evenodd"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group city-address">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input city"
+                            placeholder="Chọn tỉnh"
+                            formControlName="cityName"
+                            (click)="isDropdownCity = true"
+                            (input)="searchCity($event.target.value)"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                        <ul class="dropdown-list" *ngIf="isDropdownCity">
+                            <li
+                                *ngFor="let city of filteredCities"
+                                class="dropdown-item"
+                                (click)="handleSelectCity(city, $event)"
+                            >
+                                {{ city.name }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group district-address">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input district"
+                            placeholder="Chọn huyện"
+                            formControlName="districtName"
+                            (click)="isDropdownDistrict = true"
+                            (input)="searchDistrict($event.target.value)"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                        <ul class="dropdown-list" *ngIf="isDropdownDistrict">
+                            <li
+                                *ngIf="districts.length === 0"
+                                class="dropdown-item"
+                            >
+                                Vui lòng chọn tỉnh
+                            </li>
+                            <ng-container *ngIf="districts.length > 0">
+                                <li
+                                    *ngFor="let city of filteredDistricts"
+                                    class="dropdown-item"
+                                    (click)="handleSelectDistrict(city, $event)"
+                                >
+                                    {{ city.name }}
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group ward-address">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input ward"
+                            placeholder="Chọn xã"
+                            formControlName="wardName"
+                            (click)="isDropdownWard = true"
+                            (input)="searchWard($event.target.value)"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+
+                        <ul class="dropdown-list" *ngIf="isDropdownWard">
+                            <li
+                                *ngIf="wards.length === 0"
+                                class="dropdown-item"
+                            >
+                                Vui lòng chọn tỉnh, huyện
+                            </li>
+                            <ng-container *ngIf="wards.length > 0">
+                                <li
+                                    *ngFor="let city of filteredWards"
+                                    class="dropdown-item"
+                                    (click)="handleSelectWard(city, $event)"
+                                >
+                                    {{ city.name }}
+                                </li>
+                            </ng-container>
+                        </ul>
+
+                        <!-- <ul class="dropdown-list" *ngIf="isDropdownWard">
+                                    <li
+                                        *ngFor="let city of wards"
+                                        class="dropdown-item"
+                                        (click)="handleSelectWard(city, $event)"
+                                    >
+                                        {{ city.name }}
+                                    </li>
+                                </ul> -->
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Địa chỉ chi tiết"
+                            formControlName="address"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 384 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group user_name">
+                        <input
+                            id="user"
+                            class="input"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Mã số thuế cá nhân"
+                            formControlName="personalTaxCode"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 640 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M608 32H32C14.33 32 0 46.33 0 64v384c0 17.67 14.33 32 32 32h576c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zM176 327.88V344c0 4.42-3.58 8-8 8h-16c-4.42 0-8-3.58-8-8v-16.29c-11.29-.58-22.27-4.52-31.37-11.35-3.9-2.93-4.1-8.77-.57-12.14l11.75-11.21c2.77-2.64 6.89-2.76 10.13-.73 3.87 2.42 8.26 3.72 12.82 3.72h28.11c6.5 0 11.8-5.92 11.8-13.19 0-5.95-3.61-11.19-8.77-12.73l-45-13.5c-18.59-5.58-31.58-23.42-31.58-43.39 0-24.52 19.05-44.44 42.67-45.07V152c0-4.42 3.58-8 8-8h16c4.42 0 8 3.58 8 8v16.29c11.29.58 22.27 4.51 31.37 11.35 3.9 2.93 4.1 8.77.57 12.14l-11.75 11.21c-2.77 2.64-6.89 2.76-10.13.73-3.87-2.43-8.26-3.72-12.82-3.72h-28.11c-6.5 0-11.8 5.92-11.8 13.19 0 5.95 3.61 11.19 8.77 12.73l45 13.5c18.59 5.58 31.58 23.42 31.58 43.39 0 24.53-19.05 44.44-42.67 45.07zM416 312c0 4.42-3.58 8-8 8H296c-4.42 0-8-3.58-8-8v-16c0-4.42 3.58-8 8-8h112c4.42 0 8 3.58 8 8v16zm160 0c0 4.42-3.58 8-8 8h-80c-4.42 0-8-3.58-8-8v-16c0-4.42 3.58-8 8-8h80c4.42 0 8 3.58 8 8v16zm0-96c0 4.42-3.58 8-8 8H296c-4.42 0-8-3.58-8-8v-16c0-4.42 3.58-8 8-8h272c4.42 0 8 3.58 8 8v16z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="date"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Ngày sinh"
+                            formControlName="dateOfBirth"
+                        />
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 448 512"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M448 384c-28.02 0-31.26-32-74.5-32-43.43 0-46.825 32-74.75 32-27.695 0-31.454-32-74.75-32-42.842 0-47.218 32-74.5 32-28.148 0-31.202-32-74.75-32-43.547 0-46.653 32-74.75 32v-80c0-26.5 21.5-48 48-48h16V112h64v144h64V112h64v144h64V112h64v144h16c26.5 0 48 21.5 48 48v80zm0 128H0v-96c43.356 0 46.767-32 74.75-32 27.951 0 31.253 32 74.75 32 42.843 0 47.217-32 74.5-32 28.148 0 31.201 32 74.75 32 43.357 0 46.767-32 74.75-32 27.488 0 31.252 32 74.5 32v96zM96 96c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group bankes">
+                        <input
+                            id="user"
+                            class="input bank"
+                            type="text"
+                            spellcheck="false"
+                            placeholder="Tên ngân hàng"
+                            formControlName="bankName"
+                            (click)="isDropdownBank = true"
+                            (input)="searchBank($event.target.value)"
+                        />
+
+                        <!-- <input
+                                    id="user"
+                                    type="text"
+                                    spellcheck="false"
+                                    class="input city"
+                                    placeholder="Chọn tỉnh"
+                                    formControlName="cityName"
+                                    (click)="isDropdownCity = true"
+                                    (input)="searchCity($event.target.value)"
+                                /> -->
+                        <ul class="dropdown-list" *ngIf="isDropdownBank">
+                            <li
+                                *ngFor="let city of filteredBankes"
+                                class="dropdown-item"
+                                (click)="handleSelectBank(city, $event)"
+                            >
+                                {{ city.shortName }}
+                            </li>
+                        </ul>
+                        <div
+                            *ngIf="
+                                updateUserForm.get('bankName')?.invalid &&
+                                (updateUserForm.get('bankName')?.dirty ||
+                                    updateUserForm.get('bankName')?.touched)
+                            "
+                        >
+                            <div
+                                *ngIf="updateUserForm.get('bankName')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập tên tài khoản
+                            </div>
+                            <div
+                                *ngIf="!updateUserForm.get('bankName')?.errors?.['required'] &&
+                                        updateUserForm.get('bankName')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                Tên tài khoản không được chứa khoảng trắng
+                            </div>
+                        </div>
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M2 8v4.001h1V18H2v3h16l3 .001V21h1v-3h-1v-5.999h1V8L12 2 2 8zm4 10v-5.999h2V18H6zm5 0v-5.999h2V18h-2zm7 0h-2v-5.999h2V18zM14 8a2 2 0 1 1-4.001-.001A2 2 0 0 1 14 8z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 px-3">
+                    <div class="field-group">
+                        <input
+                            id="user"
+                            type="text"
+                            spellcheck="false"
+                            class="input user_name"
+                            placeholder="Số tài khoản"
+                            formControlName="bankAccountNumber"
+                        />
+
+                        <div
+                            *ngIf="
+                                updateUserForm.get('bankAccountNumber')
+                                    ?.invalid &&
+                                (updateUserForm.get('bankAccountNumber')
+                                    ?.dirty ||
+                                    updateUserForm.get('bankAccountNumber')
+                                        ?.touched)
+                            "
+                        >
+                            <div
+                                *ngIf="updateUserForm.get('bankAccountNumber')?.errors?.['required']"
+                                class="error-message"
+                            >
+                                Vui lòng nhập số tài khoản
+                            </div>
+                            <div
+                                *ngIf="!updateUserForm.get('bankAccountNumber')?.errors?.['required'] &&
+                                        updateUserForm.get('bankAccountNumber')?.errors?.['whitespace']"
+                                class="error-message"
+                            >
+                                Số tài khoản không được chứa khoảng trắng
+                            </div>
+                        </div>
+                        <span>
+                            <svg
+                                stroke="currentColor"
+                                fill="currentColor"
+                                stroke-width="0"
+                                viewBox="0 0 24 24"
+                                height="1em"
+                                width="1em"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                    d="M21 18v1c0 1.1-.9 2-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14c1.1 0 2 .9 2 2v1h-9a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+                                ></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row px-3 register-response-submit">
+            <button
+                class="button-submit"
+                type="submit"
+                (click)="handleUpdateUser()"
+            >
+                Cập nhật
+            </button>
+        </div>
+    </form>
+</p-dialog>
