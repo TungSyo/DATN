@@ -1,42 +1,58 @@
-version: '3'
 services:
   selenium-hub:
     image: selenium/hub:latest
     container_name: selenium-hub
     ports:
       - "4444:4444"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   chrome-node-1:
-    image: selenium/node-chrome:131.0.6778.264-20250222
+    image: selenium/node-chrome:131.0.6778.264-20250303
     container_name: chrome-node-1
     depends_on:
-      - selenium-hub
+      selenium-hub:
+        condition: service_healthy
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2
+      - DOCKER_ENV=true
+      - VNC_PASSWORD=Tungtet2003
+      - SE_NODE_CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-dev-shm-usage"
 
   chrome-node-2:
-    image: selenium/node-chrome:131.0.6778.264-20250222
+    image: selenium/node-chrome:131.0.6778.264-20250303
     container_name: chrome-node-2
     depends_on:
-      - selenium-hub
+      selenium-hub:
+        condition: service_healthy
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2
+      - DOCKER_ENV=true
+      - VNC_PASSWORD=Tungtet2003
+      - SE_NODE_CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-dev-shm-usage"
     volumes:
       - /dev/shm:/dev/shm
 
   chrome-node-debug:
-    image: selenium/node-chrome:131.0.6778.264-20250222
+    image: selenium/node-chrome:131.0.6778.264-20250303
     container_name: chrome-node-debug
     depends_on:
-      - selenium-hub
+      selenium-hub:
+        condition: service_healthy
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
+      - DOCKER_ENV=true
+      - VNC_PASSWORD=Tungtet2003
+      - SE_NODE_CHROME_OPTS="--disable-gpu --no-sandbox --disable-dev-shm-usage"
     ports:
       - "7900:7900"
     volumes:

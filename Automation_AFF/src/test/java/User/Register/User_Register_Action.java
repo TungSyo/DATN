@@ -194,30 +194,29 @@ public class User_Register_Action {
         clickTaotk();
         if (shouldLoginGoogle) {
             Base_Action.sleep(3000);
-        
-            String host = "pop.gmail.com";  
+
+            String host = "pop.gmail.com";
             String username = email;
             String password = pop3;
             System.err.println("Email: " + email + ", POP3 password: " + pop3);
-        
+
             try {
                 System.out.println("📨 Đang kiểm tra hộp thư...");
-                
-                String otp = Email_Reader.readLatestEmail(host, username, password); 
+
+                String otp = Email_Reader.readLatestEmail(host, username, password);
                 if (otp != null && !otp.isEmpty()) {
                     System.out.println("✅ OTP tìm thấy: " + otp);
-                    enterOTP(otp);  
+                    enterOTP(otp);
                     clickXacnhan();
                 } else {
                     System.err.println("⚠️ Không lấy được OTP!");
                 }
-        
+
             } catch (Exception e) {
                 System.err.println("❌ Lỗi khi đọc email qua POP: " + e.getMessage());
             }
         }
-        
-        
+
     }
 
     public boolean verifyNotion(String result) {
@@ -241,10 +240,17 @@ public class User_Register_Action {
         return isTextFound;
     }
 
-    public boolean verifyLink(String link) {
+    public boolean verifyLink(String expectedLink) {
         String currentUrl = driver.getCurrentUrl();
 
-        String decodedExpected = URLDecoder.decode(link.trim(), StandardCharsets.UTF_8);
+        if (expectedLink.contains("host.docker.internal")) {
+            expectedLink = expectedLink.replace("host.docker.internal", "localhost");
+        }
+        if (currentUrl.contains("host.docker.internal")) {
+            currentUrl = currentUrl.replace("host.docker.internal", "localhost");
+        }
+
+        String decodedExpected = URLDecoder.decode(expectedLink.trim(), StandardCharsets.UTF_8);
         String decodedActual = URLDecoder.decode(currentUrl.trim(), StandardCharsets.UTF_8);
 
         System.out.println("[DEBUG] Expected URL: " + decodedExpected);

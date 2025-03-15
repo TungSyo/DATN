@@ -79,12 +79,24 @@ public class User_ChangePass_Action {
 	}
 
 	public boolean verifyLink(String expectedLink) {
+		String currentUrl = driver.getCurrentUrl();
+	
+		if (expectedLink.contains("host.docker.internal")) {
+			expectedLink = expectedLink.replace("host.docker.internal", "localhost");
+		}
+		if (currentUrl.contains("host.docker.internal")) {
+			currentUrl = currentUrl.replace("host.docker.internal", "localhost");
+		}
+	
 		String decodedExpected = URLDecoder.decode(expectedLink.trim(), StandardCharsets.UTF_8);
-		String decodedActual = URLDecoder.decode(driver.getCurrentUrl().trim(), StandardCharsets.UTF_8);
+		String decodedActual = URLDecoder.decode(currentUrl.trim(), StandardCharsets.UTF_8);
+	
 		System.out.println("[DEBUG] Expected URL: " + decodedExpected);
 		System.out.println("[DEBUG] Actual URL: " + decodedActual);
+	
 		return decodedActual.equalsIgnoreCase(decodedExpected);
 	}
+	
 
 	public boolean verifyTitle(String expectedTitle) {
 		String actualTitle = driver.getTitle();

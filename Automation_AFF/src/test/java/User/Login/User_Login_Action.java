@@ -65,11 +65,11 @@ public class User_Login_Action {
 	}
 
 	public boolean verifyNotion(String expectedText) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		try {
-			List<WebElement> allElements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+			WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.xpath("//*[normalize-space(text())='" + expectedText + "']")));
-			return !allElements.isEmpty();
+			return element != null && element.isDisplayed();
 		} catch (Exception e) {
 			return false;
 		}
@@ -77,6 +77,14 @@ public class User_Login_Action {
 
 	public boolean verifyLink(String expectedLink) {
 		String currentUrl = driver.getCurrentUrl();
+
+		if (expectedLink.contains("host.docker.internal")) {
+			expectedLink = expectedLink.replace("host.docker.internal", "localhost");
+		}
+		if (currentUrl.contains("host.docker.internal")) {
+			currentUrl = currentUrl.replace("host.docker.internal", "localhost");
+		}
+
 		String decodedExpected = URLDecoder.decode(expectedLink.trim(), StandardCharsets.UTF_8);
 		String decodedActual = URLDecoder.decode(currentUrl.trim(), StandardCharsets.UTF_8);
 

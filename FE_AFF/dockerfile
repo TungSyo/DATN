@@ -1,21 +1,20 @@
-# Sử dụng image Node.js làm base
-FROM node:18
+FROM node:20-alpine
 
 # Tạo thư mục làm việc trong container
 WORKDIR /app
 
-# Copy package.json và install dependencies
+# Sao chép các file cấu hình của npm
 COPY package*.json ./
-RUN npm install
 
-# Copy phần còn lại của ứng dụng vào container
+# Cài đặt Angular CLI và các phụ thuộc của dự án
+RUN npm install -g @angular/cli && npm install
+
+# Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# Build ứng dụng Angular trong chế độ development
-RUN npm run build --configuration=development
-
-# Chạy ứng dụng Angular trong chế độ phát triển
-CMD ["npm", "start"]
-
-# Mở cổng 4200 để phục vụ ứng dụng
+# Mở cổng 4200 để truy cập từ bên ngoài container
 EXPOSE 4200
+
+# Khởi chạy ứng dụng Angular với host là 0.0.0.0 để lắng nghe tất cả các kết nối
+# Thêm --disable-host-check để bỏ qua kiểm tra host header
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--disable-host-check"]
