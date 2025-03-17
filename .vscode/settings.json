@@ -9,9 +9,9 @@
   "terminal.integrated.fontWeight": "bold",
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.compile.nullAnalysis.mode": "automatic",
-  
+
   "editor.fontSize": 11.5,
-  
+
   // Icon
   "workbench.colorCustomizations": {
     // "terminal.foreground": "#00FF00",
@@ -21,20 +21,20 @@
   "workbench.statusBar.visible": true,
   "workbench.editor.showTabs": "multiple",
   "workbench.startupEditor": "none",
-  
+
   // View
   "editor.scrollbar.vertical": "hidden",
   "editor.scrollbar.horizontal": "hidden",
   "editor.scrollbar.verticalScrollbarSize": 0,
   "editor.minimap.maxColumn": 15,
   "editor.minimap.enabled": true,
-  
+
   // Font Family
   "editor.fontFamily": "'','Fira Code', 'JetBrains Mono'",
   "editor.fontLigatures": true,
   "editor.lineHeight": 20,
   "editor.letterSpacing": 0.5,
-  
+
   // Format Code
   "java.format.settings.url": ".vscode/java-formatter.xml",
   "java.autocomplete.enabled": true,
@@ -48,35 +48,40 @@
   "java.format.onType": true,
   "java.maven.downloadSources": true,
   "java.debug.settings.console": "integratedTerminal",
-  
+
   "[java]": {
     "editor.insertSpaces": true
   },
-  
-  "cSpell.words": [
-    "verifytitle"
-  ],
-  
+
+  "cSpell.words": ["verifytitle"],
+
   "git.ignoreLimitWarning": true,
-  
+
   "background.enabled": true,
-  
+
   // File and Search Exclusions
   "files.exclude": {
     "**/automation/Driver": true, // Exclude Driver folder containing .zip and .exe
-    "**/*.zip": true,            // Exclude .zip files
-    "**/*.exe": true             // Exclude .exe files
+    "**/*.zip": true, // Exclude .zip files
+    "**/*.exe": true, // Exclude .exe files
+    //"**/BE_AFF": true,
+    // "**/FE_AFF": true,
   },
   "search.exclude": {
-    "**/automation/Driver": true, // Don't search in Driver folder
-    "**/node_modules": true,      // Exclude node_modules (frontend)
-    "**/bin": true,               // Exclude build folder (backend)
-    "**/obj": true                // Exclude build folder (backend .NET)
+    "**/automation/Driver": true,
+    "**/node_modules": true, 
+    "**/bin": true, 
+    "**/obj": true,
+    "**/BE_AFF": true,
+    "**/FE_AFF": true,
   },
   "files.watcherExclude": {
-    "**/automation/Driver/**": true, // Don't watch changes in Driver folder
+    "**/automation/Driver/**": true,
     "**/node_modules/**": true,
     "**/bin/**": true,
-    "**/obj/**": true
+    "**/obj/**": true,
+    "**/BE_AFF/**": true,
+    "**/FE_AFF/**": true,
+
   }
 }
