@@ -146,25 +146,6 @@ target/test-classes/data/User_Data.xlsx
 target/test-classes/image/banner.jpg
 target/test-classes/log4j.properties
 target/test-classes/report.css
-target/test-classes/reports/extentReport1.html
-target/test-classes/reports/extentReport10.html
-target/test-classes/reports/extentReport11.html
-target/test-classes/reports/extentReport12.html
-target/test-classes/reports/extentReport13.html
-target/test-classes/reports/extentReport14.html
-target/test-classes/reports/extentReport15.html
-target/test-classes/reports/extentReport16.html
-target/test-classes/reports/extentReport17.html
-target/test-classes/reports/extentReport18.html
-target/test-classes/reports/extentReport19.html
-target/test-classes/reports/extentReport2.html
-target/test-classes/reports/extentReport3.html
-target/test-classes/reports/extentReport4.html
-target/test-classes/reports/extentReport5.html
-target/test-classes/reports/extentReport6.html
-target/test-classes/reports/extentReport7.html
-target/test-classes/reports/extentReport8.html
-target/test-classes/reports/extentReport9.html
 target/test-classes/step/Step.xlsx
 target/test-classes/testng.xml
 test-output/Parallel Test Suite/Admin Login Test.html
