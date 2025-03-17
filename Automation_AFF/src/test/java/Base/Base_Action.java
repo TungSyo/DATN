@@ -1,6 +1,7 @@
 package Base;
 
 import java.io.IOException;
+import java.sql.DriverManager;
 import java.time.Duration;
 
 import org.openqa.selenium.Keys;
@@ -18,7 +19,7 @@ public class Base_Action {
           this.driver = driver;
      }
 
-     public static void sleep(int milliseconds) {
+     public void sleep(int milliseconds) {
           try {
                Thread.sleep(milliseconds);
           } catch (InterruptedException e) {
@@ -26,7 +27,7 @@ public class Base_Action {
           }
      }
 
-     public static void handleVerification(boolean condition, String type, String value) {
+     public void handleVerification(boolean condition, String type, String value) {
           if (condition) {
                Extend_Report.logPass("Kiểm tra " + type + " thành công cho: " + value);
           } else {
@@ -34,7 +35,7 @@ public class Base_Action {
           }
      }
 
-     public static void handleTestException(Exception e, String description) throws IOException {
+     public void handleTestException(Exception e, String description) throws IOException {
           Extend_Report.logFail("Kiểm tra thất bại: " + description + " với lỗi: " + e.getMessage());
      }
 
@@ -45,10 +46,22 @@ public class Base_Action {
      }
 
      public void clearAndEnterText(WebElement element, String text) {
-          element.click(); 
-          element.sendKeys(Keys.CONTROL + "a"); 
-          element.sendKeys(Keys.BACK_SPACE); 
-          element.sendKeys(text); 
+          WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+      
+          try {
+              wait.until(ExpectedConditions.visibilityOf(element));
+              wait.until(ExpectedConditions.elementToBeClickable(element));
+      
+              if (element.isDisplayed() && element.isEnabled()) {
+                  element.click();
+                  element.sendKeys(Keys.chord(Keys.CONTROL, "a")); 
+                  element.sendKeys(Keys.BACK_SPACE);
+                  element.sendKeys(text); 
+              }
+          } catch (Exception e) {
+              System.out.println("Không thể nhập text vào phần tử: " + e.getMessage());
+          }
       }
       
+
 }

@@ -44,6 +44,7 @@ public class User_Login_Test extends Base_Test {
 
         String category = testType.equalsIgnoreCase("Fail") ? "Login_Data_Fail" : "Login_Data_Pass";
         Extend_Report.startTest("Login Test - " + description, category);
+        Base_Action baseAction = new Base_Action(Driver_Manager.getDriver());
         User_Login_Action loginActions = new User_Login_Action(Driver_Manager.getDriver());
 
         try {
@@ -69,16 +70,16 @@ public class User_Login_Test extends Base_Test {
                         loginActions.login(email, password);
                         break;
 
-                   case "verifynotion":
-                        Base_Action.handleVerification(loginActions.verifyNotion(result), "thông báo", result);
+                    case "verifynotion":
+                        baseAction.handleVerification(loginActions.verifyNotion(result), "thông báo", result);
                         break;
 
                     case "verifytitle":
-                        Base_Action.handleVerification(loginActions.verifyTitle(title), "tiêu đề", title);
+                        baseAction.handleVerification(loginActions.verifyTitle(title), "tiêu đề", title);
                         break;
 
                     case "verifylink":
-                        Base_Action.handleVerification(loginActions.verifyLink(link), "link", link);
+                        baseAction.handleVerification(loginActions.verifyLink(link), "link", link);
                         break;
                     case "close":
                         Extend_Report.logInfo("Đóng trình duyệt...");
@@ -88,7 +89,7 @@ public class User_Login_Test extends Base_Test {
                 }
             }
         } catch (Exception e) {
-            Base_Action.handleTestException(e, description);
+            baseAction.handleTestException(e, description);
             throw e;
         }
     }

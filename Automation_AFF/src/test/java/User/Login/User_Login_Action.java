@@ -33,35 +33,19 @@ public class User_Login_Action {
 		this.baseAction = new Base_Action(driver);
 	}
 
-	public void enterUsername(String email) {
-		baseAction.clearAndEnterText(basePage.txtUUser, email);
+	public void enterText(WebElement element, String text) {
+		baseAction.clearAndEnterText(element, text);
 	}
 
-	public void enterPassword(String password) {
-		baseAction.clearAndEnterText(basePage.txtUPass, password);
-	}
-
-	public void clickLogin() {
-		baseAction.clickElement(basePage.btnULogin);
-	}
-
-	public void clickRegister() {
-		baseAction.clickElement(basePage.linkRegister);
-	}
-
-	public void clickForgotPassword() {
-		baseAction.clickElement(basePage.LinkForgotPassword);
-	}
-
-	public void clickAccount() {
-		baseAction.clickElement(basePage.btnAccount);
+	public void clickButton(WebElement element) {
+		baseAction.clickElement(element);
 	}
 
 	public void login(String email, String password) {
-		clickAccount();
-		enterUsername(email);
-		enterPassword(password);
-		clickLogin();
+		clickButton(basePage.btnAccount);
+		enterText(basePage.txtUUser, email);
+		enterText(basePage.txtUPass, password);
+		clickButton(basePage.btnULogin);
 	}
 
 	public boolean verifyNotion(String expectedText) {

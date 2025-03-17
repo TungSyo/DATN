@@ -25,11 +25,13 @@ import java.util.Properties;
 import Report.Extend_Report;
 import org.testng.Assert;
 
+import com.fasterxml.jackson.databind.JsonSerializable.Base;
+
 @SuppressWarnings("unused")
 public class Login_Google {
     private WebDriver driver;
     private Base_Page basePage;
-
+    private Base_Action baseAction;
     private Base_Test baseTest;
 
     public Login_Google(WebDriver driver) {
@@ -106,7 +108,7 @@ public class Login_Google {
             if (!emailElements.isEmpty()) {
                 System.out.println("Đã tìm thấy email trong danh sách. Đang click vào email: " + email);
                 emailElements.get(0).click();
-                Base_Action.sleep(1500);
+                baseAction.sleep(1500);
             } else {
                 System.out.println("Không tìm thấy email trong danh sách: " + email);
             }
@@ -119,7 +121,7 @@ public class Login_Google {
     public String deleteMail() {
         WebElement firstElement = driver.findElement(By.xpath("(//tr[@class='zA zE'])[1]"));
         firstElement.click();
-        Base_Action.sleep(1500);
+        baseAction.sleep(1500);
         WebElement deleteButton = driver.findElement(By.xpath("(//div[contains(@class,'asa')])[12]"));
         deleteButton.click();
         return null;
