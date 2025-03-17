@@ -11,3 +11,8 @@ automation/Driver/
 # Loại trừ file IDE
 BE_AFF/**/.DotSettings.user
 FE_AFF/node_modules/
+
+Automation_AFF/src/resources/reports
+Automation_AFF/target/surefire-reports/
+Automation_AFF/*.dump
+Automation_AFF/*.dumpstream
