@@ -30,12 +30,12 @@ public class ChangePass_Action {
 	private WebDriver driver;
 	private Base_Page basePage;
 	private Base_Action baseAction;
-	private ChangePass_Page passPage;
+	private ChangePass_Page changepassPage;
 
 	public ChangePass_Action(WebDriver driver) {
 		this.driver = driver;
 		this.basePage = new Base_Page(driver);
-		this.passPage = new ChangePass_Page(driver);
+		this.changepassPage = new ChangePass_Page(driver);
 		this.baseAction = new Base_Action(driver);
 	}
 
@@ -49,10 +49,10 @@ public class ChangePass_Action {
 
 	public void changePass(String oldpass, String newpass) {
 		clickButton(basePage.btnAccount_2);
-		clickButton(passPage.linkChangPass);
-		enterText(passPage.txtOldPass, oldpass);
-		enterText(passPage.txtNewPass, newpass);
-		clickButton(passPage.btnComfirm);
+		clickButton(changepassPage.linkChangPass);
+		enterText(changepassPage.txtOldPass, oldpass);
+		enterText(changepassPage.txtNewPass, newpass);
+		clickButton(changepassPage.btnComfirm);
 	}
 
 	public boolean verifyNotion(String expectedText) {
@@ -105,7 +105,7 @@ public class ChangePass_Action {
 		try (FileInputStream fileInputStream = new FileInputStream(file);
 				Workbook workbook = new XSSFWorkbook(fileInputStream)) {
 
-			Sheet sheet = workbook.getSheet("Change_Pass");
+			Sheet sheet = workbook.getSheet("ChangePass");
 			if (sheet == null) {
 				System.err.println("[ERROR] Sheet 'Change_Pass' not found in the Excel file.");
 				return testData;

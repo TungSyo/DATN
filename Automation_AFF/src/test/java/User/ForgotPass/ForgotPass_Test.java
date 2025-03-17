@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import Base.*;
 import Driver.Driver_Manager;
-import User.ChangePass.*;
+import User.ForgotPass.*;
 import User.Login.*;
 import Utils.ConfigUtil;
 import Utils.Excel_Util;
@@ -17,38 +17,39 @@ import Report.Extend_Report;
 
 public class ForgotPass_Test extends Base_Test {
 
-    @DataProvider(name = "passData")
+    @DataProvider(name = "forgotpassData")
     public Object[][] getPassData() throws IOException, InvalidFormatException {
-        Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "Change_Pass");
+        Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "ForgotPass");
         int rowCount = excel.getRowCount();
-        Object[][] data = new Object[rowCount - 1][8];
+        Object[][] data = new Object[rowCount - 1][9];
 
         for (int i = 1; i < rowCount; i++) {
             data[i - 1][0] = excel.getCellData(i, "Email");
-            data[i - 1][1] = excel.getCellData(i, "PassOld");
-            data[i - 1][2] = excel.getCellData(i, "PassNew");
+            data[i - 1][1] = excel.getCellData(i, "NewPass");
+            data[i - 1][2] = excel.getCellData(i, "ComfirmPass");
             data[i - 1][3] = excel.getCellData(i, "Result");
             data[i - 1][4] = excel.getCellData(i, "Title");
             data[i - 1][5] = excel.getCellData(i, "Link");
             data[i - 1][6] = excel.getCellData(i, "Description");
             data[i - 1][7] = excel.getCellData(i, "TestType");
+            data[i - 1][8] = excel.getCellData(i, "Pop3");
         }
 
         return data;
     }
 
-    @Test(dataProvider = "passData", groups = { "Success", "Fail" })
-    public void testChangPass(String email, String oldpass, String newpass, String result, String title, String link,
-            String description, String testType)
+    @Test(dataProvider = "forgotpassData", groups = { "Success", "Fail" })
+    public void testForgotPass(String email, String newPass, String comfirmPass, String result, String title,
+            String link,
+            String description, String testType, String pop3)
             throws Exception {
 
-        String category = testType.equalsIgnoreCase("Fail") ? "ChangePass_Data_Fail" : "ChangePass_Data_Pass";
+        String category = testType.equalsIgnoreCase("Fail") ? "ForgotPass_Data_Fail" : "ForgotPass_Data_Pass";
 
-        Extend_Report.startTest("Change_Pass Test - " + description, category);
+        Extend_Report.startTest("Forgot_Pass Test - " + description, category);
 
         Base_Action baseAction = new Base_Action(Driver_Manager.getDriver());
-        User_Login_Action loginActions = new User_Login_Action(Driver_Manager.getDriver());
-        ChangePass_Action changepassActions = new ChangePass_Action(Driver_Manager.getDriver());
+        ForgotPass_Action forgotpassActions = new ForgotPass_Action(Driver_Manager.getDriver());
 
         try {
             Excel_Util excelSteps = new Excel_Util("src/test/resources/step/Step.xlsx", "Step");
@@ -70,23 +71,19 @@ public class ForgotPass_Test extends Base_Test {
                         break;
 
                     case "action":
-                        String password = ConfigUtil.getProperty("password_admin");
-                        loginActions.login(email, password);
-                        baseAction.sleep(1500);
-                        changepassActions.changePass(oldpass, newpass);
-                        baseAction.sleep(1500);
+                        forgotpassActions.forgotPass(email, newPass, comfirmPass, pop3, description);
                         break;
 
                     case "verifynotion":
-                        baseAction.handleVerification(changepassActions.verifyNotion(result), "thông báo", result);
+                        baseAction.handleVerification(forgotpassActions.verifyNotion(result), "thông báo", result);
                         break;
 
                     case "verifytitle":
-                        baseAction.handleVerification(changepassActions.verifyTitle(title), "tiêu đề", title);
+                        baseAction.handleVerification(forgotpassActions.verifyTitle(title), "tiêu đề", title);
                         break;
 
                     case "verifylink":
-                        baseAction.handleVerification(changepassActions.verifyLink(link), "link", link);
+                        baseAction.handleVerification(forgotpassActions.verifyLink(link), "link", link);
                         break;
                     case "close":
                         Extend_Report.logInfo("Đóng trình duyệt...");

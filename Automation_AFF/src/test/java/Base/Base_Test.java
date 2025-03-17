@@ -45,8 +45,8 @@ public class Base_Test {
 
         Driver_Manager.initDriver(browser);
 
-        Driver_Manager.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15));
-        Driver_Manager.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        Driver_Manager.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+        Driver_Manager.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
     
     @AfterMethod(alwaysRun = true)

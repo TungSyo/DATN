@@ -10,7 +10,7 @@ public class ForgotPass_Page {
 
 	@FindBy(xpath = "//input[contains(@id,'user')]")
 	public WebElement txtEmailForgot;
-	
+
 	@FindBy(xpath = "//a[contains(.,'Quay lại đăng nhập')]")
 	public WebElement linkBackLogin;
 
@@ -34,10 +34,9 @@ public class ForgotPass_Page {
 
 	@FindBy(xpath = "//span[@class='p-button-label'][contains(.,'XÁC NHẬN')]")
 	public WebElement btnConfirm;
-	
+
 	public ForgotPass_Page(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 }
- 

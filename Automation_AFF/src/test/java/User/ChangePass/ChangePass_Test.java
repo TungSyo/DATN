@@ -19,7 +19,7 @@ public class ChangePass_Test extends Base_Test {
 
     @DataProvider(name = "passData")
     public Object[][] getPassData() throws IOException, InvalidFormatException {
-        Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "Change_Pass");
+        Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "ChangePass");
         int rowCount = excel.getRowCount();
         Object[][] data = new Object[rowCount - 1][8];
 

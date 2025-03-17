@@ -13,9 +13,9 @@ public class Email_Reader {
 
     public static String readLatestEmail(String host, String username, String password) throws Exception {
         Properties properties = new Properties();
-        properties.put("mail.pop3.host", host); // Đảm bảo host đúng
-        properties.put("mail.pop3.port", "995"); // Port của POP3
-        properties.put("mail.pop3.ssl.enable", "true"); // Đảm bảo SSL được bật
+        properties.put("mail.pop3.host", host); 
+        properties.put("mail.pop3.port", "995"); 
+        properties.put("mail.pop3.ssl.enable", "true"); 
 
         Session session = Session.getInstance(properties);
         Store store = null;

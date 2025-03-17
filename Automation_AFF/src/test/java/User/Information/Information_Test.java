@@ -82,8 +82,8 @@ public class Information_Test extends Base_Test {
 
                     case "action":
                         Extend_Report.logInfo("Thực hiện test case: " + description);
-                        String username = ConfigUtil.getProperty("username_admin");
-                        String password = ConfigUtil.getProperty("password_admin");
+                        String username = ConfigUtil.getProperty("username_information");
+                        String password = ConfigUtil.getProperty("password_information");
                         loginActions.login(username, password);
                         baseAction.sleep(1500);
                         inforActions.updateInfor(name, cmnd, city, district, ward, location, mst, date, bank, stk);
