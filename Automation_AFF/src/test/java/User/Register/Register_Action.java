@@ -161,8 +161,7 @@ public class Register_Action {
 
         try {
             List<WebElement> allElements = wait.until(ExpectedConditions
-                    .presenceOfAllElementsLocatedBy(By.xpath("//*[contains(text(), '" + result +
-                            "')]")));
+                    .presenceOfAllElementsLocatedBy(By.xpath("//*[contains(text(), '" + result + "')]")));
             for (WebElement element : allElements) {
                 String elementText = element.getText().trim();
                 if (!elementText.isEmpty() && elementText.contains(result)) {
@@ -211,7 +210,7 @@ public class Register_Action {
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
-            if (row == null)
+            if (row == null || row.getCell(15) == null || row.getCell(16) == null)
                 continue;
             String title = row.getCell(15).getStringCellValue();
             String link = row.getCell(16).getStringCellValue().trim();

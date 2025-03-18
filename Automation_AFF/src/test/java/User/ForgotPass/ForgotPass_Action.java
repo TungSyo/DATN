@@ -126,6 +126,7 @@ public class ForgotPass_Action {
 		enterText(forgotpassPage.txtConfirmPass, comfirmPass);
 		getOTP(description, email, pop3);
 		clickButton(forgotpassPage.btnConfirm);
+
 	}
 
 	public boolean verifyNotion(String expectedText) {
@@ -165,7 +166,7 @@ public class ForgotPass_Action {
 		return actualTitle.equals(expectedTitle);
 	}
 
-	public List<Object[]> getSearchTestData() throws IOException {
+	public List<Object[]> getTestData() throws IOException {
 		List<Object[]> testData = new ArrayList<>();
 		String filePath = "src/test/resources/data/AFF_U_Data.xlsx";
 		File file = new File(filePath);
@@ -180,19 +181,18 @@ public class ForgotPass_Action {
 
 			Sheet sheet = workbook.getSheet("ForgotPass");
 			if (sheet == null) {
-				System.err.println("[ERROR] Sheet 'Change_Pass' not found in the Excel file.");
+				System.err.println("[ERROR] Sheet 'Forgot_Pass' not found in the Excel file.");
 				return testData;
 			}
 
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				Row row = sheet.getRow(i);
-				if (row == null || row.getCell(0) == null || row.getCell(2) == null || row.getCell(3) == null)
+				if (row == null || row.getCell(4) == null || row.getCell(5) == null)
 					continue;
 
-				String keyword = row.getCell(0).getStringCellValue();
-				String expectedTitle = row.getCell(2).getStringCellValue();
-				String expectedLink = row.getCell(3).getStringCellValue().trim();
-				testData.add(new Object[] { keyword, expectedTitle, expectedLink });
+				String expectedTitle = row.getCell(4).getStringCellValue();
+				String expectedLink = row.getCell(5).getStringCellValue().trim();
+				testData.add(new Object[] { expectedTitle, expectedLink });
 			}
 		}
 
@@ -201,7 +201,7 @@ public class ForgotPass_Action {
 
 	public boolean isTextPresent(String expectedText) {
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3)); // Chờ tối đa 3 giây
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
 			WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(
 					By.xpath("//*[contains(text(),'" + expectedText + "')]")));
 			return element.isDisplayed();

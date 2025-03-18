@@ -85,7 +85,7 @@ public class User_Login_Action {
 		return actualTitle.equals(expectedTitle);
 	}
 
-	public List<Object[]> getSearchTestData() {
+	public List<Object[]> getTestData() {
 		List<Object[]> testData = new ArrayList<>();
 		String filePath = "src/test/resources/data/AFF_U_Data.xlsx";
 
@@ -96,10 +96,9 @@ public class User_Login_Action {
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				Row row = sheet.getRow(i);
 				if (row != null) {
-					String keyword = row.getCell(0).getStringCellValue();
-					String expectedTitle = row.getCell(2).getStringCellValue();
-					String expectedLink = row.getCell(3).getStringCellValue().trim();
-					testData.add(new Object[] { keyword, expectedTitle, expectedLink });
+					String expectedTitle = row.getCell(3).getStringCellValue();
+					String expectedLink = row.getCell(4).getStringCellValue().trim();
+					testData.add(new Object[] { expectedTitle, expectedLink });
 				}
 			}
 		} catch (IOException e) {
