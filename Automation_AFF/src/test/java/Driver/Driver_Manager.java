@@ -17,6 +17,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import Utils.ConfigUtil;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 @SuppressWarnings("unused")
@@ -24,59 +25,79 @@ public class Driver_Manager {
     private static final ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     private static final ThreadLocal<WebDriverWait> threadLocalWait = new ThreadLocal<>();
 
+    @SuppressWarnings("deprecation")
     public static void initDriver(Browser_Type browser) throws MalformedURLException {
         WebDriver driver;
-        boolean isCI = System.getenv("GITHUB_WORKSPACE") != null;
-        boolean isDocker = "true".equalsIgnoreCase(System.getenv("DOCKER_ENV"));
-
-        switch (browser) {
-            case CHROME:
-                String chromeBinaryPath;
-                String gridURL = "http://host.docker.internal:4444/wd/hub"; 
-
-                if (isCI) {
-                    chromeBinaryPath = System.getenv("GITHUB_WORKSPACE") + "/Chrome/App/Chrome-bin/chrome.exe";
-                    System.setProperty("webdriver.chrome.driver",
-                            System.getenv("GITHUB_WORKSPACE") + "/Chrome/chromedriver.exe");
-                } else {
-                    chromeBinaryPath = "D:\\Tài xuống\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe";
-                    WebDriverManager.chromedriver().driverVersion("131.0.6778.86").setup();
-                }
-
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setBinary(chromeBinaryPath);
-                chromeOptions.addArguments("--disable-gpu");
-                chromeOptions.addArguments("--no-sandbox");
-                chromeOptions.addArguments("--disable-dev-shm-usage");
-
-                if (isCI) {
-                    chromeOptions.addArguments("--headless=new");
-                }
-                driver = new ChromeDriver(chromeOptions);
-                // driver = new RemoteWebDriver(new URL(gridURL), chromeOptions);
+        Environment environment = getEnvironment();
+    
+        String gridURL = "http://localhost:4444/wd/hub"; // Docker Grid mặc định
+        String chromeBinaryPath;
+    
+        switch (environment) {
+            case GITHUB: // Chưa làm được
+                chromeBinaryPath = System.getenv("GITHUB_WORKSPACE") + "/Chrome/App/Chrome-bin/chrome.exe";
+                System.setProperty("webdriver.chrome.driver",
+                        System.getenv("GITHUB_WORKSPACE") + "/Chrome/chromedriver.exe");
+                break;
+    
+            case DOCKER:
+                chromeBinaryPath = "/usr/bin/google-chrome-stable";
+                gridURL = "http://host.docker.internal:4444/wd/hub"; // Chạy trên Docker Desktop for Linux
                 break;
 
+            case LINUX:
+                chromeBinaryPath = "/usr/bin/google-chrome-stable";
+                WebDriverManager.chromedriver().driverVersion("131.0.6778.264").setup();
+                break;
+                
+            default: 
+                chromeBinaryPath = "D:\\Tài xuống\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe";
+                WebDriverManager.chromedriver().driverVersion("131.0.6778.86").setup();
+                    
+                break;
+        }
+    
+        switch (browser) {
+            case CHROME:
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setBinary(chromeBinaryPath);
+                chromeOptions.addArguments("--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
+    
+                if (environment == Environment.GITHUB) {
+                    chromeOptions.addArguments("--headless=new");
+                }
+    
+                driver = (environment == Environment.DOCKER) ? 
+                    new RemoteWebDriver(new URL(gridURL), chromeOptions) : 
+                    new ChromeDriver(chromeOptions);
+                break;
+    
             case EDGE:
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.addArguments("--headless=new");
-                edgeOptions.addArguments("--disable-gpu");
-                edgeOptions.addArguments("--no-sandbox");
-                edgeOptions.addArguments("--disable-dev-shm-usage");
+                edgeOptions.addArguments("--headless=new", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
                 driver = new EdgeDriver(edgeOptions);
                 break;
-
+            
+            case FIREFOX:
+                WebDriverManager.edgedriver().setup();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addArguments("--headless=new", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
+                driver = new FirefoxDriver(firefoxOptions);
+                break;
+                
             default:
                 throw new IllegalArgumentException("Trình duyệt không được hỗ trợ: " + browser);
         }
-
+    
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-
+    
         threadLocalDriver.set(driver);
         threadLocalWait.set(new WebDriverWait(driver, Duration.ofSeconds(10)));
     }
+    
 
     public static WebDriver getDriver() {
         WebDriver driver = threadLocalDriver.get();
@@ -94,6 +115,18 @@ public class Driver_Manager {
         return wait;
     }
 
+    private static Environment getEnvironment() {
+        String env = ConfigUtil.getProperty("TEST_ENV");
+    
+        if ("GITHUB".equalsIgnoreCase(env)) {
+            return Environment.GITHUB;
+        } else if ("DOCKER".equalsIgnoreCase(env)) {
+            return Environment.DOCKER;
+        } else {
+            return Environment.LOCAL; 
+        }
+    }
+    
     public static void quitDriver() {
         WebDriver driverInstance = threadLocalDriver.get();
         if (driverInstance != null) {
