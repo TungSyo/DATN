@@ -13,7 +13,20 @@ public class SCart_Page {
      @FindBy(xpath = "//button[contains(.,'Thêm vào giỏ')]")
      public List<WebElement> addToCartButtons;
 
+     @FindBy(xpath = "//input[@type='checkbox']")
+     public List<WebElement> addToCartCheckboxes;
+
+     @FindBy(xpath = "(//input[@class='select-all-checkbox'])[1]")
+     public WebElement selectAllCheckbox;
      
+     @FindBy(xpath = "(//input[contains(@class,'select-all-checkbox')])[3]")
+     public WebElement selectCheckboxDongy;
+     
+     @FindBy(xpath = "//button[contains(.,'TIỀN HÀNG THANH TOÁN')]")
+     public WebElement btnToThanhToan;
+     
+     @FindBy(xpath = "//li[contains(@class,'header__shop-icon-item header__shop-icon-item-cart')]")
+     public WebElement btnCart;
 
      public SCart_Page(WebDriver driver){
           this.driver = driver;

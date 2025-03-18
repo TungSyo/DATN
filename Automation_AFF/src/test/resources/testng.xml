@@ -12,7 +12,8 @@
             <!-- <class name="User.Login.User_Login_Test"/> -->
             <!-- <class name="User.Information.User_Information_Test"/> -->
             <!-- <class name="User.ChangePass.User_ChangePass_Test"/> -->
-            <class name="User.ForgotPass.ForgotPass_Test"/>
+            <!-- <class name="User.ForgotPass.ForgotPass_Test"/> -->
+            <class name="User.SCart.SCart_Test"/>
         </classes>
     </test>
 </suite>

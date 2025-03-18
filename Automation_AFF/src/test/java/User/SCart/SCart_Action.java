@@ -55,11 +55,38 @@ public class SCart_Action {
         }
     }
     
-
-	public void addToSCart(String oldpass, String newpass) {
-		
+	public void addProductToCart(int... indexes) {
+		for (int index : indexes) {
+			clickAddToCart(index);
+		}
+		clickButton(scart_Page.btnCart); 
 	}
-
+	
+	public void addToSCart(String typecase) {
+		switch (typecase) {
+			case "One":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1,2,3);
+				clickButton(scart_Page.selectCheckboxDongy);
+				clickButton(scart_Page.btnToThanhToan);
+				break;
+			case "Two":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1,2,3);
+				clickButton(scart_Page.selectAllCheckbox);
+				clickButton(scart_Page.btnToThanhToan);
+				break;
+			case "Three":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1,2,3);
+				clickButton(scart_Page.selectAllCheckbox);
+				clickButton(scart_Page.selectCheckboxDongy);
+				clickButton(scart_Page.btnToThanhToan);
+				break;
+			default:
+				System.out.println("Invalid typecase: " + typecase);
+		}
+	}
 	public boolean verifyNotion(String expectedText) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		try {
