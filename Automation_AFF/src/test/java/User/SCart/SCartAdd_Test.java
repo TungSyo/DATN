@@ -17,28 +17,31 @@ import Report.Extend_Report;
 
 @SuppressWarnings("unused")
 
-public class SCart_Test extends Base_Test {
+public class SCartAdd_Test extends Base_Test {
 
-    @DataProvider(name = "scartData")
-    public Object[][] getSCartData() throws IOException, InvalidFormatException {
-        Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "SCart");
+    @DataProvider(name = "scartaddData")
+    public Object[][] getSCartAddData() throws IOException, InvalidFormatException {
+        Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "SCartAdd");
         int rowCount = excel.getRowCount();
-        Object[][] data = new Object[rowCount - 1][6];
+        Object[][] data = new Object[rowCount - 1][9];
 
         for (int i = 1; i < rowCount; i++) {
-            data[i - 1][0] = excel.getCellData(i, "Result");
-            data[i - 1][1] = excel.getCellData(i, "Title");
-            data[i - 1][2] = excel.getCellData(i, "Link");
-            data[i - 1][3] = excel.getCellData(i, "Description");
-            data[i - 1][4] = excel.getCellData(i, "TestType");
-            data[i - 1][5] = excel.getCellData(i, "TypeCase");
+            data[i - 1][0] = excel.getCellData(i, "Product");
+            data[i - 1][1] = excel.getCellData(i, "Count");
+            data[i - 1][2] = excel.getCellData(i, "Price");
+            data[i - 1][3] = excel.getCellData(i, "Result");
+            data[i - 1][4] = excel.getCellData(i, "Title");
+            data[i - 1][5] = excel.getCellData(i, "Link");
+            data[i - 1][6] = excel.getCellData(i, "Description");
+            data[i - 1][7] = excel.getCellData(i, "TestType");
+            data[i - 1][8] = excel.getCellData(i, "TypeCase");
         }
 
         return data;
     }
 
-    @Test(dataProvider = "scartData", groups = { "Success", "Fail" })
-    public void testSCart(String result, String title, String link, String description, String testType,
+    @Test(dataProvider = "scartaddData", groups = { "Success", "Fail" })
+    public void testSCartAdd(String result, String title, String link, String description, String testType,
             String typeCase)
             throws Exception {
 
@@ -75,7 +78,7 @@ public class SCart_Test extends Base_Test {
                         String username = ConfigUtil.getProperty("username_admin");
                         String password = ConfigUtil.getProperty("password_admin");
                         loginActions.login(username, password);
-                        scardActions.SCartToOrder(typeCase);
+                        scardActions.addToSCart(typeCase);
                         break;
 
                     case "verifynotion":

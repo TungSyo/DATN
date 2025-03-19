@@ -75,25 +75,27 @@ public class Register_Test extends Base_Test {
 
                     case "navigate":
                         String url_user = ConfigUtil.getProperty("url_user");
+                        url_user = baseAction.convertLocalhostLink(url_user);
                         Driver_Manager.getDriver().get(url_user);
                         Extend_Report.logInfo("Điều hướng đến " + url_user);
                         break;
 
                     case "action":
                         Extend_Report.logInfo("Thực hiện test case: " + description);
-                        registerActions.register(name, sdt, email, cmnd, pass, mgt, city, district, ward, location, mst, date, bank, stk, result, pop3);
+                        registerActions.register(name, sdt, email, cmnd, pass, mgt, city, district, ward, location, mst,
+                                date, bank, stk, result, pop3);
                         break;
 
-                   case "verifynotion":
+                    case "verifynotion":
                         baseAction.handleVerification(registerActions.verifyNotion(result), "thông báo", result);
                         break;
 
                     case "verifytitle":
-                    baseAction.handleVerification(registerActions.verifyTitle(title), "tiêu đề", title);
+                        baseAction.handleVerification(registerActions.verifyTitle(title), "tiêu đề", title);
                         break;
 
                     case "verifylink":
-                    baseAction.handleVerification(registerActions.verifyLink(link), "link", link);
+                        baseAction.handleVerification(registerActions.verifyLink(link), "link", link);
                         break;
                     case "close":
                         Extend_Report.logInfo("Đóng trình duyệt...");

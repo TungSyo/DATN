@@ -62,6 +62,32 @@ public class SCart_Action {
 		clickButton(scart_Page.btnCart); 
 	}
 	
+	public void SCartToOrder(String typecase) {
+		switch (typecase) {
+			case "One":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1,2,3);
+				clickButton(scart_Page.selectCheckboxDongy);
+				clickButton(scart_Page.btnToThanhToan);
+				break;
+			case "Two":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1,2,3);
+				clickButton(scart_Page.selectAllCheckbox);
+				clickButton(scart_Page.btnToThanhToan);
+				break;
+			case "Three":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1,2,3);
+				clickButton(scart_Page.selectAllCheckbox);
+				clickButton(scart_Page.selectCheckboxDongy);
+				clickButton(scart_Page.btnToThanhToan);
+				break;
+			default:
+				System.out.println("Invalid typecase: " + typecase);
+		}
+	}
+
 	public void addToSCart(String typecase) {
 		switch (typecase) {
 			case "One":
@@ -87,6 +113,7 @@ public class SCart_Action {
 				System.out.println("Invalid typecase: " + typecase);
 		}
 	}
+
 	public boolean verifyNotion(String expectedText) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		try {

@@ -25,7 +25,7 @@ public class Base_Test {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws IOException {
-        System.out.println("⚡ Đang thiết lập trình duyệt...");
+        System.out.println("Đang thiết lập trình duyệt...");
 
         String browserConfig = ConfigUtil.getProperty("browser");
         if (browserConfig == null || browserConfig.trim().isEmpty()) {
@@ -41,14 +41,14 @@ public class Base_Test {
                     + "' không hợp lệ! Hãy kiểm tra lại file config.properties.");
         }
 
-        System.out.println("🌍 Đang khởi chạy trình duyệt: " + browser);
+        System.out.println("Đang khởi chạy trình duyệt: " + browser);
 
         Driver_Manager.initDriver(browser);
 
         Driver_Manager.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         Driver_Manager.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
-    
+
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if (Driver_Manager.getDriver() != null) {

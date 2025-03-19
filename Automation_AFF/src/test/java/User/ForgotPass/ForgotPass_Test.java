@@ -18,7 +18,7 @@ import Report.Extend_Report;
 public class ForgotPass_Test extends Base_Test {
 
     @DataProvider(name = "forgotpassData")
-    public Object[][] getPassData() throws IOException, InvalidFormatException {
+    public Object[][] getForgotPassData() throws IOException, InvalidFormatException {
         Excel_Util excel = new Excel_Util("src/test/resources/data/User_Data.xlsx", "ForgotPass");
         int rowCount = excel.getRowCount();
         Object[][] data = new Object[rowCount - 1][9];
@@ -66,6 +66,7 @@ public class ForgotPass_Test extends Base_Test {
 
                     case "navigate":
                         String url_user = ConfigUtil.getProperty("url_user");
+                        url_user = baseAction.convertLocalhostLink(url_user);
                         Driver_Manager.getDriver().get(url_user);
                         Extend_Report.logInfo("Điều hướng đến " + url_user);
                         break;

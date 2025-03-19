@@ -38,22 +38,27 @@ public class Driver_Manager {
                 chromeBinaryPath = System.getenv("GITHUB_WORKSPACE") + "/Chrome/App/Chrome-bin/chrome.exe";
                 System.setProperty("webdriver.chrome.driver",
                         System.getenv("GITHUB_WORKSPACE") + "/Chrome/chromedriver.exe");
+                        System.out.println("Đang chạy môi trường: GITHUB");
                 break;
     
             case DOCKER:
                 chromeBinaryPath = "/usr/bin/google-chrome-stable";
                 gridURL = "http://host.docker.internal:4444/wd/hub"; // Chạy trên Docker Desktop for Linux
+                System.out.println("Đang chạy môi trường: DOCKER");
+
                 break;
 
             case LINUX:
                 chromeBinaryPath = "/usr/bin/google-chrome-stable";
                 WebDriverManager.chromedriver().driverVersion("131.0.6778.264").setup();
+                System.out.println("Đang chạy môi trường: LINUX");
+
                 break;
                 
             default: 
                 chromeBinaryPath = "D:\\Tài xuống\\GoogleChromePortable\\App\\Chrome-bin\\chrome.exe";
                 WebDriverManager.chromedriver().driverVersion("131.0.6778.86").setup();
-                    
+                System.out.println("Đang chạy môi trường: LOCAL");
                 break;
         }
     

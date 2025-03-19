@@ -47,7 +47,7 @@ public class Information_Test extends Base_Test {
     }
 
     @Test(dataProvider = "informationData", groups = { "Success", "Fail" })
-    public void testLogin(String name, String cmnd, String city, String district, String ward, String location,
+    public void testInformation(String name, String cmnd, String city, String district, String ward, String location,
             String mst, String date, String bank, String stk, String result, String title, String link,
             String description,
             String testType)
@@ -76,6 +76,7 @@ public class Information_Test extends Base_Test {
 
                     case "navigate":
                         String url_user = ConfigUtil.getProperty("url_user");
+                        url_user = baseAction.convertLocalhostLink(url_user);
                         Driver_Manager.getDriver().get(url_user);
                         Extend_Report.logInfo("Điều hướng đến " + url_user);
                         break;
