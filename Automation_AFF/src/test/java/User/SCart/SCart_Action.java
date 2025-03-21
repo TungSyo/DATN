@@ -24,6 +24,7 @@ import Base.Base_Action;
 import Base.Base_Page;
 import Base.Base_Test;
 import Report.Extend_Report;
+import User.Search.Search_Page;
 
 @SuppressWarnings("unused")
 public class SCart_Action {
@@ -31,12 +32,14 @@ public class SCart_Action {
 	private Base_Page basePage;
 	private Base_Action baseAction;
 	private SCart_Page scart_Page;
+	private Search_Page search_Page;
 
 	public SCart_Action(WebDriver driver) {
 		this.driver = driver;
 		this.basePage = new Base_Page(driver);
 		this.scart_Page = new SCart_Page(driver);
 		this.baseAction = new Base_Action(driver);
+		this.search_Page = new Search_Page(driver);
 	}
 
 	public void clickButton(WebElement element) {
@@ -47,38 +50,52 @@ public class SCart_Action {
 		baseAction.clearAndEnterText(element, text);
 	}
 
-    public void clickAddToCart(int index) {
-        if (index > 0 && index <= scart_Page.addToCartButtons.size()) {
-            scart_Page.addToCartButtons.get(index - 1).click();
-        } else {
-            throw new IndexOutOfBoundsException("Không tìm thấy sản phẩm ở vị trí: " + index);
-        }
-    }
-    
+	public void clickAddToCart(int index) {
+		if (index > 0 && index <= scart_Page.addToCartButtons.size()) {
+			scart_Page.addToCartButtons.get(index - 1).click();
+		} else {
+			throw new IndexOutOfBoundsException("Không tìm thấy sản phẩm ở vị trí: " + index);
+		}
+	}
+
+	public void clickRemoveFromCart(int productIndex) {
+		if (productIndex > 0 && productIndex <= scart_Page.deleteButtons.size()) {
+			scart_Page.deleteButtons.get(productIndex - 1).click();
+		} else {
+			throw new IndexOutOfBoundsException("Product at index " + productIndex + " does not exist");
+		}
+	}
+
+	public void clickRemoveAllFromCart() {
+		while (!scart_Page.deleteButtons.isEmpty()) {
+			scart_Page.deleteButtons.get(0).click();
+		}
+	}
+
 	public void addProductToCart(int... indexes) {
 		for (int index : indexes) {
 			clickAddToCart(index);
 		}
-		clickButton(scart_Page.btnCart); 
+		clickButton(scart_Page.btnCart);
 	}
-	
+
 	public void SCartToOrder(String typecase) {
 		switch (typecase) {
 			case "One":
 				clickButton(basePage.linkProduct);
-				addProductToCart(1,2,3);
+				addProductToCart(1, 2, 3);
 				clickButton(scart_Page.selectCheckboxDongy);
 				clickButton(scart_Page.btnToThanhToan);
 				break;
 			case "Two":
 				clickButton(basePage.linkProduct);
-				addProductToCart(1,2,3);
+				addProductToCart(1, 2, 3);
 				clickButton(scart_Page.selectAllCheckbox);
 				clickButton(scart_Page.btnToThanhToan);
 				break;
 			case "Three":
 				clickButton(basePage.linkProduct);
-				addProductToCart(1,2,3);
+				addProductToCart(1, 2, 3);
 				clickButton(scart_Page.selectAllCheckbox);
 				clickButton(scart_Page.selectCheckboxDongy);
 				clickButton(scart_Page.btnToThanhToan);
@@ -88,26 +105,61 @@ public class SCart_Action {
 		}
 	}
 
-	public void addToSCart(String typecase) {
+	public boolean checkProduct(String productName, String productQuantity, String productPrice) {
+		double unitPrice = 1_000_000; 
+		double totalWebPrice = 0; 
+
+		for (int i = 0; i < scart_Page.productName.size(); i++) {
+			if (scart_Page.productName.get(i).getText().equalsIgnoreCase(productName)) {
+
+				String priceText = scart_Page.productPrice.get(i).getText().replaceAll("[^0-9]", "");
+				double webPrice = Double.parseDouble(priceText);
+				totalWebPrice += webPrice;
+
+				String excelPriceText = String.valueOf(productPrice).replaceAll("[^0-9]", "");
+				double excelPrice = Double.parseDouble(excelPriceText);
+
+				double actualPrice = unitPrice * Double.parseDouble(productQuantity);
+				return actualPrice == totalWebPrice && actualPrice == excelPrice;
+			}
+		}
+		return false;
+	}
+	
+
+	public void addToSCart(String typecase, String productName, String productQuantity, String productPrice) {
 		switch (typecase) {
 			case "One":
-				clickButton(basePage.linkProduct);
-				addProductToCart(1,2,3);
-				clickButton(scart_Page.selectCheckboxDongy);
-				clickButton(scart_Page.btnToThanhToan);
+				// Không cần vì mỗi ssession khác mất hết cache
+				// clickButton(scart_Page.btnCart);
+				// baseAction.sleep(3000);
+				// clickRemoveAllFromCart();
+				// baseAction.sleep(3000);
+				enterText(search_Page.txtSearch, productName);
+				clickButton(search_Page.btnSearch);
+				addProductToCart(1);
+				clickButton(scart_Page.btnCart);
+				clickButton(scart_Page.selectAllCheckbox);
+				checkProduct(productName, productQuantity, productPrice);
 				break;
 			case "Two":
-				clickButton(basePage.linkProduct);
+				enterText(search_Page.txtSearch, productName);
+				clickButton(search_Page.btnSearch);
 				addProductToCart(1,2,3);
+				clickButton(scart_Page.btnCart);
 				clickButton(scart_Page.selectAllCheckbox);
-				clickButton(scart_Page.btnToThanhToan);
+				checkProduct(productName, productQuantity, productPrice);
 				break;
 			case "Three":
-				clickButton(basePage.linkProduct);
-				addProductToCart(1,2,3);
+				enterText(search_Page.txtSearch, productName);
+				clickButton(search_Page.btnSearch);
+				int quantity = Integer.parseInt(productQuantity);
+				for (int i = 0; i < quantity; i++) {
+					addProductToCart(1);
+				}
+				clickButton(scart_Page.btnCart);
 				clickButton(scart_Page.selectAllCheckbox);
-				clickButton(scart_Page.selectCheckboxDongy);
-				clickButton(scart_Page.btnToThanhToan);
+				checkProduct(productName, productQuantity, productPrice);
 				break;
 			default:
 				System.out.println("Invalid typecase: " + typecase);

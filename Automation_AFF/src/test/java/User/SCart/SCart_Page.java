@@ -10,11 +10,24 @@ import org.openqa.selenium.support.PageFactory;
 public class SCart_Page {
      public WebDriver driver;
 
+     @FindBy(xpath = "//input[contains(@ng-reflect-model,'1')]")
+     public List<WebElement> productQuantity;
+
+     @FindBy(xpath = "//tr[@class='order-total']/td")
+     public List<WebElement> productPrice;
+
+     @FindBy(xpath = "//div[@class='cart-product']//a")
+     public List<WebElement> productName;
+     
+
      @FindBy(xpath = "//button[contains(.,'Thêm vào giỏ')]")
      public List<WebElement> addToCartButtons;
 
      @FindBy(xpath = "//input[@type='checkbox']")
      public List<WebElement> addToCartCheckboxes;
+
+     @FindBy(xpath = "//span[@class='product-trash']")
+     public List<WebElement> deleteButtons;
 
      @FindBy(xpath = "(//input[@class='select-all-checkbox'])[1]")
      public WebElement selectAllCheckbox;

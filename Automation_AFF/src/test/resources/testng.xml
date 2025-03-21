@@ -9,11 +9,11 @@
         </groups>
         <classes>
            <!-- <class name="User.Register.User_Register_Test"/> -->
-            <class name="User.LoginTest.User_Login_Test1"/>
+            <!-- <class name="User.LoginTest.User_Login_Test"/> -->
             <!-- <class name="User.Information.User_Information_Test"/> -->
             <!-- <class name="User.ChangePass.User_ChangePass_Test"/> -->
             <!-- <class name="User.ForgotPass.ForgotPass_Test"/> -->
-            <!-- <class name="User.SCart.SCart_Test"/> -->
+            <class name="User.SCart.SCartAdd_Test"/>
         </classes>
     </test>
 </suite>

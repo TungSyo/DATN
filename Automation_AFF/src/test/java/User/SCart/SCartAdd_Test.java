@@ -27,7 +27,7 @@ public class SCartAdd_Test extends Base_Test {
 
         for (int i = 1; i < rowCount; i++) {
             data[i - 1][0] = excel.getCellData(i, "Product");
-            data[i - 1][1] = excel.getCellData(i, "Count");
+            data[i - 1][1] = excel.getCellData(i, "Quanlity");
             data[i - 1][2] = excel.getCellData(i, "Price");
             data[i - 1][3] = excel.getCellData(i, "Result");
             data[i - 1][4] = excel.getCellData(i, "Title");
@@ -41,13 +41,13 @@ public class SCartAdd_Test extends Base_Test {
     }
 
     @Test(dataProvider = "scartaddData", groups = { "Success", "Fail" })
-    public void testSCartAdd(String result, String title, String link, String description, String testType,
+    public void testSCartAdd(String productName, String productQuantity,String productPrice, String result, String title, String link, String description, String testType,
             String typeCase)
             throws Exception {
 
         String category = testType.equalsIgnoreCase("Fail") ? "SCart_Data_Fail" : "SCart_Data_Pass";
 
-        Extend_Report.startTest("SCart Test - " + description, category);
+        Extend_Report.startTest("SCartAdd Test - " + description, category);
 
         Base_Action baseAction = new Base_Action(Driver_Manager.getDriver());
         SCart_Action scardActions = new SCart_Action(Driver_Manager.getDriver());
@@ -75,10 +75,8 @@ public class SCartAdd_Test extends Base_Test {
 
                     case "action":
                         Extend_Report.logInfo("Thực hiện test case: " + description);
-                        String username = ConfigUtil.getProperty("username_admin");
-                        String password = ConfigUtil.getProperty("password_admin");
-                        loginActions.login(username, password);
-                        scardActions.addToSCart(typeCase);
+                        scardActions.addToSCart(typeCase,productName, productQuantity, productPrice);
+                        Extend_Report.logInfo("Thực hiện test case: " + description);
                         break;
 
                     case "verifynotion":
