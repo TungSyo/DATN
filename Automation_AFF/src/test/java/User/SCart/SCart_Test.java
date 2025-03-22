@@ -65,8 +65,7 @@ public class SCart_Test extends Base_Test {
 
                     case "navigate":
                         String url_user = ConfigUtil.getProperty("url_user");
-                        url_user = baseAction.convertLocalhostLink(url_user);
-                        Driver_Manager.getDriver().get(url_user);
+                        baseAction.navigate(url_user);
                         Extend_Report.logInfo("Điều hướng đến " + url_user);
                         break;
 

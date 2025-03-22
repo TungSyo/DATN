@@ -71,12 +71,9 @@ public class ChangePass_Test extends Base_Test {
                         break;
 
                     case "action":
-                        
-                        String password = ConfigUtil.getProperty("password_admin");
-                        loginActions.login(email, password);
-                        baseAction.sleep(1500);
+                        loginActions.login(email, oldpass);
+                        baseAction.sleep(1500); 
                         changepassActions.changePass(oldpass, newpass);
-                        baseAction.sleep(1500);
                         break;
 
                     case "verifynotion":

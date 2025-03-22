@@ -106,8 +106,8 @@ public class SCart_Action {
 	}
 
 	public boolean checkProduct(String productName, String productQuantity, String productPrice) {
-		double unitPrice = 1_000_000; 
-		double totalWebPrice = 0; 
+		double unitPrice = 1_000_000;
+		double totalWebPrice = 0;
 
 		for (int i = 0; i < scart_Page.productName.size(); i++) {
 			if (scart_Page.productName.get(i).getText().equalsIgnoreCase(productName)) {
@@ -125,7 +125,6 @@ public class SCart_Action {
 		}
 		return false;
 	}
-	
 
 	public void addToSCart(String typecase, String productName, String productQuantity, String productPrice) {
 		switch (typecase) {
@@ -145,7 +144,7 @@ public class SCart_Action {
 			case "Two":
 				enterText(search_Page.txtSearch, productName);
 				clickButton(search_Page.btnSearch);
-				addProductToCart(1,2,3);
+				addProductToCart(1, 2, 3);
 				clickButton(scart_Page.btnCart);
 				clickButton(scart_Page.selectAllCheckbox);
 				checkProduct(productName, productQuantity, productPrice);
@@ -160,6 +159,64 @@ public class SCart_Action {
 				clickButton(scart_Page.btnCart);
 				clickButton(scart_Page.selectAllCheckbox);
 				checkProduct(productName, productQuantity, productPrice);
+				break;
+			default:
+				System.out.println("Invalid typecase: " + typecase);
+		}
+	}
+
+	public void updateProductQuantity(String productName, String targetQuantity) {
+		try {
+			if (!scart_Page.productQuantity.isEmpty()) {
+				// Lấy số lượng hiện tại của sản phẩm đầu tiên
+				String currentQuantity = scart_Page.productQuantity.get(0).getDomAttribute("ng-reflect-model");
+				int currentQty = Integer.parseInt(currentQuantity);
+				int targetQty = Integer.parseInt(targetQuantity);
+
+				int timesToChange = targetQty - currentQty;
+
+				if (timesToChange > 0) {
+					for (int i = 0; i < timesToChange; i++) {
+						WebElement increaseButton = driver
+								.findElement(By.xpath("//button[contains(@class,'increase')]"));
+						increaseButton.click();
+						baseAction.sleep(500);
+					}
+					Extend_Report.logInfo("Đã tăng số lượng sản phẩm từ " + currentQty + " lên " + targetQty);
+				} else if (timesToChange < 0) {
+					for (int i = 0; i < Math.abs(timesToChange); i++) {
+						WebElement decreaseButton = driver
+								.findElement(By.xpath("//button[contains(@class,'decrease')]"));
+						decreaseButton.click();
+						baseAction.sleep(500);
+					}
+					Extend_Report.logInfo("Đã giảm số lượng sản phẩm từ " + currentQty + " xuống " + targetQty);
+				} else {
+					Extend_Report.logInfo("Số lượng sản phẩm đã đạt yêu cầu: " + targetQty);
+				}
+			}
+		} catch (Exception e) {
+			Extend_Report.logFail("Lỗi khi cập nhật số lượng sản phẩm: " + e.getMessage());
+		}
+	}
+
+	public void UpdateSCart(String typecase, String productName, String productQuantity, String productPrice) {
+		switch (typecase) {
+			case "One":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1);
+				updateProductQuantity(productName, productQuantity);
+				checkProduct(productName, productQuantity, productPrice);
+				break;
+			case "Two":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1);
+				updateProductQuantity(productName, productQuantity);
+				break;
+			case "Three":
+				clickButton(basePage.linkProduct);
+				addProductToCart(1);
+				updateProductQuantity(productName, productQuantity);
 				break;
 			default:
 				System.out.println("Invalid typecase: " + typecase);
@@ -234,4 +291,5 @@ public class SCart_Action {
 
 		return testData;
 	}
+
 }

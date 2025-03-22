@@ -76,7 +76,6 @@ public class SCartAdd_Test extends Base_Test {
                     case "action":
                         Extend_Report.logInfo("Thực hiện test case: " + description);
                         scardActions.addToSCart(typeCase,productName, productQuantity, productPrice);
-                        Extend_Report.logInfo("Thực hiện test case: " + description);
                         break;
 
                     case "verifynotion":
